@@ -3,112 +3,1658 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080507">
-  <title>Kitt's Lounge | Under Maintenance</title>
+  <title>Kitt's Lounge ♱</title>
   <link rel="icon" href="https://raw.githubusercontent.com/kzzlolz/kitts-lounge/main/ce5aa4756897f37aaafe68c52850b4f9.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Press+Start+2P&family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     :root {
-      --bg: #080507;
-      --panel: rgba(18, 10, 15, .92);
+      --bg-dark: #060305;
+      --panel-bg: rgba(14, 8, 12, 0.88);
+      --panel-border: rgba(194, 171, 136, 0.4);
       --blood: #4a1222;
       --crimson: #8a2542;
-      --bright: #ff4d6d;
+      --bright-red: #ff4d6d;
       --rose: #d4a5b2;
       --gold: #c2ab88;
+      --gold-glow: rgba(194, 171, 136, 0.35);
       --paper: #f0e6eb;
+      --border: rgba(196, 166, 176, .2);
+      --purple-glow: #9d4edd;
+      --purple-bright: #c77dff;
+      --neon-accent: #ff2a6d;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      overflow: hidden;
+      background: var(--bg-dark);
       color: var(--paper);
-      background:
-        radial-gradient(ellipse at 50% 42%, rgba(74,18,34,.34), transparent 58%),
-        var(--bg);
       font-family: Inter, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
     }
-    .maintenance {
-      width: min(620px, 100%);
-      padding: clamp(28px, 6vw, 54px);
-      text-align: center;
-      background: var(--panel);
-      border: 1px solid var(--gold);
-      box-shadow: 8px 8px 0 rgba(0,0,0,.55);
-      animation: rise .8s ease both;
+
+    /* Ambient Gaming Scanlines & Vignette Overlay */
+    .hud-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background: 
+        radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.75) 100%),
+        linear-gradient(rgba(18, 10, 15, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 100%, 100% 4px;
     }
-    .logo {
-      width: 88px; height: 88px; object-fit: cover;
-      border: 2px solid var(--gold);
-      box-shadow: 4px 4px 0 var(--blood);
-      margin-bottom: 24px;
-      animation: pulse 2s ease-in-out infinite alternate;
+
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at center, rgba(35, 12, 28, 0.5) 0%, rgba(6, 3, 5, 0.88) 100%),
+        url('https://raw.githubusercontent.com/kzzlolz/kitts-lounge/main/hi.gif') center/cover no-repeat;
+      z-index: 0;
+      pointer-events: none;
     }
-    .eyebrow {
-      color: var(--rose);
-      font: .58rem/1.8 'Press Start 2P', monospace;
-      letter-spacing: 1px;
-      margin-bottom: 18px;
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
     }
-    h1 {
-      font: 600 clamp(2.5rem, 8vw, 4.3rem)/1 'Cormorant Garamond', serif;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-shadow: 3px 3px 0 var(--blood), 0 0 24px rgba(255,77,109,.2);
-      margin-bottom: 22px;
+
+    button {
+      font-family: inherit;
     }
-    .message {
-      color: var(--rose);
-      font-size: .96rem;
-      line-height: 1.9;
-      max-width: 440px;
-      margin: 0 auto 28px;
-    }
-    .status {
-      display: inline-flex;
+
+    /* Cutscene Screen */
+    #scene-cutscene {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(15, 5, 20, 0.95) 0%, rgba(3, 1, 4, 0.99) 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      gap: 10px;
-      border: 1px solid rgba(196,166,176,.25);
-      background: rgba(30,14,22,.8);
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.8s ease, visibility 0.8s ease, background 1s ease;
+      overflow: hidden;
+    }
+
+    #scene-cutscene.exponential-purple {
+      background: radial-gradient(circle at center, rgba(90, 20, 140, 0.95) 0%, rgba(35, 8, 60, 0.98) 50%, rgba(10, 2, 20, 1) 100%);
+    }
+
+    #scene-cutscene.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .sword-container {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.4s ease, opacity 0.5s ease;
+    }
+
+    .purple-bubble-aura {
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(157,78,221,0.4) 0%, rgba(199,125,255,0.2) 50%, rgba(0,0,0,0) 80%);
+      box-shadow: 0 0 60px rgba(157,78,221,0.7), inset 0 0 40px rgba(199,125,255,0.5);
+      animation: pulseAura 2s ease-in-out infinite alternate;
+      transition: all 0.5s ease;
+    }
+
+    .purple-bubble-aura.super-glow {
+      transform: scale(1.25);
+      box-shadow: 0 0 110px rgba(199,125,255,1), inset 0 0 70px rgba(255,255,255,0.9);
+      background: radial-gradient(circle, rgba(199,125,255,0.75) 0%, rgba(157,78,221,0.5) 60%, rgba(0,0,0,0) 85%);
+    }
+
+    @keyframes pulseAura {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      100% { transform: scale(1.08); opacity: 1; }
+    }
+
+    .sword-icon-wrapper {
+      position: relative;
+      z-index: 2;
+      font-size: 6.5rem;
+      color: #f3e8ff;
+      filter: drop-shadow(0 0 20px var(--purple-bright)) drop-shadow(0 0 40px var(--purple-glow));
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+
+    .sword-icon-wrapper.brighten {
+      filter: drop-shadow(0 0 35px #ffffff) drop-shadow(0 0 65px var(--purple-bright));
+      color: #ffffff;
+    }
+
+    .loading-status-text {
+      margin-top: 25px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.58rem;
+      color: var(--rose);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      z-index: 4;
+      transition: opacity 0.4s ease;
+    }
+
+    .sparkle-particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ffffff, 0 0 20px var(--purple-bright), 0 0 30px var(--purple-glow);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    #cutscene-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Top-Right HUD Tip Card */
+    .kitts-tip-card {
+      position: fixed;
+      top: 22px;
+      right: 22px;
+      z-index: 10005;
+      width: min(340px, calc(100vw - 44px));
       padding: 12px 16px;
+      background: rgba(12, 6, 10, 0.92);
+      border: 1px solid var(--panel-border);
+      border-left: 3px solid var(--bright-red);
+      border-radius: 4px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(138, 37, 66, 0.2);
+      backdrop-filter: blur(12px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-15px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+    }
+
+    .kitts-tip-card.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .kitts-tip-card.tip-changing {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+
+    .kitts-tip-message {
+      margin: 0;
       color: var(--paper);
-      font: .55rem/1.8 'Press Start 2P', monospace;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+      font-family: 'Inter', sans-serif;
     }
-    .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--bright);
-      box-shadow: 0 0 9px var(--bright);
-      animation: blink 1.2s infinite;
+
+    /* Base Layout Frame */
+    #scene-main {
+      position: relative;
+      height: 100vh;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 24px;
+      z-index: 1;
+      box-sizing: border-box;
     }
-    .footer {
-      color: rgba(212,165,178,.65);
-      margin-top: 30px;
-      font-size: .75rem;
-      letter-spacing: .4px;
+
+    #scene-main.dimmed {
+      opacity: 0;
+      pointer-events: none;
     }
-    @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes pulse { to { transform: scale(1.05); } }
-    @keyframes blink { 50% { opacity: .35; } }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+
+    /* Interactive UI Grid Framework */
+    .main-wrapper {
+      width: 100%;
+      max-width: 1380px;
+      height: 100%;
+      max-height: 740px;
+      margin: 0 auto;
+      display: flex;
+      gap: 22px;
+      align-items: stretch;
+      justify-content: center;
+      transition: all 0.4s ease;
+    }
+
+    /* Generic UI Panel Styling with Tech Cuts */
+    .hud-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--panel-border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      position: relative;
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), width 0.4s ease;
+    }
+
+    .hud-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* Left Nav Sidebar - Appears First */
+    .sidebar-left {
+      width: 280px;
+      flex-shrink: 0;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: translateX(-30px);
+      pointer-events: none;
+    }
+
+    .sidebar-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    .server-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(138, 37, 66, 0.4);
+    }
+
+    .server-brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      border: 1.5px solid var(--gold);
+      box-shadow: 0 0 10px var(--gold-glow);
+      object-fit: cover;
+    }
+
+    .server-brand h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(255, 77, 109, 0.5);
+    }
+
+    .side-nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .side-nav-btn {
+      background: rgba(45, 12, 22, 0.6);
+      border: 1px solid var(--border);
+      color: var(--paper);
+      font-family: 'Orbitron', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 14px 16px;
+      cursor: pointer;
+      text-align: left;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+
+    .side-nav-btn i {
+      font-size: 0.9rem;
+      color: var(--rose);
+      transition: color 0.25s, transform 0.25s;
+    }
+
+    .side-nav-btn:hover {
+      background: rgba(138, 37, 66, 0.5);
+      border-color: var(--bright-red);
+      color: #fff;
+      transform: translateX(4px);
+    }
+
+    .side-nav-btn:hover i {
+      color: var(--bright-red);
+      transform: scale(1.1);
+    }
+
+    .side-nav-btn.active {
+      background: linear-gradient(90deg, var(--crimson) 0%, rgba(74, 18, 34, 0.8) 100%);
+      border-color: var(--gold);
+      color: #fff;
+      box-shadow: inset 3px 0 0 var(--gold), 0 0 15px rgba(138, 37, 66, 0.4);
+    }
+
+    .side-nav-btn.active i {
+      color: var(--gold);
+    }
+
+    .discord-btn-compact {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #5865F2 0%, #404EED 100%);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 13px 12px;
+      text-decoration: none;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+      box-shadow: 0 4px 15px rgba(88, 101, 242, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .discord-btn-compact:hover {
+      background: linear-gradient(135deg, #4752C4 0%, #3542BF 100%);
+      box-shadow: 0 6px 20px rgba(88, 101, 242, 0.55);
+      transform: translateY(-2px);
+    }
+
+    .panel-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--gold);
+      border-bottom: 1px dashed rgba(194, 171, 136, 0.3);
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .persistent-info {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--rose);
+      white-space: pre-line;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Main Center Panel */
+    .content-panel {
+      flex: 1;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+    }
+
+    .content-panel.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Right Sidebar - Dynamic Container */
+    .sidebar-right {
+      width: 290px;
+      flex-shrink: 0;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      opacity: 0;
+      transform: translateX(30px);
+      pointer-events: none;
+    }
+
+    .sidebar-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    /* Tab Panes */
+    .tab-pane {
+      display: none;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .tab-pane.active {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      opacity: 1;
+    }
+
+    /* Lists & Cards Styles */
+    .owner-sidebar,
+    .bot-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      max-height: 250px;
+      padding-right: 4px;
+    }
+
+    .owner-card,
+    .member-card,
+    .bot-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(28, 12, 20, 0.65);
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      border-radius: 4px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .owner-card:hover, .member-card:hover, .bot-card:hover {
+      border-color: rgba(194, 171, 136, 0.4);
+      background: rgba(45, 16, 30, 0.7);
+    }
+
+    .owner-card img,
+    .member-card img,
+    .bot-card img {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      border-radius: 4px;
+      border: 1px solid var(--gold);
+      object-fit: cover;
+    }
+
+    .owner-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .owner-info h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    .owner-info span {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.48rem;
+      color: var(--bright-red);
+      letter-spacing: 1px;
+    }
+
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 10px 0 20px;
+      list-style: none;
+      overflow-y: auto;
+      max-height: 240px;
+      padding-right: 4px;
+    }
+
+    .member-card span,
+    .bot-card span {
+      font-size: 0.85rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      margin-left: auto;
+      background: #747f8d;
+    }
+
+    .status-dot.online { background: #3ba55d; box-shadow: 0 0 8px #3ba55d; }
+    .status-dot.idle { background: #faa61a; box-shadow: 0 0 8px #faa61a; }
+    .status-dot.dnd { background: #ed4245; box-shadow: 0 0 8px #ed4245; }
+    .status-dot.offline { background: #747f8d; }
+
+    .bot-card {
+      border-style: dashed;
+      border-color: rgba(138, 37, 66, 0.5);
+    }
+
+    /* Community Tab Grid Layout */
+    .community-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      flex: 1;
+      margin-top: 10px;
+    }
+
+    .community-card-hud {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: linear-gradient(135deg, rgba(30, 12, 22, 0.8) 0%, rgba(18, 7, 14, 0.9) 100%);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--crimson);
+      padding: 22px;
+      cursor: pointer;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+      transition: all 0.3s ease;
+    }
+
+    .community-card-hud:hover {
+      background: linear-gradient(135deg, rgba(74, 18, 34, 0.8) 0%, rgba(35, 10, 20, 0.9) 100%);
+      border-color: var(--gold);
+      border-left-color: var(--bright-red);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .community-card-hud i {
+      font-size: 2.2rem;
+      color: var(--bright-red);
+      width: 50px;
+      text-align: center;
+    }
+
+    .community-card-hud h4 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .community-card-hud span {
+      font-size: 0.82rem;
+      color: var(--rose);
+      line-height: 1.4;
+    }
+
+    /* Enhanced Professional Credits Grid Layout */
+    .credits-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      gap: 16px;
+    }
+
+    .credits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .credits-card-pro {
+      background: rgba(26, 11, 19, 0.7);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--gold);
+      padding: 16px 18px;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .credits-card-pro:hover {
+      background: rgba(45, 16, 30, 0.8);
+      border-color: var(--bright-red);
+      transform: translateY(-2px);
+    }
+
+    .credits-card-pro .credits-label {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.55rem;
+      font-weight: 700;
+      color: var(--bright-red);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .credits-card-pro .credits-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .credits-banner {
+      background: linear-gradient(135deg, rgba(74, 18, 34, 0.6) 0%, rgba(20, 8, 15, 0.8) 100%);
+      border: 1px solid var(--panel-border);
+      padding: 20px;
+      text-align: center;
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    }
+
+    .credits-banner h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .credits-banner p {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.55rem;
+      color: var(--rose);
+      margin-top: 6px;
+      letter-spacing: 1px;
+    }
+
+    /* Embedded Music Tab Pane */
+    .music-notice {
+      background: rgba(74, 18, 34, 0.6);
+      border: 1px solid var(--gold);
+      color: var(--paper);
+      padding: 12px 18px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .spotify-frame-container {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      flex: 1;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Controls & Buttons */
+    .watch-view-btn {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 10020;
+      background: rgba(45, 12, 22, 0.85);
+      border: 1px solid var(--gold);
+      color: var(--paper);
+      font-family: 'Orbitron', monospace;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 12px 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(15px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s, background 0.2s;
+    }
+
+    .watch-view-btn.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .watch-view-btn:hover {
+      background: var(--crimson);
+      color: #fff;
+    }
+
+    .reopen-ui-btn {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      z-index: 10025;
+      background: rgba(18, 10, 15, 0.85);
+      border: 1px solid var(--gold);
+      color: var(--paper);
+      font-family: 'Orbitron', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 12px 28px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease, background 0.2s;
+    }
+
+    .reopen-ui-btn.visible {
+      opacity: 0.9;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .reopen-ui-btn:hover {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.05);
+      background: rgba(74, 18, 34, 0.95);
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 3, 6, .85);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10010;
+      opacity: 0;
+      visibility: hidden;
+      transition: .3s ease;
+      padding: 18px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-box {
+      background: rgba(18, 9, 14, 0.96);
+      border: 1px solid var(--gold);
+      padding: 28px;
+      width: min(480px, 100%);
+      max-height: 85vh;
+      overflow: auto;
+      box-shadow: 0 10px 40px #000;
+      color: var(--paper);
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px dashed var(--crimson);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: 0;
+      color: var(--paper);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover {
+      color: var(--bright-red);
+    }
+
+    @media (max-width: 1150px) {
+      .main-wrapper {
+        flex-direction: column;
+        max-width: 700px;
+        max-height: none;
+        height: auto;
+        gap: 18px;
+      }
+
+      .sidebar-left,
+      .content-panel,
+      .sidebar-right {
+        width: 100% !important;
+      }
+
+      .community-grid, .credits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      #scene-main {
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        padding: 20px 12px;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="maintenance" aria-labelledby="maintenance-title">
-    <img class="logo" src="https://raw.githubusercontent.com/kzzlolz/kitts-lounge/main/ce5aa4756897f37aaafe68c52850b4f9.jpg" alt="Kitt's Lounge logo">
-    <p class="eyebrow">✦ KITT'S LOUNGE ✦</p>
-    <h1 id="maintenance-title">Under<br>Maintenance</h1>
-    <p class="message">
-      The lounge is taking a little time behind the scenes.
-      We're working on updates to make your next visit even better.
-      Please check back soon. Thank you for your patience ♡
-    </p>
-    <div class="status"><span class="dot" aria-hidden="true"></span> MAINTENANCE IN PROGRESS</div>
-    <p class="footer">「 A little pause before the next chapter 」</p>
-  </main>
+
+  <!-- Ambient Scanlines HUD Layer -->
+  <div class="hud-overlay"></div>
+
+  <!-- Ambient Vibrant Background -->
+  <div class="ambient-bg"></div>
+
+  <!-- Loading & Cutscene Screen -->
+  <div id="scene-cutscene">
+    <canvas id="cutscene-canvas"></canvas>
+    <div id="sword-container" class="sword-container">
+      <div id="purple-aura" class="purple-bubble-aura"></div>
+      <div id="sword-icon" class="sword-icon-wrapper">
+        <i class="fa-solid fa-khanda"></i>
+      </div>
+    </div>
+    <div id="loading-status-text" class="loading-status-text">~ Waking up the realm... ~</div>
+  </div>
+
+  <!-- Top-Right Tip Card -->
+  <div id="kitts-tip-card" class="kitts-tip-card" role="status" aria-live="polite">
+    <p id="main-tip-message" class="kitts-tip-message"> Welcome to Kitt's Lounge! ♡</p>
+  </div>
+
+  <!-- Top-Middle Reopen UI Button -->
+  <button id="reopen-ui-btn" class="reopen-ui-btn" onclick="restoreUIFromView()">Reopen UI</button>
+
+  <!-- Bottom-Right Watch View Button -->
+  <button id="watch-view-btn" class="watch-view-btn" onclick="promptWatchView()"><i class="fa-solid fa-eye"></i> WATCH THE VIEW</button>
+
+  <!-- Main Website Interface -->
+  <div id="scene-main">
+    <div class="main-wrapper">
+
+      <!-- Left Sidebar: Profile & Nav (Fades in first) -->
+      <aside id="sidebar-left" class="hud-panel sidebar-left">
+        <div>
+          <div class="server-brand">
+            <img src="https://raw.githubusercontent.com/kzzlolz/kitts-lounge/main/ce5aa4756897f37aaafe68c52850b4f9.jpg" alt="Server Icon">
+            <h2>Kitt's Lounge</h2>
+          </div>
+
+          <!-- Navigation Tabs -->
+          <nav class="side-nav-menu">
+            <button class="side-nav-btn active" data-main-tab="home-tab" onclick="switchMainTab('home-tab', this)"><i class="fa-solid fa-house"></i> HOME</button>
+            <button class="side-nav-btn" data-main-tab="community-tab" onclick="switchMainTab('community-tab', this)"><i class="fa-solid fa-users"></i> COMMUNITY</button>
+            <button class="side-nav-btn" data-main-tab="credits-tab" onclick="switchMainTab('credits-tab', this)"><i class="fa-solid fa-heart"></i> CREDITS</button>
+            <button class="side-nav-btn" data-main-tab="music-tab" onclick="switchMainTab('music-tab', this)"><i class="fa-solid fa-music"></i> MUSIC</button>
+          </nav>
+        </div>
+
+        <div>
+          <!-- Discord Server Stats -->
+          <div style="margin-bottom: 16px;">
+            <div class="panel-title"><i class="fa-solid fa-chart-simple"></i> SERVER STATS</div>
+            <p id="stats-counter-text" class="persistent-info">Loading stats...</p>
+          </div>
+
+          <a href="https://discord.gg/nET4TTnRuA" target="_blank" rel="noopener noreferrer" class="discord-btn-compact"><i class="fa-brands fa-discord"></i> JOIN DISCORD</a>
+        </div>
+      </aside>
+
+      <!-- Main Center Content Panel (Fades in when home/tabs clicked) -->
+      <main id="content-panel" class="hud-panel content-panel">
+
+        <!-- HOME TAB -->
+        <section id="home-tab" class="tab-pane active">
+          <div class="panel-title"><i class="fa-solid fa-user-shield"></i> Administrators &amp; Moderators</div>
+          <ul id="staff-member-grid" class="member-grid"></ul>
+
+          <div class="panel-title" style="margin-top:16px"><i class="fa-solid fa-signal"></i> Online Members</div>
+          <ul id="online-member-grid" class="member-grid"></ul>
+        </section>
+
+        <!-- COMMUNITY TAB -->
+        <section id="community-tab" class="tab-pane">
+          <div class="panel-title"><i class="fa-solid fa-gamepad"></i> Lounge Activities</div>
+          <div class="community-grid">
+            <div class="community-card-hud" onclick="openModal('qotd')">
+              <i class="fa-solid fa-comments"></i>
+              <div>
+                <h4>Question of the Day</h4>
+                <span>Daily community questions &amp; casual chats</span>
+              </div>
+            </div>
+
+            <div class="community-card-hud" onclick="openModal('events')">
+              <i class="fa-solid fa-trophy"></i>
+              <div>
+                <h4>Community Events</h4>
+                <span>Minigames, trivia &amp; seasonal events</span>
+              </div>
+            </div>
+
+            <div class="community-card-hud" onclick="openModal('movies')">
+              <i class="fa-solid fa-film"></i>
+              <div>
+                <h4>Movie Nights</h4>
+                <span>Stream anime, film nights &amp; streams</span>
+              </div>
+            </div>
+
+            <div class="community-card-hud" onclick="openModal('art')">
+              <i class="fa-solid fa-palette"></i>
+              <div>
+                <h4>Art Gallery</h4>
+                <span>Showcase drawings &amp; creative projects</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CREDITS TAB -->
+        <section id="credits-tab" class="tab-pane">
+          <div class="panel-title"><i class="fa-solid fa-award"></i> Credits &amp; Attribution</div>
+          <div class="credits-wrapper">
+            <div class="credits-grid">
+              <div class="credits-card-pro">
+                <div class="credits-label"><i class="fa-solid fa-pen-nib"></i> Design</div>
+                <div class="credits-val">Kzz</div>
+              </div>
+
+              <div class="credits-card-pro">
+                <div class="credits-label"><i class="fa-solid fa-lightbulb"></i> Inspiration</div>
+                <div class="credits-val">Community</div>
+              </div>
+
+              <div class="credits-card-pro">
+                <div class="credits-label"><i class="fa-solid fa-code"></i> Coding</div>
+                <div class="credits-val">Kzz</div>
+              </div>
+
+              <div class="credits-card-pro">
+                <div class="credits-label"><i class="fa-solid fa-image"></i> Assets</div>
+                <div class="credits-val">Pinterest, GIFs</div>
+              </div>
+
+              <div class="credits-card-pro">
+                <div class="credits-label"><i class="fa-solid fa-server"></i> Services</div>
+                <div class="credits-val">Render, GitHub</div>
+              </div>
+
+              <div class="credits-card-pro">
+                <div class="credits-label"><i class="fa-solid fa-terminal"></i> Platform</div>
+                <div class="credits-val">Linux Core</div>
+              </div>
+            </div>
+
+            <div class="credits-banner">
+              <h3>Made with ♥ by Kzz</h3>
+              <p>© ALL RIGHTS RESERVED. KITT'S LOUNGE COMMUNITY.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- MUSIC TAB -->
+        <section id="music-tab" class="tab-pane">
+          <div class="panel-title"><i class="fa-solid fa-compact-disc"></i> Lounge Playlist</div>
+          <div class="spotify-frame-container">
+            <iframe title="Kitt's Lounge Spotify playlist" src="https://open.spotify.com/embed/playlist/62Os3fO0Dk12QcdJg8r7ny?utm_source=generator&amp;theme=0" height="100%" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="width:100%;height:100%;border:0;"></iframe>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Right Sidebar: Owners & Bots (Fades in only on Home tab) -->
+      <aside id="sidebar-right" class="hud-panel sidebar-right">
+        <div>
+          <div class="panel-title"><i class="fa-solid fa-crown"></i> Owners</div>
+          <div id="owner-sidebar-list" class="owner-sidebar">
+            <p class="persistent-info">Loading owners...</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 10px;">
+          <div class="panel-title"><i class="fa-solid fa-robot"></i> Bots</div>
+          <div id="bot-sidebar-list" class="bot-sidebar">
+            <p class="persistent-info">Loading bots...</p>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- Activity Modal -->
+  <div id="activity-modal" class="modal-overlay" onclick="closeModalOnOutside(event)" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-title" style="font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--gold);"></h3>
+        <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div id="modal-body-content" style="font-size:.9rem;line-height:1.6;color:var(--rose);margin-bottom:20px;white-space:pre-line"></div>
+      <div style="text-align:center">
+        <a href="https://discord.gg/nET4TTnRuA" target="_blank" rel="noopener noreferrer" class="discord-btn-compact" style="display:inline-flex">[ JOIN SERVER ]</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Watch the View Notice Modal -->
+  <div id="view-notice-modal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-box" style="text-align:center;">
+      <div class="modal-header">
+        <h3 style="font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--gold);width:100%;">WATCH THE VIEW</h3>
+      </div>
+      <p style="font-size:0.95rem;color:var(--paper);margin:15px 0 25px;line-height:1.6;">
+        Relax and enjoy the view while hearing our lounge playlist!
+      </p>
+      <button class="side-nav-btn" style="display:inline-block;padding:10px 24px;" onclick="confirmWatchView()">CLOSE</button>
+    </div>
+  </div>
+
+  <script>
+    const OWNER_IDS = ["1555964902731161711", "1540253480432959539"];
+    const ADMIN_ROLE_IDS = ["1526901549396267089"];
+    const MOD_ROLE_IDS = ["1528305985519751178"];
+    const API_URL = "https://serverwidget.onrender.com/api/guild-data";
+
+    const tipsList = [
+      "Be sure to share this to your friends!",
+      "This server is very kewl!",
+      "Did you know? Sharky is scared of spiders?",
+      "Cozy and warm... like your bed!",
+      "Please read the rules!",
+      "Did you know? This took weeks to make...",
+      "Did you know? There are <total members> members in this server??",
+      "We hope you enjoyed staying here!",
+      "There are personal rooms in our discord server!",
+      "Need a helping hand? Join our discord!",
+      "Did you know? Kzz overworked to the point she drank 8 caffeinated drinks!",
+      "Most of the members here are from different countries!",
+      "We need more people like you!",
+      "Meoowwww~",
+      "Puurrrr~",
+      "Lance is a nerd...",
+      "Turtle is very clingy...",
+      "This server is still under-development! Sorry!",
+      "Kelp is the longest inactive member in the server.",
+      "Kairi is the most inactive moderator in the server.",
+      "Trusted Friends can own a room!",
+      "You can obtain different roles!",
+      "There are rare roles you can obtain... Like the Special Role!",
+      "We are still developing this webpage, and the server!",
+      "Your help is greatly appreciated",
+      "Made with love and warmth",
+      "Sharky has anger issues",
+      "DemonGod is a money-spender",
+      "DemonGod used to be a great guy",
+      "Kzz very much loves her cats",
+      "Did you know? Kzz owns 7 cats?",
+      "All of the Bots are self-coded! Except Miyu...",
+      "Join our MV Channel! We often stream action movies or anime!",
+      "Please take a look around!",
+      "Don't forget to hydrate yourself!",
+      "Did you know? Sinclair is above 5'9???",
+      "Do us a favor and join the discord!"
+    ];
+
+    const loungeData = {
+      qotd: {
+        title: "Question of the Day",
+        content: "Join our daily question discussions! Share your honest thoughts and chat casually with other lounge members."
+      },
+      events: {
+        title: "Events",
+        content: "Take part in exciting community minigames, trivia, and special events hosted by the Showrunner!"
+      },
+      movies: {
+        title: "Movie Nights",
+        content: "Grab your popcorn and cozy blankets! We host anime, action movies, and more."
+      },
+      art: {
+        title: "Art Gallery",
+        content: "A dedicated creative space to share your drawings and artwork with fellow lounge members."
+      }
+    };
+
+    let currentMainTipIndex = -1;
+    let mainTipInterval = null;
+    let tipFadeTimeout = null;
+    let audioCtx = null;
+    let humOscillator = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function startRadarHumSound() {
+      try {
+        const ctx = getAudioContext();
+        humOscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+        humOscillator.type = 'triangle';
+        humOscillator.frequency.setValueAtTime(90, ctx.currentTime);
+
+        const lfo = ctx.createOscillator();
+        lfo.frequency.value = 0.5;
+        const lfoGain = ctx.createGain();
+        lfoGain.gain.value = 15;
+        lfo.connect(humOscillator.frequency);
+        lfo.start();
+
+        gain.gain.setValueAtTime(0.01, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 1);
+
+        humOscillator.connect(gain);
+        gain.connect(ctx.destination);
+        humOscillator.start();
+      } catch (e) {}
+    }
+
+    function playChargeUpSound() {
+      try {
+        const ctx = getAudioContext();
+        if (humOscillator) {
+          humOscillator.stop();
+        }
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(120, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(580, ctx.currentTime + 1.2);
+
+        gain.gain.setValueAtTime(0.05, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 1);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.4);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 1.4);
+      } catch (e) {}
+    }
+
+    function playPopExplosionSound() {
+      try {
+        const ctx = getAudioContext();
+        const bufferSize = ctx.sampleRate * 1.5;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(950, ctx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 1.2);
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.35, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.3);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start();
+      } catch (e) {}
+    }
+
+    function rotateMainTip() {
+      if (!Array.isArray(tipsList) || tipsList.length === 0) return;
+      const message = document.getElementById('main-tip-message');
+      const card = document.getElementById('kitts-tip-card');
+      if (!message || !card) return;
+
+      let nextIndex;
+      if (tipsList.length === 1) {
+        nextIndex = 0;
+      } else {
+        do {
+          nextIndex = Math.floor(Math.random() * tipsList.length);
+        } while (nextIndex === currentMainTipIndex);
+      }
+      currentMainTipIndex = nextIndex;
+
+      clearTimeout(tipFadeTimeout);
+      card.classList.add('tip-changing');
+
+      tipFadeTimeout = setTimeout(() => {
+        const statsText = document.getElementById('stats-counter-text')?.textContent || '';
+        const totalMembers = statsText.match(/Total Members:\s*(\d+)/);
+        const tip = tipsList[nextIndex].replace(
+          /<total members>/gi,
+          totalMembers ? totalMembers[1] : '...'
+        );
+        message.textContent = 'Tip: ' + tip;
+        card.classList.remove('tip-changing');
+      }, 250);
+
+      clearTimeout(mainTipInterval);
+      mainTipInterval = setTimeout(rotateMainTip, 4500);
+    }
+
+    function startMainTipRotation() {
+      clearTimeout(mainTipInterval);
+      clearTimeout(tipFadeTimeout);
+      const card = document.getElementById('kitts-tip-card');
+      if (!card) return;
+      card.classList.add('visible');
+      rotateMainTip();
+    }
+
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function spawnOrbitingSparkles() {
+      const container = document.getElementById('sword-container');
+      const bubbleRadius = 105;
+      const containerCenter = 130;
+
+      for (let i = 0; i < 16; i++) {
+        const s = document.createElement('div');
+        s.className = 'sparkle-particle';
+        const angle = (i / 16) * Math.PI * 2;
+        const x = Math.cos(angle) * bubbleRadius + containerCenter;
+        const y = Math.sin(angle) * bubbleRadius + containerCenter;
+        s.style.left = (x - 4) + 'px';
+        s.style.top = (y - 4) + 'px';
+        s.style.animation = `pulseAura ${1 + (i % 3) * 0.4}s infinite alternate`;
+        container.appendChild(s);
+      }
+    }
+
+    function triggerPurpleShockwave() {
+      const canvas = document.getElementById('cutscene-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      let waveRadius = 10;
+      let waveAlpha = 1;
+
+      const particles = [];
+      for (let i = 0; i < 80; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 9 + 4;
+        particles.push({
+          x: centerX,
+          y: centerY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          radius: Math.random() * 4 + 2,
+          alpha: 1,
+          color: Math.random() > 0.3 ? '#c77dff' : '#9d4edd'
+        });
+      }
+
+      function animateShockwave() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (waveAlpha > 0) {
+          waveRadius += 14;
+          waveAlpha -= 0.025;
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, waveRadius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(199, 125, 255, ${Math.max(0, waveAlpha)})`;
+          ctx.lineWidth = 6;
+          ctx.shadowBlur = 20;
+          ctx.shadowColor = '#9d4edd';
+          ctx.stroke();
+        }
+
+        let active = waveAlpha > 0;
+        particles.forEach(p => {
+          if (p.alpha > 0) {
+            active = true;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.alpha -= 0.02;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = p.color;
+            ctx.globalAlpha = Math.max(0, p.alpha);
+            ctx.fill();
+          }
+        });
+
+        if (active) {
+          requestAnimationFrame(animateShockwave);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+      animateShockwave();
+    }
+
+    async function initExperience() {
+      spawnOrbitingSparkles();
+      startRadarHumSound();
+
+      const statusEl = document.getElementById('loading-status-text');
+      statusEl.textContent = "~ Waking up the realm... ~";
+      await delay(500);
+
+      document.getElementById('scene-cutscene').classList.add('exponential-purple');
+      statusEl.textContent = "~ Retrieving member data & cache... ~";
+
+      let dotCount = 0;
+      const fetchInterval = setInterval(() => {
+        dotCount = (dotCount + 1) % 4;
+        const dots = '.'.repeat(dotCount);
+        statusEl.textContent = `~ Retrieving member data${dots} ~`;
+      }, 400);
+
+      await fetchAndPopulateGuildData();
+      clearInterval(fetchInterval);
+
+      statusEl.textContent = "~ Data 100% Retrieved! ~";
+      await delay(700);
+
+      playChargeUpSound();
+      document.getElementById('purple-aura').classList.add('super-glow');
+      document.getElementById('sword-icon').classList.add('brighten');
+      statusEl.textContent = "~ Complete ~";
+      await delay(900);
+
+      playPopExplosionSound();
+      document.getElementById('sword-container').style.opacity = '0';
+      statusEl.style.opacity = '0';
+      triggerPurpleShockwave();
+
+      await delay(600);
+
+      const cutscene = document.getElementById('scene-cutscene');
+      cutscene.classList.add('fade-out');
+
+      // 0.4s pause after cutscene load complete before UI entrance
+      await delay(400);
+      openMainInterface();
+    }
+
+    function openMainInterface() {
+      // Step 1: Fade in ONLY Left Sidebar, Top Tip Card, and Watch View Button
+      document.getElementById('sidebar-left').classList.add('visible');
+      document.getElementById('watch-view-btn').classList.add('visible');
+      startMainTipRotation();
+
+      // Step 2: Automatically trigger Home tab view (opens 2nd & 3rd containers)
+      switchMainTab('home-tab');
+    }
+
+    function switchMainTab(tabId, button) {
+      const leftSidebar = document.getElementById('sidebar-left');
+      const contentPanel = document.getElementById('content-panel');
+      const rightSidebar = document.getElementById('sidebar-right');
+
+      // Update Nav Buttons
+      document.querySelectorAll('.side-nav-btn').forEach(navButton => {
+        if (navButton.dataset.mainTab) {
+          navButton.classList.toggle(
+            'active',
+            button ? navButton === button : navButton.dataset.mainTab === tabId
+          );
+        }
+      });
+
+      // Tab panes fade out / active status
+      document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.remove('active');
+      });
+
+      const selectedPane = document.getElementById(tabId);
+      if (selectedPane) {
+        selectedPane.classList.add('active');
+      }
+
+      // Handle Container display states based on active tab
+      if (tabId === 'home-tab') {
+        // Home Tab: Open Content Panel (2nd container) & Right Sidebar (3rd container)
+        contentPanel.classList.add('visible');
+        rightSidebar.classList.add('visible');
+        rightSidebar.style.display = 'flex';
+      } else {
+        // Other Tabs (Community, Credits, Music): Hide Right Sidebar (3rd Container) completely
+        rightSidebar.classList.remove('visible');
+        setTimeout(() => {
+          if (!rightSidebar.classList.contains('visible')) {
+            rightSidebar.style.display = 'none';
+          }
+        }, 400);
+        
+        // Keep 2nd Container visible with tab contents fading in
+        contentPanel.classList.add('visible');
+      }
+    }
+
+    function promptWatchView() {
+      document.getElementById('view-notice-modal').classList.add('active');
+    }
+
+    function confirmWatchView() {
+      document.getElementById('view-notice-modal').classList.remove('active');
+      document.getElementById('scene-main').classList.add('dimmed');
+      document.getElementById('watch-view-btn').classList.remove('visible');
+      document.getElementById('kitts-tip-card').classList.remove('visible');
+      document.getElementById('reopen-ui-btn').classList.add('visible');
+    }
+
+    function restoreUIFromView() {
+      document.getElementById('scene-main').classList.remove('dimmed');
+      document.getElementById('reopen-ui-btn').classList.remove('visible');
+      document.getElementById('watch-view-btn').classList.add('visible');
+      document.getElementById('kitts-tip-card').classList.add('visible');
+    }
+
+    function loadCachedMembers() {
+      try {
+        return JSON.parse(localStorage.getItem('kitts_cached_members') || '{}');
+      } catch(e) {
+        return {};
+      }
+    }
+
+    function saveCachedMembers(map) {
+      try {
+        localStorage.setItem('kitts_cached_members', JSON.stringify(map));
+      } catch(e) {}
+    }
+
+    async function fetchAndPopulateGuildData() {
+      let cached = loadCachedMembers();
+      try {
+        const response = await fetch(API_URL, { cache: 'no-store' });
+        if (response.ok) {
+          const data = await response.json();
+          if (data && Array.isArray(data.members)) {
+            data.members.forEach(m => {
+              if (m.id) {
+                cached[m.id] = {
+                  id: String(m.id),
+                  username: m.username || m.name || 'Member',
+                  display_name: m.display_name || m.username,
+                  avatar_url: m.avatar_url || '',
+                  bot: !!m.bot,
+                  roles: m.roles || [],
+                  status: (m.status || 'online').toLowerCase()
+                };
+              }
+            });
+            saveCachedMembers(cached);
+          }
+        }
+      } catch (error) {
+        console.warn('API widget unavailable, serving cached data.', error);
+      }
+      populateGuildData(cached);
+      return cached;
+    }
+    
+    setInterval(fetchAndPopulateGuildData, 5000);
+
+    function normalizeRoles(roles) {
+      return Array.isArray(roles)
+        ? roles.map(role => String(
+            role && typeof role === 'object' ? (role.id ?? role.role_id ?? '') : role
+          ))
+        : [];
+    }
+
+    function addMemberCard(container, member, kind, statusClass) {
+      const item = document.createElement(kind === 'owner' ? 'div' : 'li');
+      item.className = kind === 'owner' ? 'owner-card' : (kind === 'bot' ? 'bot-card' : 'member-card');
+
+      const img = document.createElement('img');
+      img.src = typeof member.avatar_url === 'string' ? member.avatar_url : '';
+      img.alt = '';
+      img.loading = 'lazy';
+      img.onerror = () => { img.style.display = 'none'; };
+      item.appendChild(img);
+
+      const displayName = String(member.display_name || member.username || member.name || 'Member');
+
+      if (kind === 'owner') {
+        const info = document.createElement('div');
+        info.className = 'owner-info';
+        const heading = document.createElement('h4');
+        heading.textContent = displayName;
+        const role = document.createElement('span');
+        role.textContent = '[ OWNER ]';
+        info.append(heading, role);
+        item.appendChild(info);
+      } else {
+        const name = document.createElement('span');
+        name.textContent = displayName;
+        item.appendChild(name);
+      }
+
+      if (kind !== 'bot') {
+        const dot = document.createElement('div');
+        dot.className = 'status-dot ' + statusClass;
+        item.appendChild(dot);
+      }
+
+      container.appendChild(item);
+    }
+
+    function populateGuildData(memberMap) {
+      const ownerContainer = document.getElementById('owner-sidebar-list');
+      const staffContainer = document.getElementById('staff-member-grid');
+      const onlineContainer = document.getElementById('online-member-grid');
+      const botContainer = document.getElementById('bot-sidebar-list');
+
+      [ownerContainer, staffContainer, onlineContainer, botContainer].forEach(c => c.replaceChildren());
+
+      const allMembers = Object.values(memberMap);
+      const bots = allMembers.filter(m => m.bot);
+      const humans = allMembers.filter(m => !m.bot);
+
+      let onlineBotCount = 0;
+      bots.forEach(bot => {
+        const isOnline = ['online', 'idle', 'dnd'].includes(bot.status);
+        if (isOnline) onlineBotCount++;
+        addMemberCard(botContainer, bot, 'bot', 'offline');
+      });
+
+      let ownerCount = 0;
+      let staffCount = 0;
+      let onlineCount = 0;
+
+      humans.forEach(member => {
+        const roles = normalizeRoles(member.roles);
+        const id = String(member.id ?? '');
+        const isOwner = OWNER_IDS.includes(id) || OWNER_IDS.some(r => roles.includes(r));
+        const isAdmin = ADMIN_ROLE_IDS.some(r => roles.includes(r));
+        const isMod = MOD_ROLE_IDS.some(r => roles.includes(r));
+
+        const isOnline = ['online', 'idle', 'dnd'].includes(member.status);
+        const statusDotClass = isOnline ? member.status : 'offline';
+        
+        if (isOnline) {
+            onlineCount++;
+        }
+
+        if (isOwner) {
+          addMemberCard(ownerContainer, member, 'owner', statusDotClass);
+          ownerCount++;
+        } else if (isAdmin || isMod) {
+          addMemberCard(staffContainer, member, 'member', statusDotClass);
+          staffCount++;
+        } else if (isOnline) {
+          addMemberCard(onlineContainer, member, 'member', statusDotClass);
+          onlineCount++;
+        }
+      });
+
+      if (!ownerCount) ownerContainer.innerHTML = '<p class="persistent-info">No owners found.</p>';
+      if (!staffCount) staffContainer.innerHTML = '<li class="persistent-info">No staff found.</li>';
+      if (!onlineContainer.children.length) onlineContainer.innerHTML = '<li class="persistent-info">No online members.</li>';
+      if (!bots.length) botContainer.innerHTML = '<p class="persistent-info">No bots found.</p>';
+
+      document.getElementById('stats-counter-text').textContent =
+        `Total Members: ${humans.length}\nOnline Bots: ${onlineBotCount}\nOnline Members: ${onlineCount}`;
+    }
+
+    function openModal(type) {
+      if (!loungeData[type]) return;
+      document.getElementById('modal-title').textContent = loungeData[type].title;
+      document.getElementById('modal-body-content').textContent = loungeData[type].content;
+      document.getElementById('activity-modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('activity-modal').classList.remove('active');
+    }
+
+    function closeModalOnOutside(event) {
+      if (event.target.id === 'activity-modal') closeModal();
+    }
+
+    window.addEventListener('DOMContentLoaded', initExperience);
+  </script>
 </body>
 </html>
+```eof
