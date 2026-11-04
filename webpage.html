@@ -941,6 +941,9 @@
 
           <div class="panel-title" style="margin-top:16px"><i class="fa-solid fa-signal"></i> Online Members</div>
           <ul id="online-member-grid" class="member-grid"></ul>
+          
+          <div class="panel-title" style="margin-top:16px"><i class="fa-solid fa-moon"></i> Offline Members</div>
+          <ul id="offline-member-grid" class="member-grid"></ul>
         </section>
 
         <!-- COMMUNITY TAB -->
@@ -1584,9 +1587,10 @@
       const ownerContainer = document.getElementById('owner-sidebar-list');
       const staffContainer = document.getElementById('staff-member-grid');
       const onlineContainer = document.getElementById('online-member-grid');
+      const offlineContainer = document.getElementById('offline-member-grid');
       const botContainer = document.getElementById('bot-sidebar-list');
 
-      [ownerContainer, staffContainer, onlineContainer, botContainer].forEach(c => c.replaceChildren());
+      [ownerContainer, staffContainer, onlineContainer, offlineContainer, botContainer].forEach(c => c.replaceChildren());
 
       const allMembers = Object.values(memberMap);
       const bots = allMembers.filter(m => m.bot);
@@ -1626,12 +1630,15 @@
         } else if (isOnline) {
           addMemberCard(onlineContainer, member, 'member', statusDotClass);
           onlineCount++;
+        } else {
+          addMemberCard(offlineContainer, member, 'member', 'offline');
         }
       });
 
       if (!ownerCount) ownerContainer.innerHTML = '<p class="persistent-info">No owners found.</p>';
       if (!staffCount) staffContainer.innerHTML = '<li class="persistent-info">No staff found.</li>';
       if (!onlineContainer.children.length) onlineContainer.innerHTML = '<li class="persistent-info">No online members.</li>';
+      if (!offlineContainer.children.length) offlineContainer.innerHTML = '<li class="persistent-info">No offline members.</li>';
       if (!bots.length) botContainer.innerHTML = '<p class="persistent-info">No bots found.</p>';
 
       document.getElementById('stats-counter-text').textContent =
