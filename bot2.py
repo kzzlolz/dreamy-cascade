@@ -215,7 +215,7 @@ async def on_presence_update(before, after):
 
 @app.route("/")
 def home():
-    return "Kzz's Lounge is active!"[cite: 5]
+    return "Kzz's Lounge is active!"
 
 
 @app.route("/api/guild-data")
