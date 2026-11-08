@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dreamy Cascade ♡ A little world of our own</title>
-  <link rel="icon" href="https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/DC.png">
+  <title>Dreamy Cascade</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/01785d677dff87c729169c9797a905de.jpg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <meta property="og:type" content="website">
@@ -69,7 +69,7 @@
       inset: 0;
       background:
         radial-gradient(circle at center, rgba(35, 12, 28, 0.5) 0%, rgba(6, 3, 5, 0.88) 100%),
-        url('https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/hi.gif') center/cover no-repeat;
+        url('https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/59b2349684d902730f710b65f05ecb80.gif') center/cover no-repeat;
       z-index: 0;
       pointer-events: none;
     }
@@ -1310,7 +1310,7 @@
       <aside id="sidebar-left" class="hud-panel sidebar-left">
         <div>
           <div class="server-brand">
-            <img src="https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/05d4be2d0bc3f9ef7a06b63a0ca7ba3c.jpg" alt="Server Icon">
+            <img src="https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/01785d677dff87c729169c9797a905de.jpg" alt="Server Icon">
             <h2>Dreamy Cascade</h2>
           </div>
 
@@ -1379,6 +1379,10 @@
             <summary>♛ Owner <span class="directory-count" id="count-owner">0</span></summary>
             <ul id="directory-owner-list" class="directory-grid"></ul>
           </details>
+          <details class="directory-section" open data-directory-section="exclusive">
+            <summary>୨୧ Exclusive <span class="directory-count" id="count-exclusive">0</span></summary>
+            <ul id="directory-exclusive-list" class="directory-grid"></ul>
+          </details>
           <details class="directory-section" open data-directory-section="admin">
             <summary>✧ Administrators <span class="directory-count" id="count-admin">0</span></summary>
             <ul id="directory-admin-list" class="directory-grid"></ul>
@@ -1390,10 +1394,6 @@
           <details class="directory-section" open data-directory-section="bot">
             <summary>☁ Bots <span class="directory-count" id="count-bot">0</span></summary>
             <ul id="directory-bot-list" class="directory-grid"></ul>
-          </details>
-          <details class="directory-section" open data-directory-section="exclusive">
-            <summary>୨୧ Exclusive <span class="directory-count" id="count-exclusive">0</span></summary>
-            <ul id="directory-exclusive-list" class="directory-grid"></ul>
           </details>
           <details class="directory-section" open data-directory-section="helpers">
             <summary>🕯 Community Helpers <span class="directory-count" id="count-helpers">0</span></summary>
@@ -1538,6 +1538,7 @@
 
   <script>
     const OWNER_IDS = ["1555964902731161711", "1540253480432959539"];
+    const OWNER_ROLE_IDS = ["1555964902731161711", "1540253480432959539"];
     const ADMIN_ROLE_IDS = ["1526901549396267089"];
     const MOD_ROLE_IDS = ["1528305985519751178"];
     const DIRECTORY_ROLE_GROUPS = {
@@ -2116,7 +2117,8 @@
       let onlineCount = 0;
       humans.forEach(member => {
         const id = String(member.id ?? '');
-        const isOwner = OWNER_IDS.includes(id);
+        const memberRoleIds = normalizeRoles(member.roles);
+        const isOwner = OWNER_IDS.includes(id) || OWNER_ROLE_IDS.some(roleId => memberRoleIds.includes(roleId));
         const highest = getHighestDirectoryRole(member);
         const isOnline = ['online', 'idle', 'dnd'].includes(member.status);
         const statusClass = isOnline ? member.status : 'offline';
