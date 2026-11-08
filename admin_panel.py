@@ -2,7 +2,7 @@ import json
 import os
 import secrets
 import sqlite3
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from urllib.parse import urlencode
 
 import requests
@@ -121,7 +121,6 @@ function renderProfileList(){
   });
   if(!root.children.length){const p=document.createElement("div");p.className="small";p.textContent="No profiles saved yet.";root.appendChild(p);}
 }
-function loadSelected(){const id=selected();fillForm(profiles[id]||null);}
 function parseLinks(){
   return $("social-links").value.split("\n").map(line=>line.trim()).filter(Boolean).map(line=>{
     const parts=line.split("|");if(parts.length<2)throw new Error("Use the format: label | https://…");
@@ -189,7 +188,7 @@ def register_admin_routes(app):
         SESSION_COOKIE_HTTPONLY=True,
         SESSION_COOKIE_SECURE=True,
         SESSION_COOKIE_SAMESITE="Lax",
-        PERMANENT_SESSION_LIFETIME=60 * 60 * 8,
+        PERMANENT_SESSION_LIFETIME=timedelta(hours=8),
     )
 
     blueprint = Blueprint("dreamy_cascade_admin", __name__)
