@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dreamy Cascade</title>
+  <title>Dreamy Cascade ♡ A little world of our own</title>
   <link rel="icon" href="https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/DC.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Dreamy Cascade">
-<meta property="og:description" content="Casual talks, weird ppl, and a lot of fun <3">
+<meta property="og:description" content="A dreamy little corner of the internet. Find your people, make memories, and stay awhile.">
 <meta property="og:image" content="https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/refs/heads/main/01785d677dff87c729169c9797a905de.jpg">
 <meta property="og:url" content="https://kzzlolz.github.io/dreamy-cascade">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Dreamy Cascade">
-<meta name="twitter:description" content="Casual talks, weird ppl, and a lot of fun <3">
+<meta name="twitter:description" content="A dreamy little corner of the internet. Find your people, make memories, and stay awhile.">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/refs/heads/main/01785d677dff87c729169c9797a905de.jpg">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Press+Start+2P&family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
@@ -877,6 +877,398 @@
         padding: 20px 12px;
       }
     }
+
+    /* =========================================================
+       DREAMY CASCADE — SOFT, ETHEREAL REDESIGN
+       ========================================================= */
+    :root {
+      --bg-dark: #fff8fc;
+      --panel-bg: rgba(255, 255, 255, .76);
+      --panel-border: rgba(206, 157, 184, .48);
+      --blood: #b76f91;
+      --crimson: #c982a5;
+      --bright-red: #d58bad;
+      --rose: #936c82;
+      --gold: #b88b9e;
+      --gold-glow: rgba(205, 154, 181, .28);
+      --paper: #725b6b;
+      --border: rgba(187, 139, 165, .24);
+      --purple-glow: #c9b7e8;
+      --purple-bright: #e4c8df;
+      --neon-accent: #d58bad;
+      --dream-ink: #674d60;
+      --dream-muted: #9b8293;
+      --dream-pink: #f5dce9;
+      --dream-lilac: #e8e0f5;
+      --dream-white: #fffafd;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: #fff8fc;
+      color: var(--dream-ink);
+      font-family: 'Inter', sans-serif;
+    }
+    .hud-overlay { display: none !important; }
+    .ambient-bg {
+      background:
+        radial-gradient(ellipse at 12% 12%, rgba(255, 222, 237, .88), transparent 42%),
+        radial-gradient(ellipse at 88% 18%, rgba(226, 218, 248, .82), transparent 40%),
+        linear-gradient(145deg, rgba(255,250,253,.78), rgba(249,239,248,.66)),
+        url('https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/hi.gif') center/cover fixed no-repeat;
+      filter: saturate(.72);
+    }
+    #scene-cutscene {
+      background:
+        radial-gradient(ellipse at 50% 42%, rgba(255,255,255,.97), rgba(255,239,248,.97) 58%, #eee7f8 100%);
+    }
+    #scene-cutscene.exponential-purple {
+      background:
+        radial-gradient(ellipse at 50% 42%, #fff 0%, #f9e8f2 48%, #e9e0f5 100%);
+    }
+    .sword-container { width: 230px; height: 230px; }
+    .purple-bubble-aura {
+      background: radial-gradient(circle, rgba(245,210,230,.72), rgba(225,211,244,.3) 60%, transparent 82%);
+      box-shadow: 0 0 70px rgba(211,166,198,.42), inset 0 0 35px rgba(255,255,255,.8);
+    }
+    .purple-bubble-aura.super-glow {
+      box-shadow: 0 0 100px rgba(212,164,198,.72), inset 0 0 60px #fff;
+      background: radial-gradient(circle, rgba(255,255,255,.95), rgba(237,211,231,.58) 65%, transparent 86%);
+    }
+    .sword-icon-wrapper {
+      color: #c38eaa;
+      filter: drop-shadow(0 0 16px rgba(209,157,190,.55));
+    }
+    .sword-icon-wrapper.brighten { color: #ad7899; filter: drop-shadow(0 0 28px #fff); }
+    .loading-status-text {
+      color: #a77896;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      letter-spacing: 2px;
+      text-transform: none;
+    }
+    .sparkle-particle {
+      background: #fff;
+      box-shadow: 0 0 10px #fff, 0 0 18px #e8c4dc;
+    }
+    #scene-main {
+      min-height: 100vh;
+      height: auto;
+      padding: 42px 24px;
+      align-items: stretch;
+    }
+    .main-wrapper {
+      max-width: 1440px;
+      min-height: min(820px, calc(100vh - 84px));
+      height: auto;
+      max-height: none;
+      gap: 20px;
+    }
+    .hud-panel {
+      background: rgba(255, 252, 254, .78);
+      border: 1px solid rgba(209, 168, 191, .5);
+      border-radius: 25px;
+      clip-path: none;
+      box-shadow: 0 18px 55px rgba(151, 111, 139, .13), inset 0 1px 0 rgba(255,255,255,.95);
+      backdrop-filter: blur(22px);
+    }
+    .hud-panel::before {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #e7bfd4, #d9c9ee, transparent);
+    }
+    .sidebar-left {
+      width: 252px;
+      padding: 24px 19px;
+      border-radius: 26px;
+    }
+    .server-brand {
+      gap: 12px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(204,160,185,.35);
+    }
+    .server-brand img {
+      width: 54px; height: 54px; border-radius: 18px;
+      border: 2px solid #f0d6e5;
+      box-shadow: 0 5px 18px rgba(190,139,169,.2);
+    }
+    .server-brand h2 {
+      color: #87627a;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      text-transform: none;
+      letter-spacing: .4px;
+      text-shadow: none;
+    }
+    .side-nav-menu { gap: 8px; margin: 22px 0; }
+    .side-nav-btn {
+      background: rgba(255,255,255,.54);
+      border: 1px solid transparent;
+      border-radius: 15px;
+      color: #876b7e;
+      font-family: 'Inter', sans-serif;
+      font-size: .76rem;
+      letter-spacing: .8px;
+      padding: 13px 15px;
+      clip-path: none;
+      text-transform: none;
+    }
+    .side-nav-btn i { color: #c08da9; }
+    .side-nav-btn:hover {
+      background: #fff;
+      border-color: #efd6e4;
+      color: #76566d;
+      transform: translateX(3px);
+    }
+    .side-nav-btn:hover i { color: #b87d9c; }
+    .side-nav-btn.active {
+      background: linear-gradient(110deg, #f8e5ef, #eee8f8);
+      border-color: #e7c9dc;
+      color: #76566d;
+      box-shadow: inset 3px 0 0 #d5a2bd, 0 5px 16px rgba(194,150,179,.12);
+    }
+    .side-nav-btn.active i { color: #ad7898; }
+    .panel-title {
+      color: #a87896;
+      border-bottom: 1px solid rgba(207,165,190,.35);
+      padding-bottom: 11px;
+      margin-bottom: 15px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.22rem;
+      letter-spacing: .35px;
+      text-transform: none;
+    }
+    .persistent-info { color: #9c8292; font-size: .82rem; }
+    .discord-btn-compact {
+      border-radius: 15px;
+      clip-path: none;
+      background: linear-gradient(125deg, #d9b8e8, #dcaecb);
+      border: 1px solid rgba(255,255,255,.8);
+      box-shadow: 0 7px 18px rgba(186,143,180,.22);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: .5px;
+      font-size: .72rem;
+    }
+    .discord-btn-compact:hover {
+      background: linear-gradient(125deg, #cda8df, #d59aba);
+      box-shadow: 0 9px 22px rgba(186,143,180,.28);
+    }
+    .content-panel {
+      min-height: min(820px, calc(100vh - 84px));
+      height: auto;
+      padding: 30px;
+      border-radius: 26px;
+      overflow: hidden;
+    }
+    .tab-pane { min-height: 100%; }
+    .tab-pane.active { overflow-y: auto; padding-right: 5px; }
+    .owner-card, .member-card, .bot-card {
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(211,174,197,.38);
+      border-radius: 15px;
+      padding: 11px 13px;
+      color: #755d6e;
+      box-shadow: 0 4px 14px rgba(176,139,162,.06);
+    }
+    .owner-card:hover, .member-card:hover, .bot-card:hover {
+      border-color: #d8aec6;
+      background: #fff;
+    }
+    .owner-card img, .member-card img, .bot-card img {
+      width: 40px; height: 40px; border-radius: 13px;
+      border: 2px solid #f0dce8;
+    }
+    .owner-info h4, .member-card span, .bot-card span { color: #74586c; }
+    .owner-info span { color: #b17d9b; font-family: 'Inter',sans-serif; font-size: .62rem; }
+    .member-grid { max-height: 300px; gap: 10px; }
+    .status-dot { width: 9px; height: 9px; }
+    .status-dot.online { background: #8fc5a4; box-shadow: 0 0 8px rgba(143,197,164,.6); }
+    .status-dot.idle { background: #e8bd78; box-shadow: 0 0 8px rgba(232,189,120,.5); }
+    .status-dot.dnd { background: #d991a7; box-shadow: 0 0 8px rgba(217,145,167,.5); }
+    .status-dot.offline { background: #c7bac5; }
+    .community-grid { gap: 14px; }
+    .community-card-hud {
+      border-radius: 20px;
+      clip-path: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.86), rgba(250,239,247,.88));
+      border: 1px solid rgba(213,174,198,.48);
+      border-left: 3px solid #d6a6c0;
+      box-shadow: 0 8px 22px rgba(178,139,165,.08);
+    }
+    .community-card-hud:hover {
+      background: linear-gradient(135deg, #fff, #f7eaf3);
+      border-color: #d7a9c2;
+      border-left-color: #c18aa9;
+      box-shadow: 0 12px 26px rgba(178,139,165,.14);
+    }
+    .community-card-hud i { color: #bd8cab; }
+    .community-card-hud h4 { color: #795d72; font-family: 'Cormorant Garamond',serif; font-size: 1.35rem; }
+    .community-card-hud span { color: #9a8293; }
+    .credits-card-pro {
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(213,174,198,.42);
+      border-top: 2px solid #d6a6c0;
+      border-radius: 17px;
+    }
+    .credits-card-pro:hover { background: #fff; border-color: #d6a6c0; }
+    .credits-card-pro .credits-label { color: #b27e9c; font-family: 'Inter',sans-serif; }
+    .credits-card-pro .credits-val { color: #795d72; }
+    .credits-banner {
+      border: 1px solid rgba(213,174,198,.48);
+      border-radius: 20px;
+      clip-path: none;
+      background: linear-gradient(125deg, rgba(248,228,239,.92), rgba(237,231,248,.92));
+    }
+    .credits-banner h3 { color: #795d72; text-transform: none; }
+    .credits-banner p { color: #a17f96; font-family: 'Inter',sans-serif; }
+    .music-notice {
+      border: 1px solid #e6cadd;
+      border-radius: 15px;
+      background: #fbf0f6;
+      color: #795d72;
+    }
+    .kitts-tip-card {
+      background: rgba(255,251,254,.88);
+      border: 1px solid rgba(211,174,197,.55);
+      border-left: 3px solid #d6a6c0;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(151,111,139,.12);
+      backdrop-filter: blur(18px);
+    }
+    .kitts-tip-message { color: #806579; }
+    .watch-view-btn, .reopen-ui-btn {
+      border-radius: 99px;
+      background: rgba(255,251,254,.9);
+      color: #89677e;
+      border: 1px solid #e8cddd;
+      box-shadow: 0 8px 24px rgba(151,111,139,.13);
+      font-family: 'Inter',sans-serif;
+    }
+    .modal-box {
+      background: rgba(255,250,253,.97);
+      border: 1px solid #e6cadd;
+      border-radius: 24px;
+      color: #795d72;
+      box-shadow: 0 22px 65px rgba(104,72,95,.2);
+    }
+    .modal-header { border-bottom: 1px solid #f0dfe9; }
+    .modal-close { color: #a77d98; }
+    .modal-close:hover { color: #815b75; }
+    .sidebar-right { display: none !important; }
+
+    .home-heading {
+      margin-bottom: 8px;
+      color: #a87896;
+      font-family: 'Cormorant Garamond',serif;
+      font-size: 1.28rem;
+      font-weight: 700;
+    }
+    .home-block { margin-bottom: 23px; }
+    .home-block:last-child { margin-bottom: 0; }
+    .home-owner-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(210px,1fr));
+      gap: 10px;
+    }
+    .directory-intro {
+      color: #987e91;
+      font-size: .88rem;
+      line-height: 1.6;
+      margin: -4px 0 18px;
+    }
+    .directory-toolbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .directory-search {
+      width: 100%;
+      border: 1px solid #e7cfdd;
+      background: rgba(255,255,255,.82);
+      color: #765c70;
+      border-radius: 14px;
+      padding: 12px 15px;
+      outline: none;
+      font: inherit;
+      box-shadow: 0 4px 14px rgba(176,139,162,.05);
+    }
+    .directory-search:focus { border-color: #c996b4; box-shadow: 0 0 0 3px rgba(211,166,192,.16); }
+    .directory-section {
+      background: rgba(255,255,255,.48);
+      border: 1px solid rgba(213,174,198,.38);
+      border-radius: 19px;
+      padding: 15px 16px 17px;
+      margin-bottom: 13px;
+    }
+    .directory-section summary {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      color: #80627a;
+      font-family: 'Cormorant Garamond',serif;
+      font-weight: 700;
+      font-size: 1.22rem;
+    }
+    .directory-section summary::-webkit-details-marker { display:none; }
+    .directory-section summary::after {
+      content: '⌄';
+      color: #bd8cab;
+      font-family: 'Inter',sans-serif;
+      font-size: 1rem;
+      transition: transform .2s ease;
+    }
+    .directory-section[open] summary::after { transform: rotate(180deg); }
+    .directory-section summary .directory-count {
+      margin-left: auto;
+      margin-right: 8px;
+      color: #b28ba2;
+      font: 600 .72rem 'Inter',sans-serif;
+      background: #f8eaf2;
+      padding: 4px 9px;
+      border-radius: 99px;
+    }
+    .directory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(205px,1fr));
+      gap: 9px;
+      margin-top: 14px;
+      list-style: none;
+    }
+    .directory-grid .member-card, .directory-grid .owner-card, .directory-grid .bot-card {
+      min-width: 0;
+      padding: 9px 10px;
+      gap: 9px;
+    }
+    .directory-grid img { width: 36px; height: 36px; }
+    .directory-member-info { display:flex; flex-direction:column; gap:3px; min-width:0; flex:1; }
+    .directory-member-name { font-size:.82rem; color:#74586c; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .directory-role-label { color:#b0839e; font-size:.62rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .directory-empty { color:#aa93a3; font-size:.8rem; padding:9px 2px; list-style:none; }
+    .directory-section[hidden], .directory-grid li[hidden] { display:none !important; }
+    .directory-toolbar .directory-hint { flex-shrink:0; color:#aa8da1; font-size:.72rem; }
+    @media (max-width: 980px) {
+      #scene-main { padding: 22px 14px; }
+      .main-wrapper { min-height: 0; flex-direction: column; }
+      .sidebar-left { width:100%; }
+      .content-panel { min-height: 650px; }
+      .side-nav-menu { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); }
+      .side-nav-btn { justify-content:center; padding:12px 7px; font-size:.65rem; }
+    }
+    @media (max-width: 620px) {
+      #scene-main { padding: 12px 9px; }
+      .sidebar-left { padding:18px 15px; }
+      .content-panel { padding:20px 15px; min-height:620px; }
+      .side-nav-menu { grid-template-columns:repeat(3,minmax(0,1fr)); }
+      .side-nav-btn { font-size:.62rem; }
+      .directory-grid { grid-template-columns:1fr; }
+      .directory-toolbar { flex-direction:column; align-items:stretch; }
+      .directory-toolbar .directory-hint { text-align:right; }
+      .community-grid, .credits-grid { grid-template-columns:1fr; }
+    }
+
   </style>
 </head>
 <body>
@@ -893,15 +1285,15 @@
     <div id="sword-container" class="sword-container">
       <div id="purple-aura" class="purple-bubble-aura"></div>
       <div id="sword-icon" class="sword-icon-wrapper">
-        <i class="fa-solid fa-khanda"></i>
+        <i class="fa-solid fa-sparkles"></i>
       </div>
     </div>
-    <div id="loading-status-text" class="loading-status-text">~ Waking up the realm... ~</div>
+    <div id="loading-status-text" class="loading-status-text">A little world is waking up...</div>
   </div>
 
   <!-- Top-Right Tip Card -->
   <div id="kitts-tip-card" class="kitts-tip-card" role="status" aria-live="polite">
-    <p id="main-tip-message" class="kitts-tip-message"> Welcome to Kitt's Lounge! ♡</p>
+    <p id="main-tip-message" class="kitts-tip-message"> Welcome to Dreamy Cascade! ♡</p>
   </div>
 
   <!-- Top-Middle Reopen UI Button -->
@@ -925,6 +1317,7 @@
           <!-- Navigation Tabs -->
           <nav class="side-nav-menu">
             <button class="side-nav-btn active" data-main-tab="home-tab" onclick="switchMainTab('home-tab', this)"><i class="fa-solid fa-house"></i> HOME</button>
+            <button class="side-nav-btn" data-main-tab="list-tab" onclick="switchMainTab('list-tab', this)"><i class="fa-solid fa-list-ul"></i> LIST</button>
             <button class="side-nav-btn" data-main-tab="community-tab" onclick="switchMainTab('community-tab', this)"><i class="fa-solid fa-users"></i> COMMUNITY</button>
             <button class="side-nav-btn" data-main-tab="credits-tab" onclick="switchMainTab('credits-tab', this)"><i class="fa-solid fa-heart"></i> CREDITS</button>
             <button class="side-nav-btn" data-main-tab="music-tab" onclick="switchMainTab('music-tab', this)"><i class="fa-solid fa-music"></i> MUSIC</button>
@@ -945,16 +1338,79 @@
       <!-- Main Center Content Panel (Fades in when home/tabs clicked) -->
       <main id="content-panel" class="hud-panel content-panel">
 
-        <!-- HOME TAB -->
+        <!-- HOME TAB: THE COMMUNITY OVERVIEW -->
         <section id="home-tab" class="tab-pane active">
-          <div class="panel-title"><i class="fa-solid fa-user-shield"></i> Administrators &amp; Moderators</div>
-          <ul id="staff-member-grid" class="member-grid"></ul>
+          <div class="panel-title"><i class="fa-solid fa-cloud"></i> A little corner of the internet</div>
+          <p class="directory-intro">Meet the people who make Dreamy Cascade feel like home. ♡</p>
 
-          <div class="panel-title" style="margin-top:16px"><i class="fa-solid fa-signal"></i> Online Members</div>
-          <ul id="online-member-grid" class="member-grid"></ul>
-          
-          <div class="panel-title" style="margin-top:16px"><i class="fa-solid fa-moon"></i> Offline Members</div>
-          <ul id="offline-member-grid" class="member-grid"></ul>
+          <div class="home-block">
+            <div class="home-heading"><i class="fa-solid fa-crown"></i> Owner</div>
+            <div id="home-owner-list" class="home-owner-grid">
+              <p class="persistent-info">Finding our owner...</p>
+            </div>
+          </div>
+
+          <div class="home-block">
+            <div class="home-heading"><i class="fa-solid fa-shield-heart"></i> Administrators &amp; Moderators</div>
+            <ul id="staff-member-grid" class="member-grid"></ul>
+          </div>
+
+          <div class="home-block">
+            <div class="home-heading"><i class="fa-solid fa-signal"></i> Online members</div>
+            <ul id="online-member-grid" class="member-grid"></ul>
+          </div>
+
+          <div class="home-block">
+            <div class="home-heading"><i class="fa-solid fa-moon"></i> Offline members</div>
+            <ul id="offline-member-grid" class="member-grid"></ul>
+          </div>
+        </section>
+
+        <!-- LIST TAB: COMPLETE SERVER DIRECTORY -->
+        <section id="list-tab" class="tab-pane">
+          <div class="panel-title"><i class="fa-solid fa-book-open"></i> The Dreamy Directory</div>
+          <p class="directory-intro">Every face, every role, every little part of our community — all in one place. Each person appears once, under their highest listed role.</p>
+          <div class="directory-toolbar">
+            <input id="directory-search" class="directory-search" type="search" placeholder="Search names or roles..." oninput="filterDirectory(this.value)" aria-label="Search the server directory">
+            <span class="directory-hint">Live server list ♡</span>
+          </div>
+
+          <details class="directory-section" open data-directory-section="owner">
+            <summary>♛ Owner <span class="directory-count" id="count-owner">0</span></summary>
+            <ul id="directory-owner-list" class="directory-grid"></ul>
+          </details>
+          <details class="directory-section" open data-directory-section="admin">
+            <summary>✧ Administrators <span class="directory-count" id="count-admin">0</span></summary>
+            <ul id="directory-admin-list" class="directory-grid"></ul>
+          </details>
+          <details class="directory-section" open data-directory-section="mod">
+            <summary>♡ Moderators <span class="directory-count" id="count-mod">0</span></summary>
+            <ul id="directory-mod-list" class="directory-grid"></ul>
+          </details>
+          <details class="directory-section" open data-directory-section="bot">
+            <summary>☁ Bots <span class="directory-count" id="count-bot">0</span></summary>
+            <ul id="directory-bot-list" class="directory-grid"></ul>
+          </details>
+          <details class="directory-section" open data-directory-section="exclusive">
+            <summary>୨୧ Exclusive <span class="directory-count" id="count-exclusive">0</span></summary>
+            <ul id="directory-exclusive-list" class="directory-grid"></ul>
+          </details>
+          <details class="directory-section" open data-directory-section="helpers">
+            <summary>🕯 Community Helpers <span class="directory-count" id="count-helpers">0</span></summary>
+            <ul id="directory-helpers-list" class="directory-grid"></ul>
+          </details>
+          <details class="directory-section" open data-directory-section="artists">
+            <summary>🎨 Artists <span class="directory-count" id="count-artists">0</span></summary>
+            <ul id="directory-artists-list" class="directory-grid"></ul>
+          </details>
+          <details class="directory-section" open data-directory-section="leaderboard">
+            <summary>🏆 Leaderboard <span class="directory-count" id="count-leaderboard">0</span></summary>
+            <ul id="directory-leaderboard-list" class="directory-grid"></ul>
+          </details>
+          <details class="directory-section" open data-directory-section="members">
+            <summary>☁ Members <span class="directory-count" id="count-members">0</span></summary>
+            <ul id="directory-members-list" class="directory-grid"></ul>
+          </details>
         </section>
 
         <!-- COMMUNITY TAB -->
@@ -1042,28 +1498,13 @@
         <section id="music-tab" class="tab-pane">
           <div class="panel-title"><i class="fa-solid fa-compact-disc"></i> Lounge Playlist</div>
           <div class="spotify-frame-container">
-            <iframe title="Kitt's Lounge Spotify playlist" src="https://open.spotify.com/embed/playlist/62Os3fO0Dk12QcdJg8r7ny?utm_source=generator&amp;theme=0" height="100%" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="width:100%;height:100%;border:0;"></iframe>
+            <iframe title="Dreamy Cascade Spotify playlist" src="https://open.spotify.com/embed/playlist/62Os3fO0Dk12QcdJg8r7ny?utm_source=generator&amp;theme=0" height="100%" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" style="width:100%;height:100%;border:0;"></iframe>
           </div>
         </section>
 
       </main>
 
-      <!-- Right Sidebar: Owners & Bots (Fades in only on Home tab) -->
-      <aside id="sidebar-right" class="hud-panel sidebar-right">
-        <div>
-          <div class="panel-title"><i class="fa-solid fa-crown"></i> Owners</div>
-          <div id="owner-sidebar-list" class="owner-sidebar">
-            <p class="persistent-info">Loading owners...</p>
-          </div>
-        </div>
-
-        <div style="margin-top: 10px;">
-          <div class="panel-title"><i class="fa-solid fa-robot"></i> Bots</div>
-          <div id="bot-sidebar-list" class="bot-sidebar">
-            <p class="persistent-info">Loading bots...</p>
-          </div>
-        </div>
-      </aside>
+      <!-- Directory and home now share the main content panel. -->
 
     </div>
   </div>
@@ -1089,7 +1530,7 @@
         <h3 style="font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--gold);width:100%;">WATCH THE VIEW</h3>
       </div>
       <p style="font-size:0.95rem;color:var(--paper);margin:15px 0 25px;line-height:1.6;">
-        Relax and enjoy the view while hearing our lounge playlist!
+        Take a quiet moment, enjoy the scenery, and let the playlist play.
       </p>
       <button class="side-nav-btn" style="display:inline-block;padding:10px 24px;" onclick="confirmWatchView()">CLOSE</button>
     </div>
@@ -1099,9 +1540,30 @@
     const OWNER_IDS = ["1555964902731161711", "1540253480432959539"];
     const ADMIN_ROLE_IDS = ["1526901549396267089"];
     const MOD_ROLE_IDS = ["1528305985519751178"];
+    const DIRECTORY_ROLE_GROUPS = {
+      exclusive: [
+        { id: "1545829292255092766", name: "Celestial" },
+        { id: "1563865376469549156", name: "Prestige" }
+      ],
+      helpers: [
+        { id: "1563702110829289504", name: "The Guiding Lights" },
+        { id: "1543957184591691816", name: "The Dreamweaver" },
+        { id: "1544702318740508723", name: "The NightLight" },
+        { id: "1545101720693243984", name: "The Curious Soul" }
+      ],
+      artists: [
+        { id: "1563865784835645590", name: "The Great Artisan" },
+        { id: "1528281026156167189", name: "The Artistic Soul" }
+      ],
+      leaderboard: [
+        { id: "1547122009371181119", name: "The Archivist" },
+        { id: "1557834410571857991", name: "The Socialite" }
+      ]
+    };
     const API_URL = "https://serverwidget.onrender.com/api/guild-data";
 
     const tipsList = [
+      "Welcome to Dreamy Cascade — make yourself at home. ♡",
       "Be sure to share this to your friends!",
       "This server is very kewl!",
       "Did you know? Sharky is scared of spiders?",
@@ -1389,11 +1851,11 @@
       startRadarHumSound();
 
       const statusEl = document.getElementById('loading-status-text');
-      statusEl.textContent = "~ Waking up the realm... ~";
+      statusEl.textContent = "A little world is waking up...";
       await delay(500);
 
       document.getElementById('scene-cutscene').classList.add('exponential-purple');
-      statusEl.textContent = "~ Retrieving member data & cache... ~";
+      statusEl.textContent = "Gathering our dreamers...";
 
       let dotCount = 0;
       const fetchInterval = setInterval(() => {
@@ -1405,13 +1867,13 @@
       await fetchAndPopulateGuildData();
       clearInterval(fetchInterval);
 
-      statusEl.textContent = "~ Data 100% Retrieved! ~";
+      statusEl.textContent = "Everyone is here!";
       await delay(700);
 
       playChargeUpSound();
       document.getElementById('purple-aura').classList.add('super-glow');
       document.getElementById('sword-icon').classList.add('brighten');
-      statusEl.textContent = "~ Complete ~";
+      statusEl.textContent = "Welcome to Dreamy Cascade ♡";
       await delay(900);
 
       playPopExplosionSound();
@@ -1440,7 +1902,6 @@
     }
 
     function switchMainTab(tabId, button) {
-      const leftSidebar = document.getElementById('sidebar-left');
       const contentPanel = document.getElementById('content-panel');
       const rightSidebar = document.getElementById('sidebar-right');
 
@@ -1465,23 +1926,11 @@
       }
 
       // Handle Container display states based on active tab
-      if (tabId === 'home-tab') {
-        // Home Tab: Open Content Panel (2nd container) & Right Sidebar (3rd container)
-        contentPanel.classList.add('visible');
-        rightSidebar.classList.add('visible');
-        rightSidebar.style.display = 'flex';
-      } else {
-        // Other Tabs (Community, Credits, Music): Hide Right Sidebar (3rd Container) completely
+      if (rightSidebar) {
         rightSidebar.classList.remove('visible');
-        setTimeout(() => {
-          if (!rightSidebar.classList.contains('visible')) {
-            rightSidebar.style.display = 'none';
-          }
-        }, 400);
-        
-        // Keep 2nd Container visible with tab contents fading in
-        contentPanel.classList.add('visible');
+        rightSidebar.style.display = 'none';
       }
+      contentPanel.classList.add('visible');
     }
 
     function promptWatchView() {
@@ -1505,7 +1954,7 @@
 
     function loadCachedMembers() {
       try {
-        return JSON.parse(localStorage.getItem('kitts_cached_members') || '{}');
+        return JSON.parse(localStorage.getItem('dreamy_cascade_cached_members') || '{}');
       } catch(e) {
         return {};
       }
@@ -1513,7 +1962,7 @@
 
     function saveCachedMembers(map) {
       try {
-        localStorage.setItem('kitts_cached_members', JSON.stringify(map));
+        localStorage.setItem('dreamy_cascade_cached_members', JSON.stringify(map));
       } catch(e) {}
     }
 
@@ -1521,27 +1970,28 @@
       let cached = loadCachedMembers();
       try {
         const response = await fetch(API_URL, { cache: 'no-store' });
-        if (response.ok) {
-          const data = await response.json();
-          if (data && Array.isArray(data.members)) {
-            data.members.forEach(m => {
-              if (m.id) {
-                cached[m.id] = {
-                  id: String(m.id),
-                  username: m.username || m.name || 'Member',
-                  display_name: m.display_name || m.username,
-                  avatar_url: m.avatar_url || '',
-                  bot: !!m.bot,
-                  roles: m.roles || [],
-                  status: (m.status || 'online').toLowerCase()
-                };
-              }
-            });
-            saveCachedMembers(cached);
-          }
+        if (!response.ok) throw new Error('Guild API returned ' + response.status);
+        const data = await response.json();
+        if (data && Array.isArray(data.members)) {
+          const freshMembers = {};
+          data.members.forEach(m => {
+            if (m.id) {
+              freshMembers[m.id] = {
+                id: String(m.id),
+                username: m.username || m.name || 'Member',
+                display_name: m.display_name || m.username || 'Member',
+                avatar_url: m.avatar_url || '',
+                bot: !!m.bot,
+                roles: Array.isArray(m.roles) ? m.roles : [],
+                status: (m.status || 'offline').toLowerCase()
+              };
+            }
+          });
+          cached = freshMembers;
+          saveCachedMembers(cached);
         }
       } catch (error) {
-        console.warn('API widget unavailable, serving cached data.', error);
+        console.warn('Guild API unavailable; showing the last saved member list.', error);
       }
       populateGuildData(cached);
       return cached;
@@ -1553,12 +2003,42 @@
       return Array.isArray(roles)
         ? roles.map(role => String(
             role && typeof role === 'object' ? (role.id ?? role.role_id ?? '') : role
-          ))
+          )).filter(Boolean)
         : [];
     }
 
-    function addMemberCard(container, member, kind, statusClass) {
-      const item = document.createElement(kind === 'owner' ? 'div' : 'li');
+    const DIRECTORY_ROLE_LOOKUP = Object.entries(DIRECTORY_ROLE_GROUPS).flatMap(([group, roles]) =>
+      roles.map(role => ({ ...role, group }))
+    );
+    const TRACKED_ROLE_IDS = new Set([
+      ...ADMIN_ROLE_IDS,
+      ...MOD_ROLE_IDS,
+      ...DIRECTORY_ROLE_LOOKUP.map(role => role.id)
+    ]);
+
+    function getHighestDirectoryRole(member) {
+      const roles = Array.isArray(member.roles) ? member.roles : [];
+      const assigned = roles
+        .map(role => typeof role === 'object' && role !== null
+          ? { id: String(role.id ?? role.role_id ?? ''), position: Number(role.position ?? -1), name: role.name || '' }
+          : { id: String(role), position: -1, name: '' })
+        .filter(role => TRACKED_ROLE_IDS.has(role.id));
+
+      if (!assigned.length) return { key: 'members', label: 'Member', position: -1 };
+
+      assigned.sort((a, b) => b.position - a.position);
+      const highest = assigned[0];
+
+      if (ADMIN_ROLE_IDS.includes(highest.id)) return { key: 'admin', label: highest.name || 'Administrator', position: highest.position };
+      if (MOD_ROLE_IDS.includes(highest.id)) return { key: 'mod', label: highest.name || 'Moderator', position: highest.position };
+
+      const configured = DIRECTORY_ROLE_LOOKUP.find(role => role.id === highest.id);
+      if (configured) return { key: configured.group, label: highest.name || configured.name, position: highest.position };
+      return { key: 'members', label: 'Member', position: highest.position };
+    }
+
+    function addMemberCard(container, member, kind, statusClass, roleLabel) {
+      const item = document.createElement('li');
       item.className = kind === 'owner' ? 'owner-card' : (kind === 'bot' ? 'bot-card' : 'member-card');
 
       const img = document.createElement('img');
@@ -1568,92 +2048,143 @@
       img.onerror = () => { img.style.display = 'none'; };
       item.appendChild(img);
 
-      const displayName = String(member.display_name || member.username || member.name || 'Member');
+      const info = document.createElement('div');
+      info.className = 'directory-member-info';
+      const name = document.createElement('span');
+      name.className = 'directory-member-name';
+      name.textContent = String(member.display_name || member.username || member.name || 'Member');
+      info.appendChild(name);
 
-      if (kind === 'owner') {
-        const info = document.createElement('div');
-        info.className = 'owner-info';
-        const heading = document.createElement('h4');
-        heading.textContent = displayName;
-        const role = document.createElement('span');
-        role.textContent = '[ OWNER ]';
-        info.append(heading, role);
-        item.appendChild(info);
-      } else {
-        const name = document.createElement('span');
-        name.textContent = displayName;
-        item.appendChild(name);
-      }
+      const label = document.createElement('span');
+      label.className = 'directory-role-label';
+      label.textContent = roleLabel || (kind === 'bot' ? 'Bot account' : kind === 'owner' ? 'Server owner' : '');
+      if (label.textContent) info.appendChild(label);
+      item.appendChild(info);
 
       if (kind !== 'bot') {
         const dot = document.createElement('div');
-        dot.className = 'status-dot ' + statusClass;
+        dot.className = 'status-dot ' + (statusClass || 'offline');
+        dot.title = statusClass || 'offline';
         item.appendChild(dot);
       }
-
       container.appendChild(item);
+      return item;
+    }
+
+    function setDirectoryEmpty(container, message) {
+      if (!container.children.length) {
+        const empty = document.createElement('li');
+        empty.className = 'directory-empty';
+        empty.textContent = message;
+        container.appendChild(empty);
+      }
     }
 
     function populateGuildData(memberMap) {
-      const ownerContainer = document.getElementById('owner-sidebar-list');
+      const homeOwner = document.getElementById('home-owner-list');
       const staffContainer = document.getElementById('staff-member-grid');
       const onlineContainer = document.getElementById('online-member-grid');
       const offlineContainer = document.getElementById('offline-member-grid');
-      const botContainer = document.getElementById('bot-sidebar-list');
 
-      [ownerContainer, staffContainer, onlineContainer, offlineContainer, botContainer].forEach(c => c.replaceChildren());
+      const directoryContainers = {
+        owner: document.getElementById('directory-owner-list'),
+        admin: document.getElementById('directory-admin-list'),
+        mod: document.getElementById('directory-mod-list'),
+        bot: document.getElementById('directory-bot-list'),
+        exclusive: document.getElementById('directory-exclusive-list'),
+        helpers: document.getElementById('directory-helpers-list'),
+        artists: document.getElementById('directory-artists-list'),
+        leaderboard: document.getElementById('directory-leaderboard-list'),
+        members: document.getElementById('directory-members-list')
+      };
+
+      [homeOwner, staffContainer, onlineContainer, offlineContainer, ...Object.values(directoryContainers)]
+        .forEach(container => container.replaceChildren());
 
       const allMembers = Object.values(memberMap);
-      const bots = allMembers.filter(m => m.bot);
-      const humans = allMembers.filter(m => !m.bot);
+      const bots = allMembers.filter(member => member.bot);
+      const humans = allMembers.filter(member => !member.bot);
+      const counts = Object.fromEntries(Object.keys(directoryContainers).map(key => [key, 0]));
 
       let onlineBotCount = 0;
       bots.forEach(bot => {
-        const isOnline = ['online', 'idle', 'dnd'].includes(bot.status);
-        if (isOnline) onlineBotCount++;
-        addMemberCard(botContainer, bot, 'bot', 'offline');
+        if (['online', 'idle', 'dnd'].includes(bot.status)) onlineBotCount++;
+        addMemberCard(directoryContainers.bot, bot, 'bot', 'offline', 'Bot');
+        counts.bot++;
       });
 
-      let ownerCount = 0;
-      let staffCount = 0;
       let onlineCount = 0;
-
       humans.forEach(member => {
-        const roles = normalizeRoles(member.roles);
         const id = String(member.id ?? '');
-        const isOwner = OWNER_IDS.includes(id) || OWNER_IDS.some(r => roles.includes(r));
-        const isAdmin = ADMIN_ROLE_IDS.some(r => roles.includes(r));
-        const isMod = MOD_ROLE_IDS.some(r => roles.includes(r));
-
+        const isOwner = OWNER_IDS.includes(id);
+        const highest = getHighestDirectoryRole(member);
         const isOnline = ['online', 'idle', 'dnd'].includes(member.status);
-        const statusDotClass = isOnline ? member.status : 'offline';
-        
-        if (isOnline) {
-            onlineCount++;
-        }
+        const statusClass = isOnline ? member.status : 'offline';
+
+        if (isOnline) onlineCount++;
 
         if (isOwner) {
-          addMemberCard(ownerContainer, member, 'owner', statusDotClass);
-          ownerCount++;
-        } else if (isAdmin || isMod) {
-          addMemberCard(staffContainer, member, 'member', statusDotClass);
-          staffCount++;
-        } else if (isOnline) {
-          addMemberCard(onlineContainer, member, 'member', statusDotClass);
-          onlineCount++;
-        } else {
-          addMemberCard(offlineContainer, member, 'member', 'offline');
+          addMemberCard(homeOwner, member, 'owner', statusClass, 'Owner');
+          addMemberCard(directoryContainers.owner, member, 'owner', statusClass, 'Owner');
+          counts.owner++;
+          continue;
         }
+
+        if (highest.key === 'admin' || highest.key === 'mod') {
+          addMemberCard(staffContainer, member, 'member', statusClass, highest.label);
+          addMemberCard(directoryContainers[highest.key], member, 'member', statusClass, highest.label);
+        } else {
+          if (isOnline) addMemberCard(onlineContainer, member, 'member', statusClass, highest.key === 'members' ? 'Member' : highest.label);
+          else addMemberCard(offlineContainer, member, 'member', 'offline', highest.key === 'members' ? 'Member' : highest.label);
+          addMemberCard(directoryContainers[highest.key] || directoryContainers.members, member, 'member', statusClass, highest.label);
+        }
+        counts[highest.key] = (counts[highest.key] || 0) + 1;
       });
 
-      if (!ownerCount) ownerContainer.innerHTML = '<p class="persistent-info">No owners found.</p>';
-      if (!staffCount) staffContainer.innerHTML = '<li class="persistent-info">No staff found.</li>';
-      if (!onlineContainer.children.length) onlineContainer.innerHTML = '<li class="persistent-info">No online members.</li>';
-      if (!offlineContainer.children.length) offlineContainer.innerHTML = '<li class="persistent-info">No offline members.</li>';
-      if (!bots.length) botContainer.innerHTML = '<p class="persistent-info">No bots found.</p>';
+      setDirectoryEmpty(homeOwner, 'Owner information is not available.');
+      setDirectoryEmpty(staffContainer, 'No administrators or moderators found.');
+      setDirectoryEmpty(onlineContainer, 'No online members right now.');
+      setDirectoryEmpty(offlineContainer, 'No offline members right now.');
+
+      const emptyMessages = {
+        owner: 'No owner found.',
+        admin: 'No administrators found.',
+        mod: 'No moderators found.',
+        bot: 'No bots found.',
+        exclusive: 'No exclusive role holders yet.',
+        helpers: 'No community helpers yet.',
+        artists: 'No artists listed yet.',
+        leaderboard: 'No leaderboard role holders yet.',
+        members: 'No other members found.'
+      };
+      Object.entries(directoryContainers).forEach(([key, container]) => {
+        setDirectoryEmpty(container, emptyMessages[key]);
+        const countEl = document.getElementById('count-' + key);
+        if (countEl) countEl.textContent = String(counts[key] || 0);
+      });
 
       document.getElementById('stats-counter-text').textContent =
-        `Total Members: ${humans.length}\nOnline Bots: ${onlineBotCount}\nOnline Members: ${onlineCount}`;
+        `Total Members: ${humans.length}\nOnline Members: ${onlineCount}\nBots: ${bots.length} (${onlineBotCount} online)`;
+
+      const search = document.getElementById('directory-search');
+      if (search && search.value) filterDirectory(search.value);
+    }
+
+    function filterDirectory(query) {
+      const term = String(query || '').trim().toLowerCase();
+      document.querySelectorAll('.directory-section').forEach(section => {
+        let visible = 0;
+        section.querySelectorAll('.directory-grid > li').forEach(item => {
+          const match = !term || item.textContent.toLowerCase().includes(term);
+          item.hidden = !match;
+          if (match && !item.classList.contains('directory-empty')) visible++;
+        });
+        const count = section.querySelector('.directory-count');
+        const actualCount = section.querySelectorAll('.directory-grid > li:not(.directory-empty)').length;
+        section.hidden = !!term && visible === 0;
+        if (count) count.textContent = term ? `${visible}/${actualCount}` : String(actualCount);
+        if (term && visible) section.open = true;
+      });
     }
 
     function openModal(type) {
