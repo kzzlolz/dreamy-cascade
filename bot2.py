@@ -9,6 +9,7 @@ from discord import app_commands
 from discord.ext import tasks
 from flask import Flask, jsonify
 from flask_cors import CORS
+from admin_panel import register_admin_routes
 
 # --------------------------------------------------
 # CONFIGURATION
@@ -25,6 +26,9 @@ STARTED_AT = time.monotonic()
 
 app = Flask(__name__)
 CORS(app)
+
+# Private owner dashboard and profile-management API.
+register_admin_routes(app)
 
 # --------------------------------------------------
 # DISCORD CLIENT
