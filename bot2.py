@@ -101,8 +101,14 @@ def refresh_member_data(guild):
             "avatar_url": str(member.display_avatar.url),
             "status": str(member.status),
             "bot": member.bot,
+            # Include each assigned role's live hierarchy position so the
+            # website can place each person under their highest listed role.
             "roles": [
-                str(role.id)
+                {
+                    "id": str(role.id),
+                    "name": role.name,
+                    "position": role.position
+                }
                 for role in member.roles
                 if role != guild.default_role
             ]
@@ -189,7 +195,7 @@ def build_status_embed():
     )
 
     embed.set_footer(
-        text="Kzz's Lounge • Automated 15-minute health check"
+        text="Dreamy Cascade • Automated 15-minute health check"
     )
 
     return embed
@@ -280,7 +286,7 @@ async def stats(interaction: discord.Interaction):
         bots = guild_data["bot_count"]
 
     embed = discord.Embed(
-        title="📊 Kzz's Lounge Stats",
+        title="📊 Dreamy Cascade Stats",
         description="System is fully functional and awake! 🦋",
         color=0xFF1A40
     )
@@ -369,7 +375,7 @@ async def on_presence_update(before, after):
 
 @app.route("/")
 def home():
-    return "Kzz's Lounge is active!"
+    return "Dreamy Cascade is active!"
 
 
 @app.route("/api/guild-data")
