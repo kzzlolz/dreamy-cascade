@@ -2127,7 +2127,7 @@
           addMemberCard(homeOwner, member, 'owner', statusClass, 'Owner');
           addMemberCard(directoryContainers.owner, member, 'owner', statusClass, 'Owner');
           counts.owner++;
-          continue;
+          return;
         }
 
         if (highest.key === 'admin' || highest.key === 'mod') {
