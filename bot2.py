@@ -14,6 +14,10 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from admin_panel import register_admin_routes
 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+
 # --------------------------------------------------
 # CONFIGURATION
 # --------------------------------------------------
