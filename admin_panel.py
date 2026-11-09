@@ -41,6 +41,34 @@ input,textarea,select{width:100%;background:#140d16;color:var(--white);border:1p
 input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d7bd9122}textarea{min-height:110px;resize:vertical;line-height:1.5}
 .small{font-size:12px;color:var(--muted);line-height:1.5}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.status{min-height:22px;color:var(--gold);font-size:13px;margin-top:12px}.member-row{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid #62445a;border-radius:10px;margin-top:8px;background:#160e18}.member-row img{width:35px;height:35px;border-radius:50%;object-fit:cover}.member-row span{min-width:0;overflow-wrap:anywhere}.profile-list{margin-top:15px;display:grid;gap:7px}.profile-chip{text-align:left;justify-content:flex-start;background:#1a111c}.hidden{display:none!important}.login{max-width:500px;margin:10vh auto;text-align:center}.login img{width:78px;height:78px;border-radius:20px;border:1px solid var(--gold)}.login h1{font:600 32px Georgia,serif}.login .button{margin-top:12px}.preview{border:1px dashed #8b667d;border-radius:12px;padding:14px;margin-top:18px;background:#170f19}.preview-head{display:flex;align-items:center;gap:12px}.preview-head img{width:52px;height:52px;border-radius:50%;object-fit:cover}.preview h3{margin:0;font:600 20px Georgia,serif}.preview p{color:#d6c3cf;white-space:pre-wrap;line-height:1.55}.pill{display:inline-block;background:#482b40;color:#f1d6e3;padding:5px 9px;border-radius:30px;margin:4px 4px 0 0;font-size:12px}
 @media(max-width:760px){.layout{grid-template-columns:1fr}.top{align-items:flex-start}.brand h1{font-size:22px}.shell{padding:22px 13px 40px}}
+/* Dreamy Cascade admin refresh */
+:root{color-scheme:light;--bg:#f7f2f8;--panel:#fffafd;--panel2:#f5edf6;--line:#ead8e8;--rose:#a87598;--muted:#927f91;--gold:#b78bb0;--white:#554457;--danger:#b85e78}
+body{background:radial-gradient(ellipse at 12% 0%,#f3e2f0 0,transparent 38%),radial-gradient(ellipse at 90% 10%,#e8e8fa 0,transparent 34%),#f8f5fa;color:#554457}
+.shell{max-width:1240px;padding-top:38px}
+.brand img{border:1px solid #ead8e8;box-shadow:0 8px 24px #b78bb022}.brand h1{color:#6f5870}.brand p{color:#a18ba0}
+button,.button{border:1px solid #dfc5dc;background:linear-gradient(135deg,#bd91b4,#a987b7);color:white;box-shadow:0 6px 16px #b78bb022}
+button:hover,.button:hover{border-color:#b78bb0;background:linear-gradient(135deg,#ad7fa5,#9472a8)}
+.secondary{background:#fffafd;color:#806680;box-shadow:none}.secondary:hover{background:#f7edf6;color:#765a78}
+.danger{background:#fff1f4;color:#a64e69;border-color:#f0cbd6;box-shadow:none}
+.layout{grid-template-columns:minmax(260px,310px) minmax(0,1fr);gap:20px}
+.panel{background:rgba(255,253,255,.94);border:1px solid #eadde9;border-radius:22px;padding:24px;box-shadow:0 14px 38px #94728d12}
+h2{color:#795f7b;font-size:23px}.sub{color:#9b899b}
+label{color:#a27698}
+input,textarea,select{background:#fff;color:#5f4c61;border:1px solid #e8d8e7;border-radius:12px}
+input:focus,textarea:focus,select:focus{border-color:#bd91b4;box-shadow:0 0 0 3px #bd91b422}
+.status{color:#8e7191}.member-row{background:#fff;border:1px solid #eee1ed;color:#5e4c61}
+.profile-chip{background:#fff;color:#765f79;border-color:#eaddea}.profile-chip:hover{background:#f8eff7}
+.preview{background:#fcf7fc;border:1px dashed #d8bdd5}.preview p{color:#806c82}
+.pill{background:#f3e7f1;color:#8b6988}.login{padding:42px 28px}.login h1{color:#765e79}
+.announcement-panel{margin-top:20px}
+.announcement-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.8fr);gap:22px}
+.announcement-list{display:grid;gap:10px;align-content:start}
+.announcement-item{padding:13px 14px;border:1px solid #eee0ed;border-radius:14px;background:#fff}
+.announcement-item strong{display:block;color:#795f7b;margin-bottom:5px}
+.announcement-item p{margin:0;color:#8d7b8f;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.6}
+.announcement-item .small{margin-top:7px}
+@media(max-width:760px){.announcement-layout{grid-template-columns:1fr}.panel{padding:18px}}
+
 </style>
 </head>
 <body>
@@ -77,6 +105,22 @@ input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 
 <section id="preview" class="preview hidden"><div class="small">LIVE PREVIEW</div><div class="preview-head"><img id="preview-avatar" alt=""><div><h3 id="preview-name"></h3><div class="small" id="preview-tagline"></div></div></div><p id="preview-bio"></p><div id="preview-interests"></div><div id="preview-links" class="small"></div></section>
 </main>
 </div>
+<section class="panel announcement-panel">
+<h2>Community announcements</h2>
+<p class="sub">Publish a message here and it will appear on the public Dreamy Cascade homepage.</p>
+<div class="announcement-layout">
+<form id="announcement-form">
+<label for="announcement-title">Announcement title</label>
+<input id="announcement-title" maxlength="100" required placeholder="A little update for everyone…">
+<label for="announcement-body">Message</label>
+<textarea id="announcement-body" maxlength="2000" required placeholder="Share the news, event details, or reminder…"></textarea>
+<div class="actions"><button type="submit">Publish announcement</button></div>
+<div id="announcement-status" class="status" role="status"></div>
+</form>
+<div><div class="small" style="margin-bottom:9px">RECENT ANNOUNCEMENTS</div>
+<div id="announcement-list" class="announcement-list"><p class="small">Loading announcements…</p></div></div>
+</div>
+</section>
 </div>
 <script>
 (function(){
@@ -144,6 +188,27 @@ async function loadSelectedProfileData(){
 async function loadSelected(){
   const id=selected();fillForm(profiles[id]||null);
 }
+async function loadAnnouncements(){
+ const root=$("announcement-list");
+ try{
+  const items=await api("/api/admin/announcements");root.replaceChildren();
+  if(!items.length){const p=document.createElement("p");p.className="small";p.textContent="No announcements published yet.";root.appendChild(p);return;}
+  items.forEach(item=>{
+   const card=document.createElement("article");card.className="announcement-item";
+   const title=document.createElement("strong");title.textContent=item.title;
+   const body=document.createElement("p");body.textContent=item.body;
+   const meta=document.createElement("div");meta.className="small";const date=new Date(item.created_at);meta.textContent=Number.isNaN(date.getTime())?"":date.toLocaleString();
+   const remove=document.createElement("button");remove.type="button";remove.className="danger";remove.textContent="Delete";remove.style.marginTop="9px";
+   remove.addEventListener("click",async()=>{if(!confirm("Delete this announcement from the website?"))return;try{await api("/api/admin/announcements/"+item.id,{method:"DELETE"});await loadAnnouncements();$("announcement-status").textContent="Announcement deleted.";}catch(error){$("announcement-status").textContent=error.message;}});
+   card.append(title,body,meta,remove);root.appendChild(card);
+  });
+ }catch(error){root.textContent=error.message;}
+}
+$("announcement-form").addEventListener("submit",async event=>{
+ event.preventDefault();const title=$("announcement-title").value.trim(),body=$("announcement-body").value.trim();
+ try{await api("/api/admin/announcements",{method:"POST",body:JSON.stringify({title,body})});$("announcement-form").reset();$("announcement-status").textContent="Published! It will appear on the homepage shortly.";await loadAnnouncements();}
+ catch(error){$("announcement-status").textContent=error.message;}
+});
 $("member-search").addEventListener("input",renderMembers);
 $("member-select").addEventListener("change",loadSelected);
 $("preview-button").addEventListener("click",()=>{try{preview();}catch(e){say(e.message);}});
@@ -172,7 +237,7 @@ async function start(){
     $("dashboard").classList.remove("hidden");
     const guild=await api("/api/guild-data");
     members=(guild.members||[]).filter(m=>!m.bot).sort((a,b)=>(a.display_name||a.username).localeCompare(b.display_name||b.username));
-    renderMembers();await loadSelectedProfileData();
+    renderMembers();await loadSelectedProfileData();await loadAnnouncements();
   }catch(error){$("login").classList.remove("hidden");$("login-note").textContent=error.message;}
 }
 start();
