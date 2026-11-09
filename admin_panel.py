@@ -194,9 +194,9 @@ def register_admin_routes(app):
     blueprint = Blueprint("dreamy_cascade_admin", __name__)
 
     def database():
-        path = os.environ.get(
-            "PROFILE_DB_PATH",
-            "/var/data/dreamy-cascade-profiles.sqlite3",
+        path = os.environ.get("PROFILE_DB_PATH") or os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "dreamy-cascade-profiles.sqlite3",
         )
         directory = os.path.dirname(path)
         if directory:
@@ -251,7 +251,7 @@ def register_admin_routes(app):
         if not config_ready():
             return (
                 "Admin login is not configured yet. Add DISCORD_CLIENT_ID, "
-                "DISCORD_CLIENT_SECRET and FLASK_SESSION_SECRET to the Render environment.",
+                "DISCORD_CLIENT_SECRET and FLASK_SESSION_SECRET to the server environment.",
                 503,
             )
         state = secrets.token_urlsafe(32)
