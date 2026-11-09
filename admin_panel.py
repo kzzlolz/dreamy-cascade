@@ -69,6 +69,15 @@ input:focus,textarea:focus,select:focus{border-color:#bd91b4;box-shadow:0 0 0 3p
 .announcement-item .small{margin-top:7px}
 @media(max-width:760px){.announcement-layout{grid-template-columns:1fr}.panel{padding:18px}}
 
+
+.analytics-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}
+.analytics-stat{padding:13px;border:1px solid #eadbea;border-radius:13px;background:#faf5fb}
+.analytics-stat strong{display:block;font-size:1.35rem;color:#8f668d}.analytics-stat span{font-size:.72rem;color:#947f91}
+.analytics-chart-wrap{padding:14px;border:1px solid #eadbea;border-radius:13px;background:#fffafd}
+.analytics-chart{height:150px;margin-top:12px}.analytics-bars{height:115px;display:flex;align-items:end;gap:3px;border-bottom:1px solid #eadbea}
+.analytics-bar{flex:1;min-width:2px;border-radius:4px 4px 0 0;background:linear-gradient(180deg,#c7a3d5,#9d7cac);opacity:.85}
+.analytics-chart-labels{display:flex;justify-content:space-between;gap:8px;margin-top:7px;font-size:.65rem;color:#98859a}
+@media(max-width:600px){.analytics-stats{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -105,6 +114,19 @@ input:focus,textarea:focus,select:focus{border-color:#bd91b4;box-shadow:0 0 0 3p
 <section id="preview" class="preview hidden"><div class="small">LIVE PREVIEW</div><div class="preview-head"><img id="preview-avatar" alt=""><div><h3 id="preview-name"></h3><div class="small" id="preview-tagline"></div></div></div><p id="preview-bio"></p><div id="preview-interests"></div><div id="preview-links" class="small"></div></section>
 </main>
 </div>
+<section class="panel announcement-panel" id="analytics-panel">
+<h2>Community analytics</h2>
+<p class="sub">A small overview of member growth and recent community activity. Snapshots are collected every 15 minutes while the bot is online.</p>
+<div class="analytics-stats">
+<div class="analytics-stat"><strong id="analytics-members">—</strong><span>Latest members</span></div>
+<div class="analytics-stat"><strong id="analytics-online">—</strong><span>Online now (at snapshot)</span></div>
+<div class="analytics-stat"><strong id="analytics-samples">—</strong><span>Snapshots saved</span></div>
+</div>
+<div class="analytics-chart-wrap"><div class="small">MEMBER COUNT HISTORY</div><div id="analytics-chart" class="analytics-chart"><p class="small">Loading analytics…</p></div></div>
+<div class="small" style="margin:16px 0 8px">RECENT COMMUNITY ACTIVITY</div>
+<div id="analytics-activity" class="announcement-list"><p class="small">Loading activity…</p></div>
+<div id="analytics-status" class="status" role="status"></div>
+</section>
 <section class="panel announcement-panel">
 <h2>Community announcements</h2>
 <p class="sub">Publish a message here and it will appear on the public Dreamy Cascade homepage.</p>
@@ -188,6 +210,46 @@ async function loadSelectedProfileData(){
 async function loadSelected(){
   const id=selected();fillForm(profiles[id]||null);
 }
+async function loadAnalytics(){
+ const chart=$("analytics-chart"),activity=$("analytics-activity");
+ try{
+  const data=await api("/api/admin/analytics");
+  const snapshots=data.snapshots||[],events=data.recent_activity||[];
+  $("analytics-samples").textContent=snapshots.length;
+  if(snapshots.length){
+   const latest=snapshots[snapshots.length-1];
+   $("analytics-members").textContent=Number(latest.total_members||0).toLocaleString();
+   $("analytics-online").textContent=Number(latest.online_members||0).toLocaleString();
+   const values=snapshots.map(x=>Number(x.total_members)||0),min=Math.min(...values),max=Math.max(...values),range=Math.max(1,max-min);
+   chart.replaceChildren();
+   const bars=document.createElement("div");bars.className="analytics-bars";
+   snapshots.forEach((item,index)=>{
+    const bar=document.createElement("div");bar.className="analytics-bar";
+    bar.style.height=(18+((Number(item.total_members)-min)/range)*82)+"%";
+    bar.title=new Date(item.recorded_at).toLocaleString()+": "+item.total_members+" members";
+    bars.appendChild(bar);
+   });
+   chart.appendChild(bars);
+   const labels=document.createElement("div");labels.className="analytics-chart-labels";
+   const first=document.createElement("span");first.textContent=new Date(snapshots[0].recorded_at).toLocaleString();
+   const last=document.createElement("span");last.textContent=new Date(latest.recorded_at).toLocaleString();
+   labels.append(first,last);chart.appendChild(labels);
+  }else{
+   $("analytics-members").textContent="—";$("analytics-online").textContent="—";
+   chart.textContent="Your first snapshot will appear after the bot's next 15-minute analytics check.";
+  }
+  activity.replaceChildren();
+  if(!events.length){activity.textContent="No community activity recorded yet.";return;}
+  events.forEach(item=>{
+   const row=document.createElement("article");row.className="announcement-item";
+   const title=document.createElement("strong");
+   title.textContent=item.event_type==="join"?"Member joined":item.event_type==="leave"?"Member left":item.event_type==="milestone"?"Milestone reached":"Community activity";
+   const detail=document.createElement("p");detail.textContent=[item.display_name,item.details].filter(Boolean).join(" — ");
+   const date=document.createElement("div");date.className="small";date.textContent=new Date(item.created_at).toLocaleString();
+   row.append(title,detail,date);activity.appendChild(row);
+  });
+ }catch(error){$("analytics-status").textContent="Analytics unavailable: "+error.message;}
+}
 async function loadAnnouncements(){
  const root=$("announcement-list");
  try{
@@ -212,6 +274,9 @@ $("announcement-form").addEventListener("submit",async event=>{
 $("member-search").addEventListener("input",renderMembers);
 $("member-select").addEventListener("change",loadSelected);
 $("preview-button").addEventListener("click",()=>{try{preview();}catch(e){say(e.message);}});
+["display-name","tagline","bio","interests","avatar-url","social-links"].forEach(id=>{
+ $(id).addEventListener("input",()=>{if(!$("preview").classList.contains("hidden")){try{preview();}catch(e){$("status").textContent=e.message;}}});
+});
 $("profile-form").addEventListener("submit",async e=>{
   e.preventDefault();const id=selected();if(!id)return say("Choose a member first.");
   try{
@@ -237,7 +302,7 @@ async function start(){
     $("dashboard").classList.remove("hidden");
     const guild=await api("/api/guild-data");
     members=(guild.members||[]).filter(m=>!m.bot).sort((a,b)=>(a.display_name||a.username).localeCompare(b.display_name||b.username));
-    renderMembers();await loadSelectedProfileData();await loadAnnouncements();
+    renderMembers();await loadSelectedProfileData();await loadAnnouncements();await loadAnalytics();
   }catch(error){$("login").classList.remove("hidden");$("login-note").textContent=error.message;}
 }
 start();
