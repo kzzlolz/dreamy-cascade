@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent
 # CONFIGURATION
 # --------------------------------------------------
 
-load_dotenv("/etc/secrets/.env")
+load_dotenv(BASE_DIR / ".env", override=True)
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD_ID = os.getenv("GUILD_ID")
