@@ -2172,7 +2172,8 @@
       await loadApiConfig();
       await fetchAndPopulateGuildData();
       await fetchPublicProfiles();
-      await fetchPublicAnnouncements();\n      await fetchPublicActivity();
+      await fetchPublicAnnouncements();
+      await fetchPublicActivity();
       clearInterval(fetchInterval);
 
       statusEl.textContent = "Everyone is here!";
@@ -2300,7 +2301,8 @@
       fetchAndPopulateGuildData().finally(() => { guildRefreshInProgress = false; });
     }, 5000);
     setInterval(fetchPublicProfiles, 60000);
-    setInterval(fetchPublicAnnouncements, 15000);\n    setInterval(fetchPublicActivity, 15000);
+    setInterval(fetchPublicAnnouncements, 15000);
+    setInterval(fetchPublicActivity, 15000);
 
     function normalizeRoles(roles) {
       return Array.isArray(roles)
