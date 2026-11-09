@@ -413,6 +413,7 @@ def run_discord():
 
 
 
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
 
@@ -457,13 +458,50 @@ if __name__ == "__main__":
     # Start Cloudflare Quick Tunnel
     print(f"Starting Cloudflare Tunnel on port {port}...")
 
-    tunnel_process = subprocess.Popen([
-        str(cloudflared_path),
-        "tunnel",
-        "--url",
-        f"http://127.0.0.1:{port}",
-        "--no-autoupdate"
-    ])
+    tunnel_process = subprocess.Popen(
+        [
+            str(cloudflared_path),
+            "tunnel",
+            "--url",
+            f"http://127.0.0.1:{port}",
+            "--no-autoupdate"
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        bufsize=1
+    )
+
+    # Detect the generated URL automatically
+    def watch_tunnel():
+        for line in tunnel_process.stdout:
+            print("[Cloudflare]", line, end="", flush=True)
+
+            match = re.search(
+                r"https://[a-zA-Z0-9-]+\.trycloudflare\.com",
+                line
+            )
+
+            if match:
+                public_url = match.group(0)
+
+                callback_url = (
+                    public_url + "/auth/discord/callback"
+                )
+
+                os.environ["DISCORD_REDIRECT_URI"] = callback_url
+
+                print("\n================================")
+                print("DREAMY CASCADE PUBLIC URL:")
+                print(public_url)
+                print("DISCORD OAUTH CALLBACK:")
+                print(callback_url)
+                print("================================\n")
+
+    threading.Thread(
+        target=watch_tunnel,
+        daemon=True
+    ).start()
 
     # Start Flask
     try:
@@ -474,3 +512,4 @@ if __name__ == "__main__":
         )
     finally:
         tunnel_process.terminate()
+
