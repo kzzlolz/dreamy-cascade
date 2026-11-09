@@ -372,6 +372,30 @@ def register_admin_routes(app):
         session.clear()
         return jsonify({"ok": True})
 
+
+    @blueprint.get("/api/public-profiles")
+    def get_public_profiles():
+        """Return only fields intentionally published on member profile cards."""
+        connection = database()
+        try:
+            rows = connection.execute(
+                "SELECT member_id, display_name, tagline, bio, interests, "
+                "avatar_url, social_links FROM profiles ORDER BY display_name COLLATE NOCASE"
+            ).fetchall()
+            result = {}
+            for row in rows:
+                item = dict(row)
+                try:
+                    item["social_links"] = json.loads(item.get("social_links") or "[]")
+                except (TypeError, ValueError):
+                    item["social_links"] = []
+                result[item["member_id"]] = item
+            response = jsonify(result)
+            response.headers["Cache-Control"] = "no-store"
+            return response
+        finally:
+            connection.close()
+
     @blueprint.get("/api/admin/profiles")
     def get_profiles():
         denied = require_admin()
