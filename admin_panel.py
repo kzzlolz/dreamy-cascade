@@ -286,6 +286,7 @@ def register_admin_routes(app):
             "DISCORD_REDIRECT_URI",
             "https://serverwidget.onrender.com/auth/discord/callback",
         )
+
         try:
             token_response = requests.post(
                 DISCORD_TOKEN_URL,
@@ -299,17 +300,44 @@ def register_admin_routes(app):
                 headers={"Content-Type": "application/x-www-form-urlencoded"},
                 timeout=15,
             )
-            token_response.raise_for_status()
+
+            if not token_response.ok:
+                print(
+                    "[OAuth] Token exchange failed:",
+                    token_response.status_code,
+                    token_response.text[:1000],
+                    flush=True,
+                )
+                return "Discord token exchange failed. Check server logs.", 502
+
             access_token = token_response.json()["access_token"]
+
             user_response = requests.get(
                 DISCORD_USER_URL,
                 headers={"Authorization": "Bearer " + access_token},
                 timeout=15,
             )
-            user_response.raise_for_status()
+
+            if not user_response.ok:
+                print(
+                    "[OAuth] User lookup failed:",
+                    user_response.status_code,
+                    user_response.text[:1000],
+                    flush=True,
+                )
+                return "Discord account lookup failed. Check server logs.", 502
+
             user = user_response.json()
-        except (requests.RequestException, KeyError, ValueError):
+
+        except (requests.RequestException, KeyError, ValueError) as error:
+            print(
+                "[OAuth] Unexpected error:",
+                type(error).__name__,
+                str(error)[:1000],
+                flush=True,
+            )
             return "Discord could not verify your account. Please try again.", 502
+
 
         user_id = str(user.get("id", ""))
         if user_id not in OWNER_IDS:
