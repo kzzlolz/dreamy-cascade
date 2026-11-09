@@ -2180,7 +2180,8 @@
         statusEl.textContent = `~ Retrieving member data${dots} ~`;
       }, 400);
 
-      await loadApiConfig();\n      await fetchAndPopulateGuildData();
+      await loadApiConfig();
+      await fetchAndPopulateGuildData();
       await fetchPublicProfiles();
       clearInterval(fetchInterval);
 
