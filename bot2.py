@@ -259,6 +259,19 @@ async def update_status_message():
         print(f"Failed to update status embed: {error}")
 
 
+@tasks.loop(seconds=5)
+async def cached_guild_refresh_loop():
+    guild = get_guild()
+    if guild is not None:
+        # Read the gateway-maintained cache; do not request a fresh chunk every 5 seconds.
+        refresh_member_data(guild)
+
+
+@cached_guild_refresh_loop.before_loop
+async def before_cached_guild_refresh():
+    await client.wait_until_ready()
+
+
 @tasks.loop(minutes=15)
 async def system_status_loop():
     await update_status_message()
@@ -364,6 +377,8 @@ async def on_ready():
 
     if not system_status_loop.is_running():
         system_status_loop.start()
+    if not cached_guild_refresh_loop.is_running():
+        cached_guild_refresh_loop.start()
 
 
 @client.event
