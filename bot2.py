@@ -3,6 +3,9 @@ import threading
 import time
 from datetime import datetime, timezone
 
+import platform
+import subprocess
+import urllib.request
 from dotenv import load_dotenv
 import discord
 from discord import app_commands
@@ -404,16 +407,65 @@ def run_discord():
     client.run(TOKEN)
 
 
+
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+
+    # Start Discord bot
     discord_thread = threading.Thread(
         target=run_discord,
         daemon=True
     )
-
     discord_thread.start()
 
-    app.run(
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 5000)),
-        use_reloader=False
-    )
+    # Download Cloudflare Tunnel if needed
+    cloudflared_path = BASE_DIR / "cloudflared"
+
+    if not cloudflared_path.exists():
+        print("Downloading Cloudflare Tunnel...")
+
+        architecture = platform.machine().lower()
+
+        if architecture in ("x86_64", "amd64"):
+            binary_name = "cloudflared-linux-amd64"
+        elif architecture in ("aarch64", "arm64"):
+            binary_name = "cloudflared-linux-arm64"
+        else:
+            raise RuntimeError(
+                f"Unsupported architecture: {architecture}"
+            )
+
+        download_url = (
+            "https://github.com/cloudflare/cloudflared/releases/latest/download/"
+            + binary_name
+        )
+
+        urllib.request.urlretrieve(
+            download_url,
+            cloudflared_path
+        )
+
+        cloudflared_path.chmod(0o755)
+
+        print("Cloudflare Tunnel downloaded!")
+
+    # Start Cloudflare Quick Tunnel
+    print(f"Starting Cloudflare Tunnel on port {port}...")
+
+    tunnel_process = subprocess.Popen([
+        str(cloudflared_path),
+        "tunnel",
+        "--url",
+        f"http://127.0.0.1:{port}",
+        "--no-autoupdate"
+    ])
+
+    # Start Flask
+    try:
+        app.run(
+            host="0.0.0.0",
+            port=port,
+            use_reloader=False
+        )
+    finally:
+        tunnel_process.terminate()
