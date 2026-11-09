@@ -184,14 +184,14 @@
       pointer-events: none;
     }
 
-    /* Top-Right HUD Tip Card */
+    /* Bottom-Left compact rotating tip */
     .kitts-tip-card {
       position: fixed;
-      top: 22px;
-      right: 22px;
+      left: 20px;
+      bottom: 20px;
       z-index: 10005;
-      width: min(340px, calc(100vw - 44px));
-      padding: 12px 16px;
+      width: min(300px, calc(100vw - 40px));
+      padding: 10px 14px;
       background: rgba(12, 6, 10, 0.92);
       border: 1px solid var(--panel-border);
       border-left: 3px solid var(--bright-red);
@@ -200,7 +200,7 @@
       backdrop-filter: blur(12px);
       opacity: 0;
       visibility: hidden;
-      transform: translateY(-15px);
+      transform: translateY(12px);
       transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
     }
 
@@ -212,14 +212,14 @@
 
     .kitts-tip-card.tip-changing {
       opacity: 0;
-      transform: translateY(-5px);
+      transform: translateY(5px);
     }
 
     .kitts-tip-message {
       margin: 0;
       color: var(--paper);
-      font-size: 0.78rem;
-      line-height: 1.5;
+      font-size: 0.74rem;
+      line-height: 1.45;
       overflow-wrap: anywhere;
       font-family: 'Inter', sans-serif;
     }
@@ -235,11 +235,6 @@
       padding: 30px 24px;
       z-index: 1;
       box-sizing: border-box;
-    }
-
-    #scene-main.dimmed {
-      opacity: 0;
-      pointer-events: none;
     }
 
     /* Interactive UI Grid Framework */
@@ -726,75 +721,6 @@
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
     }
 
-    /* Controls & Buttons */
-    .watch-view-btn {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      z-index: 10020;
-      background: rgba(45, 12, 22, 0.85);
-      border: 1px solid var(--gold);
-      color: var(--paper);
-      font-family: 'Orbitron', monospace;
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      padding: 12px 18px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(15px);
-      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s, background 0.2s;
-    }
-
-    .watch-view-btn.visible {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .watch-view-btn:hover {
-      background: var(--crimson);
-      color: #fff;
-    }
-
-    .reopen-ui-btn {
-      position: fixed;
-      top: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-20px);
-      z-index: 10025;
-      background: rgba(18, 10, 15, 0.85);
-      border: 1px solid var(--gold);
-      color: var(--paper);
-      font-family: 'Orbitron', monospace;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      padding: 12px 28px;
-      border-radius: 30px;
-      cursor: pointer;
-      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease, background 0.2s;
-    }
-
-    .reopen-ui-btn.visible {
-      opacity: 0.9;
-      visibility: visible;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .reopen-ui-btn:hover {
-      opacity: 1;
-      transform: translateX(-50%) scale(1.05);
-      background: rgba(74, 18, 34, 0.95);
-    }
-
     /* Modal Overlay */
     .modal-overlay {
       position: fixed;
@@ -1153,14 +1079,6 @@
       backdrop-filter: blur(18px);
     }
     .kitts-tip-message { color: #806579; }
-    .watch-view-btn, .reopen-ui-btn {
-      border-radius: 99px;
-      background: rgba(255,251,254,.9);
-      color: #89677e;
-      border: 1px solid #e8cddd;
-      box-shadow: 0 8px 24px rgba(151,111,139,.13);
-      font-family: 'Inter',sans-serif;
-    }
     .modal-box {
       background: rgba(255,250,253,.97);
       border: 1px solid #e6cadd;
@@ -1435,12 +1353,6 @@
   <div id="kitts-tip-card" class="kitts-tip-card" role="status" aria-live="polite">
     <p id="main-tip-message" class="kitts-tip-message"> Welcome to Dreamy Cascade! ♡</p>
   </div>
-
-  <!-- Top-Middle Reopen UI Button -->
-  <button id="reopen-ui-btn" class="reopen-ui-btn" onclick="restoreUIFromView()">Reopen UI</button>
-
-  <!-- Bottom-Right Watch View Button -->
-  <button id="watch-view-btn" class="watch-view-btn" onclick="promptWatchView()"><i class="fa-solid fa-eye"></i> WATCH THE VIEW</button>
 
   <!-- Main Website Interface -->
   <div id="scene-main">
@@ -1726,19 +1638,6 @@
         <div id="member-profile-links" class="profile-link-list"></div>
       </div>
       <p id="member-profile-empty" class="profile-empty hidden">This member hasn't added a public profile yet. Check back later! ♡</p>
-    </div>
-  </div>
-
-  <!-- Watch the View Notice Modal -->
-  <div id="view-notice-modal" class="modal-overlay" role="dialog" aria-modal="true">
-    <div class="modal-box" style="text-align:center;">
-      <div class="modal-header">
-        <h3 style="font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--gold);width:100%;">WATCH THE VIEW</h3>
-      </div>
-      <p style="font-size:0.95rem;color:var(--paper);margin:15px 0 25px;line-height:1.6;">
-        Take a quiet moment, enjoy the scenery, and let the playlist play.
-      </p>
-      <button class="side-nav-btn" style="display:inline-block;padding:10px 24px;" onclick="confirmWatchView()">CLOSE</button>
     </div>
   </div>
 
@@ -2266,9 +2165,8 @@
     }
 
     function openMainInterface() {
-      // Step 1: Fade in ONLY Left Sidebar, Top Tip Card, and Watch View Button
+      // Step 1: Fade in the left sidebar and rotating tip card.
       document.getElementById('sidebar-left').classList.add('visible');
-      document.getElementById('watch-view-btn').classList.add('visible');
       startMainTipRotation();
 
       // Step 2: Automatically trigger Home tab view (opens 2nd & 3rd containers)
@@ -2305,25 +2203,6 @@
         rightSidebar.style.display = 'none';
       }
       contentPanel.classList.add('visible');
-    }
-
-    function promptWatchView() {
-      document.getElementById('view-notice-modal').classList.add('active');
-    }
-
-    function confirmWatchView() {
-      document.getElementById('view-notice-modal').classList.remove('active');
-      document.getElementById('scene-main').classList.add('dimmed');
-      document.getElementById('watch-view-btn').classList.remove('visible');
-      document.getElementById('kitts-tip-card').classList.remove('visible');
-      document.getElementById('reopen-ui-btn').classList.add('visible');
-    }
-
-    function restoreUIFromView() {
-      document.getElementById('scene-main').classList.remove('dimmed');
-      document.getElementById('reopen-ui-btn').classList.remove('visible');
-      document.getElementById('watch-view-btn').classList.add('visible');
-      document.getElementById('kitts-tip-card').classList.add('visible');
     }
 
     function loadCachedMembers() {
@@ -2597,7 +2476,6 @@
       if (event.key === 'Escape') {
         closeMemberProfile();
         closeModal();
-        document.getElementById('view-notice-modal').classList.remove('active');
       }
     });
     window.addEventListener('DOMContentLoaded', initExperience);
