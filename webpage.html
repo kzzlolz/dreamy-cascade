@@ -1388,8 +1388,15 @@
     .profile-modal-role { color:#bd8cab; font-size:.7rem; margin-top:6px; }
     .profile-modal-bio { color:#806579; font-size:.9rem; line-height:1.75; white-space:pre-wrap; overflow-wrap:anywhere; margin:12px 0; }
     .profile-modal-section-title { color:#a87896; font:700 1.05rem 'Cormorant Garamond',serif; margin:18px 0 8px; }
-    .profile-interest-list { display:flex; flex-wrap:wrap; gap:7px; }
-    .profile-interest-list .pill { margin:0; }
+    .profile-interest-list { display:flex; flex-wrap:wrap; gap:8px; }
+    .profile-interest-list .pill {
+      display:inline-flex; align-items:center;
+      margin:0; padding:6px 11px;
+      border:1px solid #d9bfd8; border-radius:999px;
+      background:linear-gradient(135deg,#ead8e9,#e2cde2);
+      color:#765875; font-size:.76rem; line-height:1.35;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.72),0 2px 7px rgba(111,78,108,.07);
+    }
     .profile-link-list { display:flex; flex-wrap:wrap; gap:8px; }
     .profile-link {
       display:inline-flex; align-items:center; gap:7px; padding:8px 12px;
