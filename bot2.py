@@ -1,5 +1,8 @@
 import re
 import os
+import json
+import base64
+import urllib.error
 import threading
 import time
 from datetime import datetime, timezone
@@ -419,6 +422,84 @@ def get_guild_data():
 # STARTUP
 # --------------------------------------------------
 
+def publish_api_config(public_url):
+    """Publish the current Quick Tunnel URL for the GitHub Pages website."""
+    token = os.getenv("GITHUB_TOKEN")
+    repository = os.getenv("GITHUB_REPOSITORY", "kzzlolz/dreamy-cascade")
+    branch = os.getenv("GITHUB_BRANCH", "main")
+    config_path = "api-config.json"
+
+    if not token:
+        print(
+            "WARNING: GITHUB_TOKEN is not configured; "
+            "the website API URL will not update automatically."
+        )
+        return False
+
+    api_url = f"https://api.github.com/repos/{repository}/contents/{config_path}"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "Dreamy-Cascade-Kzz",
+    }
+
+    try:
+        existing_sha = None
+        request = urllib.request.Request(
+            f"{api_url}?ref={branch}",
+            headers=headers,
+            method="GET",
+        )
+
+        try:
+            with urllib.request.urlopen(request, timeout=20) as response:
+                existing = json.loads(response.read().decode("utf-8"))
+                existing_sha = existing.get("sha")
+        except urllib.error.HTTPError as error:
+            if error.code != 404:
+                raise
+
+        config = json.dumps(
+            {"apiBaseUrl": public_url},
+            indent=2,
+        ) + "\\n"
+
+        payload = {
+            "message": "Update Dreamy Cascade API tunnel URL",
+            "content": base64.b64encode(
+                config.encode("utf-8")
+            ).decode("ascii"),
+            "branch": branch,
+        }
+
+        if existing_sha:
+            payload["sha"] = existing_sha
+
+        update_request = urllib.request.Request(
+            api_url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={
+                **headers,
+                "Content-Type": "application/json",
+            },
+            method="PUT",
+        )
+
+        with urllib.request.urlopen(update_request, timeout=30) as response:
+            result = json.loads(response.read().decode("utf-8"))
+
+        print(
+            "Website API URL published to GitHub successfully. "
+            f"Commit: {result.get('commit', {}).get('sha', 'created')}"
+        )
+        return True
+
+    except Exception as error:
+        print(f"ERROR: Could not publish website API URL: {error}")
+        return False
+
+
 def run_discord():
     if not TOKEN:
         raise RuntimeError("DISCORD_TOKEN is missing.")
@@ -511,6 +592,8 @@ if __name__ == "__main__":
                 print("DISCORD OAUTH CALLBACK:")
                 print(callback_url)
                 print("================================\n")
+
+                publish_api_config(public_url)
 
     threading.Thread(
         target=watch_tunnel,
