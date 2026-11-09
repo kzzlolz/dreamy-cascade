@@ -1267,6 +1267,44 @@
       .community-grid, .credits-grid { grid-template-columns:1fr; }
     }
 
+
+    /* Clickable member cards and public profile modal */
+    .profile-clickable { cursor: pointer; }
+    .profile-clickable:focus-visible {
+      outline: 3px solid rgba(193,138,169,.55);
+      outline-offset: 3px;
+    }
+    .profile-modal-box { width: min(620px, 100%); }
+    .profile-modal-identity {
+      display:flex; align-items:center; gap:16px; margin:4px 0 18px;
+    }
+    .profile-modal-avatar {
+      width:76px; height:76px; border-radius:24px; object-fit:cover;
+      border:2px solid #efd8e6; box-shadow:0 7px 20px rgba(178,139,165,.16);
+      background:#f7eaf2; flex-shrink:0;
+    }
+    .profile-modal-name {
+      color:#795d72; font:700 1.55rem 'Cormorant Garamond',serif;
+      overflow-wrap:anywhere;
+    }
+    .profile-modal-tagline { color:#a17f96; font-size:.86rem; line-height:1.5; margin-top:3px; }
+    .profile-modal-role { color:#bd8cab; font-size:.7rem; margin-top:6px; }
+    .profile-modal-bio { color:#806579; font-size:.9rem; line-height:1.75; white-space:pre-wrap; overflow-wrap:anywhere; margin:12px 0; }
+    .profile-modal-section-title { color:#a87896; font:700 1.05rem 'Cormorant Garamond',serif; margin:18px 0 8px; }
+    .profile-interest-list { display:flex; flex-wrap:wrap; gap:7px; }
+    .profile-interest-list .pill { margin:0; }
+    .profile-link-list { display:flex; flex-wrap:wrap; gap:8px; }
+    .profile-link {
+      display:inline-flex; align-items:center; gap:7px; padding:8px 12px;
+      border-radius:99px; border:1px solid #e7cfdd; background:#fff;
+      color:#916b83; text-decoration:none; font-size:.78rem;
+    }
+    .profile-link:hover { border-color:#c996b4; background:#fbf0f6; }
+    .profile-empty { color:#aa93a3; font-size:.83rem; line-height:1.6; padding:13px 15px; border-radius:14px; background:rgba(248,234,242,.7); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -1521,6 +1559,34 @@
     </div>
   </div>
 
+
+  <!-- Public member profile modal -->
+  <div id="member-profile-modal" class="modal-overlay" onclick="closeMemberProfileOnOutside(event)" role="dialog" aria-modal="true" aria-labelledby="member-profile-name">
+    <div class="modal-box profile-modal-box">
+      <div class="modal-header">
+        <h3 id="member-profile-name" class="profile-modal-name">Member profile</h3>
+        <button class="modal-close" type="button" onclick="closeMemberProfile()" aria-label="Close profile"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="profile-modal-identity">
+        <img id="member-profile-avatar" class="profile-modal-avatar" alt="">
+        <div>
+          <div id="member-profile-tagline" class="profile-modal-tagline"></div>
+          <div id="member-profile-role" class="profile-modal-role"></div>
+        </div>
+      </div>
+      <p id="member-profile-bio" class="profile-modal-bio"></p>
+      <div id="member-profile-interests-wrap">
+        <h4 class="profile-modal-section-title">A few things I like</h4>
+        <div id="member-profile-interests" class="profile-interest-list"></div>
+      </div>
+      <div id="member-profile-links-wrap">
+        <h4 class="profile-modal-section-title">Find me elsewhere</h4>
+        <div id="member-profile-links" class="profile-link-list"></div>
+      </div>
+      <p id="member-profile-empty" class="profile-empty hidden">This member hasn't added a public profile yet. Check back later! ♡</p>
+    </div>
+  </div>
+
   <!-- Watch the View Notice Modal -->
   <div id="view-notice-modal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-box" style="text-align:center;">
@@ -1535,8 +1601,8 @@
   </div>
 
   <script>
-    const OWNER_IDS = ["1555964902731161711", "1540253480432959539"];
-    const OWNER_ROLE_IDS = ["1555964902731161711", "1540253480432959539"];
+    const OWNER_IDS = ["1209411379178635345", "1295215372886347859"];
+    const OWNER_ROLE_IDS = [];
     const ADMIN_ROLE_IDS = ["1526901549396267089"];
     const MOD_ROLE_IDS = ["1528305985519751178"];
     const DIRECTORY_ROLE_GROUPS = {
@@ -1559,7 +1625,11 @@
         { id: "1557834410571857991", name: "The Socialite" }
       ]
     };
-    const API_URL = "https://serverwidget.onrender.com/api/guild-data";
+    // Quick Tunnel address currently used by the Dreamy Cascade backend.
+    // If the tunnel is ever regenerated, update this base URL once here.
+    const API_BASE_URL = "https://trading-improved-agreed-broader.trycloudflare.com";
+    const API_URL = API_BASE_URL + "/api/guild-data";
+    const PROFILE_API_URL = API_BASE_URL + "/api/public-profiles";
 
     const tipsList = [
       "Welcome to Dreamy Cascade — make yourself at home. ♡",
@@ -1626,6 +1696,8 @@
     let tipFadeTimeout = null;
     let audioCtx = null;
     let humOscillator = null;
+    let latestMembers = {};
+    let publicProfiles = {};
 
     function getAudioContext() {
       if (!audioCtx) {
@@ -1845,6 +1917,100 @@
       animateShockwave();
     }
 
+
+    async function fetchPublicProfiles() {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 7000);
+        try {
+          const response = await fetch(PROFILE_API_URL, { cache: 'no-store', signal: controller.signal });
+          if (!response.ok) throw new Error('Profile API returned ' + response.status);
+          const data = await response.json();
+          publicProfiles = data && typeof data === 'object' && !Array.isArray(data) ? data : {};
+        } finally {
+          clearTimeout(timeout);
+        }
+      } catch (error) {
+        console.warn('Public profiles are temporarily unavailable.', error);
+        publicProfiles = {};
+      }
+      return publicProfiles;
+    }
+
+    function openMemberProfile(memberId, roleLabel) {
+      const member = latestMembers[String(memberId)];
+      if (!member) return;
+      const profile = publicProfiles[String(memberId)] || {};
+      const displayName = profile.display_name || member.display_name || member.username || 'Member';
+      const avatar = profile.avatar_url || member.avatar_url || '';
+      const interests = String(profile.interests || '').split(/\r?\n/).map(value => value.trim()).filter(Boolean);
+      const links = Array.isArray(profile.social_links) ? profile.social_links : [];
+      const hasProfile = !!(
+        profile.display_name || profile.tagline || profile.bio ||
+        interests.length || profile.avatar_url || links.length
+      );
+
+      document.getElementById('member-profile-name').textContent = displayName;
+      const avatarEl = document.getElementById('member-profile-avatar');
+      avatarEl.src = avatar;
+      avatarEl.alt = displayName + ' profile picture';
+      avatarEl.onerror = () => { avatarEl.style.visibility = 'hidden'; };
+      avatarEl.style.visibility = avatar ? 'visible' : 'hidden';
+      document.getElementById('member-profile-tagline').textContent = profile.tagline || '';
+      const status = String(member.status || 'offline').toLowerCase();
+      const statusText = ['online', 'idle', 'dnd'].includes(status) ? status.toUpperCase() : 'OFFLINE';
+      document.getElementById('member-profile-role').textContent = (roleLabel || 'Member') + ' · ' + statusText;
+
+      const bioEl = document.getElementById('member-profile-bio');
+      bioEl.textContent = profile.bio || '';
+      bioEl.hidden = !profile.bio;
+
+      const interestWrap = document.getElementById('member-profile-interests-wrap');
+      const interestRoot = document.getElementById('member-profile-interests');
+      interestRoot.replaceChildren();
+      interests.forEach(interest => {
+        const pill = document.createElement('span');
+        pill.className = 'pill';
+        pill.textContent = interest;
+        interestRoot.appendChild(pill);
+      });
+      interestWrap.hidden = interests.length === 0;
+
+      const linkWrap = document.getElementById('member-profile-links-wrap');
+      const linkRoot = document.getElementById('member-profile-links');
+      linkRoot.replaceChildren();
+      links.forEach(link => {
+        if (!link || typeof link.url !== 'string') return;
+        try {
+          const url = new URL(link.url);
+          if (!['https:', 'http:'].includes(url.protocol)) return;
+          const anchor = document.createElement('a');
+          anchor.className = 'profile-link';
+          anchor.href = url.href;
+          anchor.target = '_blank';
+          anchor.rel = 'noopener noreferrer';
+          const icon = document.createElement('i');
+          icon.className = 'fa-solid fa-arrow-up-right-from-square';
+          anchor.appendChild(icon);
+          anchor.appendChild(document.createTextNode(String(link.label || 'Link')));
+          linkRoot.appendChild(anchor);
+        } catch (error) {}
+      });
+      linkWrap.hidden = linkRoot.children.length === 0;
+      document.getElementById('member-profile-empty').classList.toggle('hidden', hasProfile);
+      document.getElementById('member-profile-modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMemberProfile() {
+      document.getElementById('member-profile-modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function closeMemberProfileOnOutside(event) {
+      if (event.target.id === 'member-profile-modal') closeMemberProfile();
+    }
+
     async function initExperience() {
       spawnOrbitingSparkles();
       startRadarHumSound();
@@ -1864,6 +2030,7 @@
       }, 400);
 
       await fetchAndPopulateGuildData();
+      await fetchPublicProfiles();
       clearInterval(fetchInterval);
 
       statusEl.textContent = "Everyone is here!";
@@ -1968,7 +2135,14 @@
     async function fetchAndPopulateGuildData() {
       let cached = loadCachedMembers();
       try {
-        const response = await fetch(API_URL, { cache: 'no-store' });
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 7000);
+        let response;
+        try {
+          response = await fetch(API_URL, { cache: 'no-store', signal: controller.signal });
+        } finally {
+          clearTimeout(timeout);
+        }
         if (!response.ok) throw new Error('Guild API returned ' + response.status);
         const data = await response.json();
         if (data && Array.isArray(data.members)) {
@@ -1996,7 +2170,8 @@
       return cached;
     }
     
-    setInterval(fetchAndPopulateGuildData, 5000);
+    setInterval(fetchAndPopulateGuildData, 30000);
+    setInterval(fetchPublicProfiles, 60000);
 
     function normalizeRoles(roles) {
       return Array.isArray(roles)
@@ -2038,7 +2213,19 @@
 
     function addMemberCard(container, member, kind, statusClass, roleLabel) {
       const item = document.createElement('li');
-      item.className = kind === 'owner' ? 'owner-card' : (kind === 'bot' ? 'bot-card' : 'member-card');
+      item.className = (kind === 'owner' ? 'owner-card' : (kind === 'bot' ? 'bot-card' : 'member-card')) + ' profile-clickable';
+      item.dataset.memberId = String(member.id || '');
+      item.dataset.roleLabel = roleLabel || (kind === 'bot' ? 'Bot' : kind === 'owner' ? 'Owner' : 'Member');
+      item.tabIndex = 0;
+      item.setAttribute('role', 'button');
+      item.setAttribute('aria-label', 'View profile for ' + String(member.display_name || member.username || 'member'));
+      item.addEventListener('click', () => openMemberProfile(item.dataset.memberId, item.dataset.roleLabel));
+      item.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openMemberProfile(item.dataset.memberId, item.dataset.roleLabel);
+        }
+      });
 
       const img = document.createElement('img');
       img.src = typeof member.avatar_url === 'string' ? member.avatar_url : '';
@@ -2080,6 +2267,7 @@
     }
 
     function populateGuildData(memberMap) {
+      latestMembers = memberMap || {};
       const homeOwner = document.getElementById('home-owner-list');
       const staffContainer = document.getElementById('staff-member-grid');
       const onlineContainer = document.getElementById('online-member-grid');
@@ -2202,6 +2390,13 @@
       if (event.target.id === 'activity-modal') closeModal();
     }
 
+    window.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        closeMemberProfile();
+        closeModal();
+        document.getElementById('view-notice-modal').classList.remove('active');
+      }
+    });
     window.addEventListener('DOMContentLoaded', initExperience);
   </script>
 </body>
