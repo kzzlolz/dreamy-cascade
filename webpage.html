@@ -1153,6 +1153,12 @@
     }
     .home-announcement-label { display:block; margin-bottom:6px; color:#b184a0; font-size:.62rem; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; }
     .public-announcements { display:grid; gap:10px; }
+.public-activity-item{padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.62);border:1px solid rgba(220,193,216,.5);animation:activityFade .35s ease both}
+.public-activity-item strong{display:block;color:#89657f;font:700 1rem 'Cormorant Garamond',serif;margin-bottom:3px}
+.public-activity-item p{color:#927d8d;font-size:.78rem;line-height:1.5}
+@keyframes activityFade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.public-activity-item{animation:none}}
+
     .public-announcement-item { padding:10px 12px; border-radius:12px; background:rgba(255,255,255,.62); border:1px solid rgba(220,193,216,.5); }
     .public-announcement-item strong { display:block; color:#89657f; font:700 1rem 'Cormorant Garamond',serif; margin-bottom:4px; }
     .public-announcement-item p { white-space:pre-wrap; overflow-wrap:anywhere; }
@@ -1431,6 +1437,11 @@
                   <div class="home-stat"><strong id="home-online-count">—</strong><span>Online</span></div>
                   <div class="home-stat"><strong id="home-bot-count">—</strong><span>Bots</span></div>
                 </div>
+              </section>
+
+              <section class="home-card">
+                <h2><i class="fa-solid fa-clock-rotate-left"></i> Recently around here</h2>
+                <div id="public-activity" class="public-announcements" aria-live="polite"><p class="announcement-empty">Gathering the latest community moments…</p></div>
               </section>
 
               <section class="home-card">
@@ -1984,6 +1995,30 @@
     }
 
 
+    async function fetchPublicActivity() {
+      const root=document.getElementById('public-activity');
+      if(!root)return;
+      try{
+        const response=await fetch(API_BASE_URL+'/api/activity',{cache:'no-store'});
+        if(!response.ok)throw new Error('Activity API returned '+response.status);
+        const items=await response.json();root.replaceChildren();
+        if(!Array.isArray(items)||!items.length){
+          const empty=document.createElement('p');empty.className='announcement-empty';
+          empty.textContent='No community moments recorded just yet. ♡';root.appendChild(empty);return;
+        }
+        items.slice(0,6).forEach(item=>{
+          const card=document.createElement('article');card.className='public-activity-item';
+          const title=document.createElement('strong');
+          title.textContent=item.event_type==='join'?'A new dreamer arrived':item.event_type==='leave'?'A member said goodbye':'A community milestone';
+          const body=document.createElement('p');
+          body.textContent=item.event_type==='milestone'?(item.details||'The community reached a new milestone!'):item.event_type==='join'?(item.display_name+' joined Dreamy Cascade. Welcome!'):(item.display_name+' left the community.');
+          const date=document.createElement('time');date.className='public-announcement-date';
+          const parsed=new Date(item.created_at);if(!Number.isNaN(parsed.getTime()))date.textContent=parsed.toLocaleString(undefined,{dateStyle:'medium',timeStyle:'short'});
+          card.append(title,body,date);root.appendChild(card);
+        });
+      }catch(error){console.warn('Community activity is temporarily unavailable.',error);}
+    }
+
     async function fetchPublicAnnouncements() {
       const root = document.getElementById('public-announcements');
       if (!root) return;
@@ -2137,7 +2172,7 @@
       await loadApiConfig();
       await fetchAndPopulateGuildData();
       await fetchPublicProfiles();
-      await fetchPublicAnnouncements();
+      await fetchPublicAnnouncements();\n      await fetchPublicActivity();
       clearInterval(fetchInterval);
 
       statusEl.textContent = "Everyone is here!";
@@ -2265,7 +2300,7 @@
       fetchAndPopulateGuildData().finally(() => { guildRefreshInProgress = false; });
     }, 5000);
     setInterval(fetchPublicProfiles, 60000);
-    setInterval(fetchPublicAnnouncements, 15000);
+    setInterval(fetchPublicAnnouncements, 15000);\n    setInterval(fetchPublicActivity, 15000);
 
     function normalizeRoles(roles) {
       return Array.isArray(roles)
