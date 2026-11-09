@@ -12,8 +12,8 @@ from flask import (
 )
 
 OWNER_IDS = {
-    "1555964902731161711",
-    "1540253480432959539",
+    "1209411379178635345",
+    "1295215372886347859",
 }
 
 DISCORD_AUTHORIZE_URL = "https://discord.com/oauth2/authorize"
