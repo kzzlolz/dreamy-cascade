@@ -1338,6 +1338,28 @@
       *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
     }
 
+    /* One-time welcome for genuinely new visitors */
+    .newcomer-overlay { position:fixed; inset:0; z-index:10020; display:grid; place-items:center; padding:20px; background:rgba(83,61,78,.24); backdrop-filter:blur(7px); opacity:0; visibility:hidden; transition:opacity .35s ease,visibility .35s ease; }
+    .newcomer-overlay.visible { opacity:1; visibility:visible; }
+    .newcomer-card { position:relative; width:min(440px,100%); padding:34px 32px 27px; text-align:center; border:1px solid rgba(211,174,198,.7); border-radius:27px; background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(250,239,247,.98) 65%,rgba(239,235,248,.98)); box-shadow:0 24px 80px rgba(104,72,95,.23),inset 0 1px 0 #fff; transform:translateY(14px) scale(.97); transition:transform .35s cubic-bezier(.2,.8,.2,1); }
+    .newcomer-overlay.visible .newcomer-card { transform:translateY(0) scale(1); }
+    .newcomer-close { position:absolute; top:13px; right:14px; display:grid; place-items:center; width:34px; height:34px; border:1px solid #efdfeb; border-radius:50%; background:rgba(255,255,255,.8); color:#a9829a; cursor:pointer; transition:background .2s,transform .2s; }
+    .newcomer-close:hover { background:#f7e8f1; transform:rotate(90deg); }
+    .newcomer-eyebrow { color:#b184a0; font-size:.62rem; font-weight:700; letter-spacing:1.8px; text-transform:uppercase; }
+    .newcomer-emblem { display:grid; place-items:center; width:65px; height:65px; margin:17px auto 12px; border:1px solid #efdae8; border-radius:22px; background:linear-gradient(145deg,#fff,#f4e7f3); color:#c18eae; font-size:1.5rem; box-shadow:0 8px 22px rgba(190,139,169,.15); }
+    .newcomer-card h2 { margin:0 0 11px; color:#795a72; font:700 2rem 'Cormorant Garamond',serif; }
+    .newcomer-card p { color:#92798b; font-size:.84rem; line-height:1.75; }
+    .newcomer-card .newcomer-soft-note { margin-top:10px; color:#a18498; font-size:.77rem; }
+    .newcomer-join { display:inline-flex; align-items:center; justify-content:center; gap:9px; margin-top:20px; padding:12px 20px; border-radius:999px; background:linear-gradient(125deg,#cda8df,#d59aba); box-shadow:0 8px 20px rgba(186,143,180,.23); color:#fff; text-decoration:none; font:600 .77rem 'Inter',sans-serif; transition:transform .2s,box-shadow .2s; }
+    .newcomer-join:hover { transform:translateY(-2px); box-shadow:0 11px 24px rgba(186,143,180,.3); }
+    .newcomer-footer { display:block; margin-top:18px; color:#b194a6; font:italic .95rem 'Cormorant Garamond',serif; }
+    .newcomer-mini { position:fixed; z-index:10019; top:46%; right:0; display:flex; align-items:center; gap:8px; padding:12px 13px 12px 15px; border:1px solid #e6cadd; border-right:0; border-radius:16px 0 0 16px; background:rgba(255,250,253,.96); box-shadow:0 7px 24px rgba(104,72,95,.16); color:#916b83; font:600 .72rem 'Inter',sans-serif; cursor:pointer; opacity:0; visibility:hidden; transform:translateX(105%); transition:opacity .3s,transform .3s,visibility .3s; }
+    .newcomer-mini.visible { opacity:1; visibility:visible; transform:translateX(0); }
+    .newcomer-mini i { color:#bd8cab; }
+    .newcomer-overlay.minimizing { opacity:0; visibility:hidden; pointer-events:none; }
+    .newcomer-overlay.minimizing .newcomer-card { transform:translate(42vw,0) scale(.12); opacity:0; }
+    @media(max-width:520px) { .newcomer-card { padding:31px 22px 24px; } .newcomer-mini { top:auto; bottom:22px; } }
+
   </style>
 </head>
 <body>
@@ -1670,6 +1692,21 @@
       <p id="member-profile-empty" class="profile-empty hidden">This member hasn't added a public profile yet. Check back later! ♡</p>
     </div>
   </div>
+
+  <!-- First-visit welcome popup -->
+  <div id="newcomer-welcome" class="newcomer-overlay" aria-hidden="true">
+    <section class="newcomer-card" role="dialog" aria-modal="true" aria-labelledby="newcomer-title">
+      <button class="newcomer-close" type="button" onclick="minimizeNewcomerWelcome()" aria-label="Minimize welcome popup"><i class="fa-solid fa-xmark"></i></button>
+      <span class="newcomer-eyebrow"><i class="fa-solid fa-sparkles"></i> A little note for you</span>
+      <div class="newcomer-emblem"><i class="fa-solid fa-cloud"></i></div>
+      <h2 id="newcomer-title">Oh, hello there ♡</h2>
+      <p>It looks like this is your first visit to Dreamy Cascade. We're a small, cozy corner of the internet where you can meet people, chat, play, and share the little things you enjoy.</p>
+      <p class="newcomer-soft-note">No rush to jump in — have a look around and make yourself comfortable.</p>
+      <a class="newcomer-join" href="https://discord.gg/nET4TTnRuA" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Come say hello</a>
+      <span class="newcomer-footer">We're happy you found us. ♡</span>
+    </section>
+  </div>
+  <button id="newcomer-mini" class="newcomer-mini" type="button" onclick="restoreNewcomerWelcome()" aria-label="Open welcome note"><i class="fa-solid fa-cloud"></i><span>Welcome ♡</span></button>
 
   <script>
     const OWNER_IDS = ["1209411379178635345", "1295215372886347859"];
@@ -2223,9 +2260,39 @@
       // Step 1: Fade in the left sidebar and rotating tip card.
       document.getElementById('sidebar-left').classList.add('visible');
       startMainTipRotation();
+      showNewcomerWelcomeIfNeeded();
 
       // Step 2: Automatically trigger Home tab view (opens 2nd & 3rd containers)
       switchMainTab('home-tab');
+    }
+
+    const NEWCOMER_DISMISSED_KEY = 'dreamyCascadeNewcomerWelcomeDismissedV1';
+
+    function showNewcomerWelcomeIfNeeded() {
+      let dismissed = false;
+      try { dismissed = localStorage.getItem(NEWCOMER_DISMISSED_KEY) === 'true'; } catch (error) {}
+      if (dismissed) return;
+      const overlay = document.getElementById('newcomer-welcome');
+      overlay.classList.remove('minimizing');
+      overlay.classList.add('visible');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function minimizeNewcomerWelcome() {
+      const overlay = document.getElementById('newcomer-welcome');
+      overlay.classList.add('minimizing');
+      overlay.classList.remove('visible');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.getElementById('newcomer-mini').classList.add('visible');
+      try { localStorage.setItem(NEWCOMER_DISMISSED_KEY, 'true'); } catch (error) {}
+    }
+
+    function restoreNewcomerWelcome() {
+      const overlay = document.getElementById('newcomer-welcome');
+      overlay.classList.remove('minimizing');
+      overlay.classList.add('visible');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.getElementById('newcomer-mini').classList.remove('visible');
     }
 
     function switchMainTab(tabId, button) {
