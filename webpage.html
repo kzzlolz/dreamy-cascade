@@ -1751,11 +1751,36 @@
         { id: "1557834410571857991", name: "The Socialite" }
       ]
     };
-    // Quick Tunnel address currently used by the Dreamy Cascade backend.
-    // If the tunnel is ever regenerated, update this base URL once here.
-    const API_BASE_URL = "https://drugs-scales-harold-west.trycloudflare.com";
-    const API_URL = API_BASE_URL + "/api/guild-data";
-    const PROFILE_API_URL = API_BASE_URL + "/api/public-profiles";
+    // The backend updates this small file whenever Cloudflare creates a new tunnel.
+    const API_CONFIG_URL = "https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/api-config.json";
+    let API_BASE_URL = "https://drugs-scales-harold-west.trycloudflare.com";
+    let API_URL = API_BASE_URL + "/api/guild-data";
+    let PROFILE_API_URL = API_BASE_URL + "/api/public-profiles";
+
+    async function loadApiConfig() {
+      try {
+        const response = await fetch(API_CONFIG_URL + "?t=" + Date.now(), {
+          cache: "no-store"
+        });
+        if (!response.ok) throw new Error("API config returned " + response.status);
+
+        const config = await response.json();
+        const parsedUrl = new URL(config.apiBaseUrl || "");
+        if (
+          parsedUrl.protocol !== "https:" ||
+          !parsedUrl.hostname.endsWith(".trycloudflare.com")
+        ) {
+          throw new Error("API config contains an invalid tunnel URL");
+        }
+
+        API_BASE_URL = parsedUrl.origin;
+        API_URL = API_BASE_URL + "/api/guild-data";
+        PROFILE_API_URL = API_BASE_URL + "/api/public-profiles";
+        console.info("Dreamy Cascade API address loaded.");
+      } catch (error) {
+        console.warn("Could not load the latest API address; using the saved fallback.", error);
+      }
+    }
 
     const tipsList = [
       "Welcome to Dreamy Cascade — make yourself at home. ♡",
@@ -2155,7 +2180,7 @@
         statusEl.textContent = `~ Retrieving member data${dots} ~`;
       }, 400);
 
-      await fetchAndPopulateGuildData();
+      await loadApiConfig();\n      await fetchAndPopulateGuildData();
       await fetchPublicProfiles();
       clearInterval(fetchInterval);
 
