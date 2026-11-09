@@ -1173,19 +1173,89 @@
     .modal-close:hover { color: #815b75; }
     .sidebar-right { display: none !important; }
 
-    .home-heading {
-      margin-bottom: 8px;
-      color: #a87896;
-      font-family: 'Cormorant Garamond',serif;
-      font-size: 1.28rem;
-      font-weight: 700;
+    /* Home landing page */
+    .home-landing { display:flex; flex-direction:column; gap:20px; }
+    .home-hero {
+      position:relative; overflow:hidden; display:grid;
+      grid-template-columns:minmax(0,1.35fr) minmax(170px,.65fr);
+      align-items:center; gap:20px; padding:clamp(22px,4vw,38px);
+      min-height:260px; border:1px solid rgba(211,166,192,.48);
+      border-radius:24px;
+      background:linear-gradient(115deg,rgba(255,255,255,.92),rgba(250,235,245,.82) 58%,rgba(235,229,248,.88));
+      box-shadow:0 14px 36px rgba(164,122,151,.10),inset 0 1px 0 #fff;
     }
-    .home-block { margin-bottom: 23px; }
-    .home-block:last-child { margin-bottom: 0; }
-    .home-owner-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(210px,1fr));
-      gap: 10px;
+    .home-hero::before {
+      content:""; position:absolute; width:300px; height:300px; right:-90px; top:-125px;
+      border-radius:50%; background:radial-gradient(circle,rgba(218,188,226,.48),transparent 70%);
+      pointer-events:none;
+    }
+    .home-hero-copy,.home-hero-art { position:relative; z-index:1; }
+    .home-eyebrow {
+      display:inline-flex; align-items:center; gap:8px; margin-bottom:13px;
+      color:#b184a0; font-size:.66rem; font-weight:700; letter-spacing:2px;
+      text-transform:uppercase;
+    }
+    .home-hero h1 {
+      color:#795a72; font:700 clamp(2rem,4.5vw,3.25rem)/.98 'Cormorant Garamond',serif;
+      letter-spacing:-.5px; margin-bottom:13px;
+    }
+    .home-hero-copy > p { max-width:570px; color:#92798b; font-size:.9rem; line-height:1.75; }
+    .home-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+    .home-action {
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:11px 16px; border-radius:999px; text-decoration:none; cursor:pointer;
+      border:1px solid #e3c7d8; background:rgba(255,255,255,.8); color:#89667e;
+      font:600 .75rem 'Inter',sans-serif; transition:transform .2s,box-shadow .2s,background .2s;
+    }
+    .home-action.primary { color:#fff; border-color:transparent; background:linear-gradient(125deg,#cda8df,#d59aba); box-shadow:0 8px 20px rgba(186,143,180,.25); }
+    .home-action:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(176,139,162,.16); }
+    .home-hero-art { display:flex; justify-content:center; align-items:center; }
+    .home-hero-orbit {
+      width:clamp(150px,19vw,210px); aspect-ratio:1; display:grid; place-items:center;
+      border-radius:50%; background:radial-gradient(circle,rgba(255,255,255,.98) 0 30%,rgba(244,222,237,.76) 48%,rgba(222,211,242,.35) 68%,transparent 72%);
+      box-shadow:0 0 45px rgba(211,166,198,.22),inset 0 0 25px rgba(255,255,255,.8);
+    }
+    .home-hero-orbit img { width:58%; aspect-ratio:1; object-fit:cover; border-radius:50%; border:5px solid rgba(255,255,255,.9); box-shadow:0 10px 28px rgba(145,105,135,.22); }
+    .home-content-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(220px,.85fr); gap:15px; }
+    .home-card {
+      min-width:0; padding:20px; border-radius:20px;
+      border:1px solid rgba(213,174,198,.42); background:rgba(255,255,255,.66);
+      box-shadow:0 8px 24px rgba(151,111,139,.07);
+    }
+    .home-card h2 { display:flex; align-items:center; gap:9px; margin-bottom:10px; color:#96708a; font:700 1.22rem 'Cormorant Garamond',serif; }
+    .home-card p { color:#927d8d; font-size:.84rem; line-height:1.75; }
+    .home-card-wide { grid-row:span 2; }
+    .home-stats-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:15px; }
+    .home-stat { padding:12px 8px; text-align:center; border-radius:14px; background:linear-gradient(145deg,#fff8fc,#f4edf8); border:1px solid #f0dfeb; }
+    .home-stat strong { display:block; color:#9a7290; font:700 1.35rem 'Cormorant Garamond',serif; }
+    .home-stat span { display:block; margin-top:3px; color:#aa8da1; font-size:.61rem; text-transform:uppercase; letter-spacing:.7px; }
+    .home-announcement {
+      padding:14px 15px; border-radius:15px; background:linear-gradient(120deg,rgba(249,235,244,.9),rgba(239,235,248,.8));
+      border:1px solid rgba(220,193,216,.55);
+    }
+    .home-announcement-label { display:block; margin-bottom:6px; color:#b184a0; font-size:.62rem; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; }
+    .home-community-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .home-community-card {
+      display:flex; flex-direction:column; align-items:flex-start; gap:7px; min-height:120px;
+      padding:15px; text-align:left; cursor:pointer; border-radius:17px;
+      border:1px solid rgba(213,174,198,.42); background:rgba(255,255,255,.68);
+      color:#94738a; transition:transform .2s,box-shadow .2s;
+    }
+    .home-community-card:hover { transform:translateY(-3px); box-shadow:0 9px 20px rgba(176,139,162,.13); }
+    .home-community-card i { font-size:1.05rem; color:#c18eae; }
+    .home-community-card strong { color:#86657d; font:700 1.02rem 'Cormorant Garamond',serif; }
+    .home-community-card span { color:#a18a9a; font-size:.7rem; line-height:1.5; }
+    @media (max-width:760px) {
+      .home-hero { grid-template-columns:1fr; }
+      .home-hero-art { display:none; }
+      .home-content-grid { grid-template-columns:1fr; }
+      .home-card-wide { grid-row:auto; }
+      .home-community-grid { grid-template-columns:1fr; }
+    }
+    @media (max-width:420px) {
+      .home-stats-grid { grid-template-columns:1fr; }
+      .home-stat { display:flex; justify-content:space-between; align-items:center; text-align:left; }
+      .home-stat strong { font-size:1.1rem; }
     }
     .directory-intro {
       color: #987e91;
@@ -1394,31 +1464,67 @@
       <!-- Main Center Content Panel (Fades in when home/tabs clicked) -->
       <main id="content-panel" class="hud-panel content-panel">
 
-        <!-- HOME TAB: THE COMMUNITY OVERVIEW -->
+        <!-- HOME TAB: SERVER LANDING PAGE -->
         <section id="home-tab" class="tab-pane active">
-          <div class="panel-title"><i class="fa-solid fa-cloud"></i> A little corner of the internet</div>
-          <p class="directory-intro">Meet the people who make Dreamy Cascade feel like home. ♡</p>
+          <div class="home-landing">
+            <section class="home-hero">
+              <div class="home-hero-copy">
+                <span class="home-eyebrow"><i class="fa-solid fa-sparkles"></i> A little corner of the internet</span>
+                <h1>Welcome to<br>Dreamy Cascade.</h1>
+                <p>A cozy little community to meet new people, share what you love, make memories, and find your place. Whether you're here to chat, create, play, or simply unwind, there's room for you here. ♡</p>
+                <div class="home-actions">
+                  <a class="home-action primary" href="https://discord.gg/nET4TTnRuA" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Join our community</a>
+                  <button class="home-action" type="button" onclick="switchMainTab('list-tab')"><i class="fa-solid fa-book-open"></i> Meet everyone</button>
+                </div>
+              </div>
+              <div class="home-hero-art" aria-hidden="true">
+                <div class="home-hero-orbit">
+                  <img src="https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/01785d677dff87c729169c9797a905de.jpg" alt="">
+                </div>
+              </div>
+            </section>
 
-          <div class="home-block">
-            <div class="home-heading"><i class="fa-solid fa-crown"></i> Owner</div>
-            <div id="home-owner-list" class="home-owner-grid">
-              <p class="persistent-info">Finding our owner...</p>
+            <div class="home-content-grid">
+              <section class="home-card home-card-wide">
+                <h2><i class="fa-solid fa-cloud"></i> A place to settle in</h2>
+                <p>Dreamy Cascade is more than a server list or a place to pass the time. It's a shared little space shaped by the people in it — the conversations, the inside jokes, the creative things we share, and the memories we make along the way. Take your time getting comfortable, explore the community, join in whenever something catches your eye, and make this corner of the internet your own. We're glad you found your way here. ♡</p>
+                <div style="height:15px"></div>
+                <div class="home-announcement">
+                  <span class="home-announcement-label"><i class="fa-solid fa-bullhorn"></i> Announcements &amp; updates</span>
+                  <p>Keep an eye on this space for community news, upcoming events, and little updates from the Dreamy Cascade team.</p>
+                </div>
+              </section>
+
+              <section class="home-card">
+                <h2><i class="fa-solid fa-chart-simple"></i> Our little community</h2>
+                <p>Growing together, one hello at a time.</p>
+                <div class="home-stats-grid">
+                  <div class="home-stat"><strong id="home-member-count">—</strong><span>Members</span></div>
+                  <div class="home-stat"><strong id="home-online-count">—</strong><span>Online</span></div>
+                  <div class="home-stat"><strong id="home-bot-count">—</strong><span>Bots</span></div>
+                </div>
+              </section>
+
+              <section class="home-card">
+                <h2><i class="fa-solid fa-heart"></i> Find your place</h2>
+                <p>There's always something to explore. Drop by, say hello, and see what's happening around the community.</p>
+              </section>
             </div>
-          </div>
 
-          <div class="home-block">
-            <div class="home-heading"><i class="fa-solid fa-shield-heart"></i> Administrators &amp; Moderators</div>
-            <ul id="staff-member-grid" class="member-grid"></ul>
-          </div>
-
-          <div class="home-block">
-            <div class="home-heading"><i class="fa-solid fa-signal"></i> Online members</div>
-            <ul id="online-member-grid" class="member-grid"></ul>
-          </div>
-
-          <div class="home-block">
-            <div class="home-heading"><i class="fa-solid fa-moon"></i> Offline members</div>
-            <ul id="offline-member-grid" class="member-grid"></ul>
+            <section class="home-card">
+              <h2><i class="fa-solid fa-wand-magic-sparkles"></i> Around the community</h2>
+              <div class="home-community-grid">
+                <button class="home-community-card" type="button" onclick="openModal('qotd')">
+                  <i class="fa-solid fa-comments"></i><strong>Daily conversations</strong><span>Share your thoughts and get to know everyone.</span>
+                </button>
+                <button class="home-community-card" type="button" onclick="openModal('events')">
+                  <i class="fa-solid fa-calendar-star"></i><strong>Community events</strong><span>Keep an eye out for games, activities, and events.</span>
+                </button>
+                <button class="home-community-card" type="button" onclick="openModal('movies')">
+                  <i class="fa-solid fa-film"></i><strong>Movie nights</strong><span>Settle in and enjoy a movie with the community.</span>
+                </button>
+              </div>
+            </section>
           </div>
         </section>
 
@@ -2288,11 +2394,6 @@
 
     function populateGuildData(memberMap) {
       latestMembers = memberMap || {};
-      const homeOwner = document.getElementById('home-owner-list');
-      const staffContainer = document.getElementById('staff-member-grid');
-      const onlineContainer = document.getElementById('online-member-grid');
-      const offlineContainer = document.getElementById('offline-member-grid');
-
       const directoryContainers = {
         owner: document.getElementById('directory-owner-list'),
         admin: document.getElementById('directory-admin-list'),
@@ -2305,8 +2406,7 @@
         members: document.getElementById('directory-members-list')
       };
 
-      [homeOwner, staffContainer, onlineContainer, offlineContainer, ...Object.values(directoryContainers)]
-        .forEach(container => container.replaceChildren());
+      Object.values(directoryContainers).forEach(container => container.replaceChildren());
 
       const allMembers = Object.values(memberMap);
       const bots = allMembers.filter(member => member.bot);
@@ -2332,27 +2432,14 @@
         if (isOnline) onlineCount++;
 
         if (isOwner) {
-          addMemberCard(homeOwner, member, 'owner', statusClass, 'Owner');
           addMemberCard(directoryContainers.owner, member, 'owner', statusClass, 'Owner');
           counts.owner++;
           return;
         }
 
-        if (highest.key === 'admin' || highest.key === 'mod') {
-          addMemberCard(staffContainer, member, 'member', statusClass, highest.label);
-          addMemberCard(directoryContainers[highest.key], member, 'member', statusClass, highest.label);
-        } else {
-          if (isOnline) addMemberCard(onlineContainer, member, 'member', statusClass, highest.key === 'members' ? 'Member' : highest.label);
-          else addMemberCard(offlineContainer, member, 'member', 'offline', highest.key === 'members' ? 'Member' : highest.label);
-          addMemberCard(directoryContainers[highest.key] || directoryContainers.members, member, 'member', statusClass, highest.label);
-        }
+        addMemberCard(directoryContainers[highest.key] || directoryContainers.members, member, 'member', statusClass, highest.label);
         counts[highest.key] = (counts[highest.key] || 0) + 1;
       });
-
-      setDirectoryEmpty(homeOwner, 'Owner information is not available.');
-      setDirectoryEmpty(staffContainer, 'No administrators or moderators found.');
-      setDirectoryEmpty(onlineContainer, 'No online members right now.');
-      setDirectoryEmpty(offlineContainer, 'No offline members right now.');
 
       const emptyMessages = {
         owner: 'No owner found.',
@@ -2373,6 +2460,13 @@
 
       document.getElementById('stats-counter-text').textContent =
         `Total Members: ${humans.length}\nOnline Members: ${onlineCount}\nBots: ${bots.length} (${onlineBotCount} online)`;
+
+      const homeMemberCount = document.getElementById('home-member-count');
+      const homeOnlineCount = document.getElementById('home-online-count');
+      const homeBotCount = document.getElementById('home-bot-count');
+      if (homeMemberCount) homeMemberCount.textContent = String(humans.length);
+      if (homeOnlineCount) homeOnlineCount.textContent = String(onlineCount);
+      if (homeBotCount) homeBotCount.textContent = String(bots.length);
 
       const search = document.getElementById('directory-search');
       if (search && search.value) filterDirectory(search.value);
