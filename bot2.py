@@ -463,7 +463,7 @@ def publish_api_config(public_url):
         config = json.dumps(
             {"apiBaseUrl": public_url},
             indent=2,
-        ) + "\\n"
+        )
 
         payload = {
             "message": "Update Dreamy Cascade API tunnel URL",
