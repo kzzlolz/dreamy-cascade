@@ -283,6 +283,17 @@ def register_admin_routes(app):
             )
             """
         )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS announcements (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                body TEXT NOT NULL,
+                created_by TEXT NOT NULL,
+                created_at TEXT NOT NULL
+            )
+            """
+        )
         connection.commit()
         return connection
 
@@ -458,6 +469,84 @@ def register_admin_routes(app):
             response = jsonify(result)
             response.headers["Cache-Control"] = "no-store"
             return response
+        finally:
+            connection.close()
+
+    @blueprint.get("/api/announcements")
+    def get_public_announcements():
+        connection = database()
+        try:
+            rows = connection.execute(
+                "SELECT id, title, body, created_at FROM announcements "
+                "ORDER BY id DESC LIMIT 4"
+            ).fetchall()
+            response = jsonify([dict(row) for row in rows])
+            response.headers["Cache-Control"] = "no-store"
+            return response
+        finally:
+            connection.close()
+
+    @blueprint.get("/api/admin/announcements")
+    def get_admin_announcements():
+        denied = require_admin()
+        if denied:
+            return denied
+        connection = database()
+        try:
+            rows = connection.execute(
+                "SELECT id, title, body, created_at FROM announcements "
+                "ORDER BY id DESC LIMIT 30"
+            ).fetchall()
+            return jsonify([dict(row) for row in rows])
+        finally:
+            connection.close()
+
+    @blueprint.post("/api/admin/announcements")
+    def create_announcement():
+        denied = require_admin()
+        if denied:
+            return denied
+        denied = require_csrf()
+        if denied:
+            return denied
+        payload = request.get_json(silent=True) or {}
+        title, body = payload.get("title", ""), payload.get("body", "")
+        if not isinstance(title, str) or not isinstance(body, str):
+            return jsonify({"error": "Enter a valid title and message."}), 400
+        title, body = title.strip(), body.strip()
+        if not title or len(title) > 100:
+            return jsonify({"error": "Title must be between 1 and 100 characters."}), 400
+        if not body or len(body) > 2000:
+            return jsonify({"error": "Message must be between 1 and 2000 characters."}), 400
+        created_at = datetime.now(timezone.utc).isoformat()
+        connection = database()
+        try:
+            cursor = connection.execute(
+                "INSERT INTO announcements (title, body, created_by, created_at) "
+                "VALUES (?, ?, ?, ?)",
+                (title, body, session["admin_id"], created_at),
+            )
+            connection.commit()
+            return jsonify({"ok": True, "announcement": {
+                "id": cursor.lastrowid, "title": title,
+                "body": body, "created_at": created_at
+            }})
+        finally:
+            connection.close()
+
+    @blueprint.delete("/api/admin/announcements/<int:announcement_id>")
+    def delete_announcement(announcement_id):
+        denied = require_admin()
+        if denied:
+            return denied
+        denied = require_csrf()
+        if denied:
+            return denied
+        connection = database()
+        try:
+            connection.execute("DELETE FROM announcements WHERE id = ?", (announcement_id,))
+            connection.commit()
+            return jsonify({"ok": True})
         finally:
             connection.close()
 
