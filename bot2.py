@@ -193,21 +193,35 @@ async def get_status_channel():
 
 
 def build_status_embed():
+    checked_at = datetime.now(timezone.utc)
+
     embed = discord.Embed(
-        title="🟢 Systems Functional",
-        description="All systems online!",
-        color=0x3BA55D,
-        timestamp=datetime.now(timezone.utc)
+        title="🟢 Kzz | System Status",
+        description="All services are running normally.",
+        color=0x8B7BFF,
+        timestamp=checked_at
     )
 
     embed.add_field(
-        name="Runtime",
+        name="Status",
+        value="`OPERATIONAL`",
+        inline=True
+    )
+
+    embed.add_field(
+        name="Uptime",
         value=f"`{get_runtime()}`",
         inline=True
     )
 
+    embed.add_field(
+        name="Last checked",
+        value=f"<t:{int(checked_at.timestamp())}:R>",
+        inline=False
+    )
+
     embed.set_footer(
-        text="Dreamy Cascade • Automated 15-minute health check"
+        text="Dreamy Cascade • Kzz Health Monitor • Every 15 minutes"
     )
 
     return embed
