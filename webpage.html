@@ -946,8 +946,28 @@
       text-transform: none;
     }
     .sparkle-particle {
-      background: #fff;
-      box-shadow: 0 0 10px #fff, 0 0 18px #e8c4dc;
+      width: 11px;
+      height: 11px;
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, #fff 0%, #fffafd 18%, #f5dce9 48%, #dfc9ee 78%, #c9b7e8 100%);
+      box-shadow:
+        0 0 7px rgba(255,255,255,.95),
+        0 0 15px rgba(225,190,218,.8),
+        0 0 24px rgba(201,183,232,.48),
+        inset -2px -2px 4px rgba(191,155,194,.22),
+        inset 2px 2px 4px rgba(255,255,255,.95);
+    }
+    .sparkle-particle::after {
+      content: "";
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      top: 2px;
+      left: 2px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.95);
+      filter: blur(.3px);
     }
     #scene-main {
       min-height: 100vh;
@@ -1834,7 +1854,7 @@
     function spawnOrbitingSparkles() {
       const container = document.getElementById('sword-container');
       const bubbleRadius = 105;
-      const containerCenter = 130;
+      const containerCenter = 115;
 
       for (let i = 0; i < 16; i++) {
         const s = document.createElement('div');
@@ -1842,8 +1862,8 @@
         const angle = (i / 16) * Math.PI * 2;
         const x = Math.cos(angle) * bubbleRadius + containerCenter;
         const y = Math.sin(angle) * bubbleRadius + containerCenter;
-        s.style.left = (x - 4) + 'px';
-        s.style.top = (y - 4) + 'px';
+        s.style.left = (x - 5.5) + 'px';
+        s.style.top = (y - 5.5) + 'px';
         s.style.animation = `pulseAura ${1 + (i % 3) * 0.4}s infinite alternate`;
         container.appendChild(s);
       }
