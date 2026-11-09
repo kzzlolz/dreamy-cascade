@@ -294,6 +294,37 @@ def register_admin_routes(app):
             )
             """
         )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS activity_events (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                event_type TEXT NOT NULL,
+                member_id TEXT NOT NULL DEFAULT '',
+                display_name TEXT NOT NULL DEFAULT '',
+                details TEXT NOT NULL DEFAULT '',
+                created_at TEXT NOT NULL
+            )
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS guild_snapshots (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                total_members INTEGER NOT NULL,
+                online_members INTEGER NOT NULL,
+                bot_count INTEGER NOT NULL,
+                recorded_at TEXT NOT NULL
+            )
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS announced_milestones (
+                milestone INTEGER PRIMARY KEY,
+                announced_at TEXT NOT NULL
+            )
+            """
+        )
         connection.commit()
         return connection
 
@@ -483,6 +514,42 @@ def register_admin_routes(app):
             response = jsonify([dict(row) for row in rows])
             response.headers["Cache-Control"] = "no-store"
             return response
+        finally:
+            connection.close()
+
+    @blueprint.get("/api/activity")
+    def get_public_activity():
+        connection = database()
+        try:
+            rows = connection.execute(
+                "SELECT id, event_type, display_name, details, created_at "
+                "FROM activity_events ORDER BY id DESC LIMIT 20"
+            ).fetchall()
+            response = jsonify([dict(row) for row in rows])
+            response.headers["Cache-Control"] = "no-store"
+            return response
+        finally:
+            connection.close()
+
+    @blueprint.get("/api/admin/analytics")
+    def get_admin_analytics():
+        denied = require_admin()
+        if denied:
+            return denied
+        connection = database()
+        try:
+            snapshots = connection.execute(
+                "SELECT total_members, online_members, bot_count, recorded_at "
+                "FROM guild_snapshots ORDER BY id DESC LIMIT 96"
+            ).fetchall()
+            activity = connection.execute(
+                "SELECT event_type, display_name, details, created_at "
+                "FROM activity_events ORDER BY id DESC LIMIT 12"
+            ).fetchall()
+            return jsonify({
+                "snapshots": [dict(row) for row in reversed(snapshots)],
+                "recent_activity": [dict(row) for row in activity],
+            })
         finally:
             connection.close()
 
