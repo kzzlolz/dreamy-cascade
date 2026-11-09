@@ -93,6 +93,88 @@ def get_guild():
     return client.guilds[0] if client.guilds else None
 
 
+def record_community_event(event_type, member, details=""):
+    """Store a minimal community event; never stores message content."""
+    path = os.environ.get("PROFILE_DB_PATH") or str(
+        BASE_DIR / "dreamy-cascade-profiles.sqlite3"
+    )
+    now = datetime.now(timezone.utc).isoformat()
+    display_name = getattr(member, "display_name", None) or getattr(member, "name", "A member")
+    try:
+        import sqlite3
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        with sqlite3.connect(path, timeout=15) as connection:
+            connection.execute(
+                """CREATE TABLE IF NOT EXISTS activity_events (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    event_type TEXT NOT NULL,
+                    member_id TEXT NOT NULL DEFAULT '',
+                    display_name TEXT NOT NULL DEFAULT '',
+                    details TEXT NOT NULL DEFAULT '',
+                    created_at TEXT NOT NULL
+                )"""
+            )
+            connection.execute(
+                "INSERT INTO activity_events (event_type, member_id, display_name, details, created_at) "
+                "VALUES (?, ?, ?, ?, ?)",
+                (event_type, str(getattr(member, "id", "")), display_name[:100], details[:200], now),
+            )
+            if event_type in ("join", "milestone"):
+                connection.execute(
+                    """CREATE TABLE IF NOT EXISTS announcements (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        title TEXT NOT NULL,
+                        body TEXT NOT NULL,
+                        created_by TEXT NOT NULL,
+                        created_at TEXT NOT NULL
+                    )"""
+                )
+                title = "A new face joined Dreamy Cascade!" if event_type == "join" else "Community milestone reached!"
+                body = f"{display_name} joined the community. Welcome them!" if event_type == "join" else details
+                connection.execute(
+                    "INSERT INTO announcements (title, body, created_by, created_at) VALUES (?, ?, ?, ?)",
+                    (title, body, "system", now),
+                )
+                connection.execute("DELETE FROM announcements WHERE id NOT IN (SELECT id FROM announcements ORDER BY id DESC LIMIT 100)")
+            connection.commit()
+    except Exception as error:
+        print(f"Could not record community event: {error}")
+
+
+def record_guild_snapshot(guild):
+    path = os.environ.get("PROFILE_DB_PATH") or str(
+        BASE_DIR / "dreamy-cascade-profiles.sqlite3"
+    )
+    try:
+        import sqlite3
+        members = list(guild.members)
+        total = sum(1 for member in members if not member.bot)
+        online = sum(1 for member in members if not member.bot and member.status != discord.Status.offline)
+        bots = sum(1 for member in members if member.bot)
+        now = datetime.now(timezone.utc).isoformat()
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        with sqlite3.connect(path, timeout=15) as connection:
+            connection.execute(
+                """CREATE TABLE IF NOT EXISTS guild_snapshots (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    total_members INTEGER NOT NULL,
+                    online_members INTEGER NOT NULL,
+                    bot_count INTEGER NOT NULL,
+                    recorded_at TEXT NOT NULL
+                )"""
+            )
+            connection.execute(
+                "INSERT INTO guild_snapshots (total_members, online_members, bot_count, recorded_at) VALUES (?, ?, ?, ?)",
+                (total, online, bots, now),
+            )
+            connection.execute(
+                "DELETE FROM guild_snapshots WHERE id NOT IN (SELECT id FROM guild_snapshots ORDER BY id DESC LIMIT 2016)"
+            )
+            connection.commit()
+    except Exception as error:
+        print(f"Could not record guild analytics: {error}")
+
+
 def refresh_member_data(guild):
     members = list(guild.members)
     member_list = []
@@ -274,6 +356,9 @@ async def before_cached_guild_refresh():
 
 @tasks.loop(minutes=15)
 async def system_status_loop():
+    guild = get_guild()
+    if guild is not None:
+        record_guild_snapshot(guild)
     await update_status_message()
 
 
@@ -387,6 +472,21 @@ async def on_member_join(member):
 
     if guild and member.guild.id == guild.id:
         refresh_member_data(guild)
+        if not member.bot:
+            record_community_event("join", member)
+            human_count = sum(1 for item in guild.members if not item.bot)
+            if human_count in (100, 250, 500, 750, 1000, 1500, 2000, 3000, 5000):
+                path = os.environ.get("PROFILE_DB_PATH") or str(BASE_DIR / "dreamy-cascade-profiles.sqlite3")
+                import sqlite3
+                with sqlite3.connect(path, timeout=15) as connection:
+                    connection.execute("CREATE TABLE IF NOT EXISTS announced_milestones (milestone INTEGER PRIMARY KEY, announced_at TEXT NOT NULL)")
+                    inserted = connection.execute(
+                        "INSERT OR IGNORE INTO announced_milestones (milestone, announced_at) VALUES (?, ?)",
+                        (human_count, datetime.now(timezone.utc).isoformat())
+                    ).rowcount
+                    connection.commit()
+                if inserted:
+                    record_community_event("milestone", member, f"We've reached {human_count:,} members! Thank you for being part of Dreamy Cascade ♡")
 
 
 @client.event
@@ -395,6 +495,8 @@ async def on_member_remove(member):
 
     if guild and member.guild.id == guild.id:
         refresh_member_data(guild)
+        if not member.bot:
+            record_community_event("leave", member, "A member left the community.")
 
 
 @client.event
