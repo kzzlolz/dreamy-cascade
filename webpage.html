@@ -27,20 +27,20 @@
     }
 
     :root {
-      --bg-dark: #060305;
-      --panel-bg: rgba(14, 8, 12, 0.88);
-      --panel-border: rgba(194, 171, 136, 0.4);
-      --blood: #4a1222;
-      --crimson: #8a2542;
-      --bright-red: #ff4d6d;
-      --rose: #d4a5b2;
-      --gold: #c2ab88;
-      --gold-glow: rgba(194, 171, 136, 0.35);
-      --paper: #f0e6eb;
-      --border: rgba(196, 166, 176, .2);
-      --purple-glow: #9d4edd;
-      --purple-bright: #c77dff;
-      --neon-accent: #ff2a6d;
+      --bg-dark: #030a20;
+      --panel-bg: rgba(5, 17, 48, 0.86);
+      --panel-border: rgba(82, 160, 255, 0.38);
+      --blood: #09285f;
+      --crimson: #0754c8;
+      --bright-red: #63d8ff;
+      --rose: #a9caff;
+      --gold: #72baff;
+      --gold-glow: rgba(55, 145, 255, 0.35);
+      --paper: #e4f2ff;
+      --border: rgba(125, 183, 255, .22);
+      --purple-glow: #087bff;
+      --purple-bright: #72d9ff;
+      --neon-accent: #35bfff;
     }
 
     body {
@@ -59,17 +59,20 @@
       pointer-events: none;
       z-index: 2;
       background: 
-        radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.75) 100%),
-        linear-gradient(rgba(18, 10, 15, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-      background-size: 100% 100%, 100% 4px;
+        radial-gradient(circle at center, transparent 50%, rgba(0, 4, 20, 0.72) 100%),
+        linear-gradient(rgba(18, 10, 15, 0) 50%, rgba(4, 20, 55, 0.22) 50%);
+      background-size: 100% 100%, 100% 5px;
     }
 
     .ambient-bg {
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at center, rgba(35, 12, 28, 0.5) 0%, rgba(6, 3, 5, 0.88) 100%),
-        url('https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/59b2349684d902730f710b65f05ecb80.gif') center/cover no-repeat;
+        radial-gradient(circle at 50% 42%, rgba(14, 103, 255, 0.32) 0%, rgba(3, 13, 43, 0.54) 46%, rgba(1, 5, 22, 0.94) 100%),
+        radial-gradient(circle at 18% 22%, rgba(38, 125, 255, 0.36) 0 2%, transparent 8%),
+        radial-gradient(circle at 78% 18%, rgba(80, 170, 255, 0.28) 0 3%, transparent 10%),
+        radial-gradient(circle at 72% 76%, rgba(20, 100, 255, 0.25) 0 4%, transparent 12%),
+        url('https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/01785d677dff87c729169c9797a905de.jpg') center/cover no-repeat;
       z-index: 0;
       pointer-events: none;
     }
@@ -86,7 +89,7 @@
     #scene-cutscene {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(15, 5, 20, 0.95) 0%, rgba(3, 1, 4, 0.99) 100%);
+      background: radial-gradient(circle at center, rgba(5, 35, 105, 0.96) 0%, rgba(1, 6, 24, 0.99) 100%);
       z-index: 9999;
       display: flex;
       flex-direction: column;
@@ -99,7 +102,7 @@
     }
 
     #scene-cutscene.exponential-purple {
-      background: radial-gradient(circle at center, rgba(90, 20, 140, 0.95) 0%, rgba(35, 8, 60, 0.98) 50%, rgba(10, 2, 20, 1) 100%);
+      background: radial-gradient(circle at center, rgba(8, 105, 235, 0.94) 0%, rgba(5, 45, 125, 0.98) 50%, rgba(1, 8, 30, 1) 100%);
     }
 
     #scene-cutscene.fade-out {
@@ -122,8 +125,8 @@
       width: 210px;
       height: 210px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(157,78,221,0.4) 0%, rgba(199,125,255,0.2) 50%, rgba(0,0,0,0) 80%);
-      box-shadow: 0 0 60px rgba(157,78,221,0.7), inset 0 0 40px rgba(199,125,255,0.5);
+      background: radial-gradient(circle, rgba(15, 115, 255, 0.38) 0%, rgba(70, 190, 255, 0.2) 50%, rgba(0,0,0,0) 80%);
+      box-shadow: 0 0 60px rgba(0, 110, 255, 0.65), inset 0 0 40px rgba(80, 195, 255, 0.45);
       animation: pulseAura 2s ease-in-out infinite alternate;
       transition: all 0.5s ease;
     }
@@ -131,7 +134,7 @@
     .purple-bubble-aura.super-glow {
       transform: scale(1.25);
       box-shadow: 0 0 110px rgba(199,125,255,1), inset 0 0 70px rgba(255,255,255,0.9);
-      background: radial-gradient(circle, rgba(199,125,255,0.75) 0%, rgba(157,78,221,0.5) 60%, rgba(0,0,0,0) 85%);
+      background: radial-gradient(circle, rgba(90, 205, 255, 0.72) 0%, rgba(0, 115, 255, 0.48) 60%, rgba(0,0,0,0) 85%);
     }
 
     @keyframes pulseAura {
@@ -143,7 +146,7 @@
       position: relative;
       z-index: 2;
       font-size: 6.5rem;
-      color: #f3e8ff;
+      color: #e5f5ff;
       filter: drop-shadow(0 0 20px var(--purple-bright)) drop-shadow(0 0 40px var(--purple-glow));
       transition: filter 0.4s ease, transform 0.4s ease;
     }
@@ -196,7 +199,7 @@
       border: 1px solid var(--panel-border);
       border-left: 3px solid var(--bright-red);
       border-radius: 4px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(138, 37, 66, 0.2);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(20, 110, 255, 0.2);
       backdrop-filter: blur(12px);
       opacity: 0;
       visibility: hidden;
@@ -294,7 +297,7 @@
       align-items: center;
       gap: 14px;
       padding-bottom: 16px;
-      border-bottom: 1px solid rgba(138, 37, 66, 0.4);
+      border-bottom: 1px solid rgba(25, 105, 235, 0.42);
     }
 
     .server-brand img {
@@ -313,7 +316,7 @@
       text-transform: uppercase;
       letter-spacing: 1.5px;
       color: #fff;
-      text-shadow: 0 0 8px rgba(255, 77, 109, 0.5);
+      text-shadow: 0 0 8px rgba(55, 180, 255, 0.5);
     }
 
     .side-nav-menu {
@@ -324,7 +327,7 @@
     }
 
     .side-nav-btn {
-      background: rgba(45, 12, 22, 0.6);
+      background: rgba(8, 35, 88, 0.68);
       border: 1px solid var(--border);
       color: var(--paper);
       font-family: 'Orbitron', monospace;
@@ -349,7 +352,7 @@
     }
 
     .side-nav-btn:hover {
-      background: rgba(138, 37, 66, 0.5);
+      background: rgba(18, 83, 205, 0.48);
       border-color: var(--bright-red);
       color: #fff;
       transform: translateX(4px);
@@ -361,10 +364,10 @@
     }
 
     .side-nav-btn.active {
-      background: linear-gradient(90deg, var(--crimson) 0%, rgba(74, 18, 34, 0.8) 100%);
+      background: linear-gradient(90deg, var(--crimson) 0%, rgba(7, 45, 115, 0.82) 100%);
       border-color: var(--gold);
       color: #fff;
-      box-shadow: inset 3px 0 0 var(--gold), 0 0 15px rgba(138, 37, 66, 0.4);
+      box-shadow: inset 3px 0 0 var(--gold), 0 0 15px rgba(25, 105, 235, 0.42);
     }
 
     .side-nav-btn.active i {
@@ -401,7 +404,7 @@
       font-size: 0.65rem;
       font-weight: 700;
       color: var(--gold);
-      border-bottom: 1px dashed rgba(194, 171, 136, 0.3);
+      border-bottom: 1px dashed rgba(100, 180, 255, 0.28);
       padding-bottom: 8px;
       margin-bottom: 14px;
       text-transform: uppercase;
@@ -489,7 +492,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      background: rgba(28, 12, 20, 0.65);
+      background: rgba(7, 34, 88, 0.72);
       border: 1px solid var(--border);
       padding: 10px 12px;
       border-radius: 4px;
@@ -497,8 +500,8 @@
     }
 
     .owner-card:hover, .member-card:hover, .bot-card:hover {
-      border-color: rgba(194, 171, 136, 0.4);
-      background: rgba(45, 16, 30, 0.7);
+      border-color: rgba(89, 166, 255, 0.42);
+      background: rgba(10, 54, 125, 0.72);
     }
 
     .owner-card img,
@@ -566,7 +569,7 @@
 
     .bot-card {
       border-style: dashed;
-      border-color: rgba(138, 37, 66, 0.5);
+      border-color: rgba(18, 83, 205, 0.48);
     }
 
     /* Community Tab Grid Layout */
@@ -582,7 +585,7 @@
       display: flex;
       align-items: center;
       gap: 18px;
-      background: linear-gradient(135deg, rgba(30, 12, 22, 0.8) 0%, rgba(18, 7, 14, 0.9) 100%);
+      background: linear-gradient(135deg, rgba(7, 35, 90, 0.82) 0%, rgba(3, 16, 48, 0.92) 100%);
       border: 1px solid var(--border);
       border-left: 3px solid var(--crimson);
       padding: 22px;
@@ -592,7 +595,7 @@
     }
 
     .community-card-hud:hover {
-      background: linear-gradient(135deg, rgba(74, 18, 34, 0.8) 0%, rgba(35, 10, 20, 0.9) 100%);
+      background: linear-gradient(135deg, rgba(7, 45, 115, 0.82) 0%, rgba(35, 10, 20, 0.9) 100%);
       border-color: var(--gold);
       border-left-color: var(--bright-red);
       transform: translateY(-3px);
@@ -636,7 +639,7 @@
     }
 
     .credits-card-pro {
-      background: rgba(26, 11, 19, 0.7);
+      background: rgba(6, 27, 72, 0.78);
       border: 1px solid var(--border);
       border-top: 2px solid var(--gold);
       padding: 16px 18px;
@@ -673,7 +676,7 @@
     }
 
     .credits-banner {
-      background: linear-gradient(135deg, rgba(74, 18, 34, 0.6) 0%, rgba(20, 8, 15, 0.8) 100%);
+      background: linear-gradient(135deg, rgba(9, 54, 130, 0.65) 0%, rgba(20, 8, 15, 0.8) 100%);
       border: 1px solid var(--panel-border);
       padding: 20px;
       text-align: center;
@@ -698,7 +701,7 @@
 
     /* Embedded Music Tab Pane */
     .music-notice {
-      background: rgba(74, 18, 34, 0.6);
+      background: rgba(9, 54, 130, 0.65);
       border: 1px solid var(--gold);
       color: var(--paper);
       padding: 12px 18px;
@@ -1987,7 +1990,7 @@
           vy: Math.sin(angle) * speed,
           radius: Math.random() * 4 + 2,
           alpha: 1,
-          color: Math.random() > 0.3 ? '#c77dff' : '#9d4edd'
+          color: Math.random() > 0.3 ? '#72d9ff' : '#087bff'
         });
       }
 
@@ -2002,7 +2005,7 @@
           ctx.strokeStyle = `rgba(199, 125, 255, ${Math.max(0, waveAlpha)})`;
           ctx.lineWidth = 6;
           ctx.shadowBlur = 20;
-          ctx.shadowColor = '#9d4edd';
+          ctx.shadowColor = '#087bff';
           ctx.stroke();
         }
 
