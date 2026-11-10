@@ -1641,6 +1641,70 @@
       .moon-stage, .moon-orb, .moon-cutout { transition-duration: .25s !important; }
     }
 
+
+    /* Moon rendering correction: a true crescent silhouette, never a dark cutout. */
+    .moon-orb {
+      width: 120px !important;
+      height: 120px !important;
+      background: transparent !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      overflow: visible !important;
+      animation: moonHover 3.2s ease-in-out infinite;
+      transition: transform 1.12s cubic-bezier(.2,.75,.15,1) !important;
+    }
+    .moon-crescent {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      filter: drop-shadow(0 0 7px rgba(225,249,255,.95))
+              drop-shadow(0 0 22px rgba(70,174,255,.95))
+              drop-shadow(0 0 48px rgba(0,105,255,.7));
+      opacity: 1;
+      transform: rotate(-12deg);
+      transition: opacity .45s ease, transform .7s cubic-bezier(.2,.75,.15,1);
+    }
+    .moon-full {
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(.72);
+      background:
+        radial-gradient(circle at 32% 26%, rgba(255,255,255,.95), transparent 18%),
+        radial-gradient(circle at 35% 30%, #e8f9ff 0%, #a9e3ff 27%, #55b5ff 61%, #1765d0 100%);
+      box-shadow: 0 0 16px rgba(225,249,255,.95), 0 0 45px rgba(62,169,255,.95), 0 0 100px rgba(0,105,255,.72), inset -12px -12px 25px rgba(0,36,120,.25);
+      transition: opacity .48s ease, transform .72s cubic-bezier(.2,.75,.15,1);
+    }
+    .moon-stage.moon-awake .moon-orb {
+      animation: none;
+      transform: rotate(0deg) scale(1.04);
+    }
+    .moon-stage.moon-awake .moon-crescent {
+      opacity: 0;
+      transform: rotate(95deg) scale(.72);
+    }
+    .moon-stage.moon-awake .moon-full {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .moon-stage.moon-expanding .moon-orb {
+      animation: none;
+      transform: rotate(720deg) scale(28) !important;
+    }
+    .moon-stage.moon-expanding .moon-full {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .moon-stage.moon-expanding .moon-crater { opacity: 0; }
+    .moon-stage.moon-expanding .moon-aura { opacity: 0; }
+    .moon-crater { z-index: 2; }
+    .moon-stage.moon-awake .moon-crater { opacity: .75; }
+    .moon-stage.moon-expanding .moon-crescent { opacity: 0; }
+    .moon-stage.moon-expanding .moon-cutout { display: none !important; }
+
   </style>
 </head>
 <body>
@@ -1657,7 +1721,18 @@
     <div id="sword-container" class="sword-container moon-stage" aria-hidden="true">
       <div id="purple-aura" class="purple-bubble-aura moon-aura"></div>
       <div id="moon-orb" class="moon-orb">
-        <span class="moon-cutout"></span>
+        <svg class="moon-crescent" viewBox="0 0 120 120" aria-hidden="true">
+          <defs>
+            <linearGradient id="crescentBlue" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#f4fdff"/>
+              <stop offset="34%" stop-color="#a8e7ff"/>
+              <stop offset="72%" stop-color="#42aaff"/>
+              <stop offset="100%" stop-color="#1262d4"/>
+            </linearGradient>
+          </defs>
+          <path d="M 78 8 A 54 54 0 1 0 78 112 A 40 54 0 0 1 78 8 Z" fill="url(#crescentBlue)"/>
+        </svg>
+        <span class="moon-full"></span>
         <span class="moon-crater crater-one"></span>
         <span class="moon-crater crater-two"></span>
         <span class="moon-crater crater-three"></span>
