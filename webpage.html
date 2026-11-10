@@ -1779,6 +1779,60 @@
       pointer-events: none;
     }
 
+
+    /* LIST TAB — replace the leftover pale category boxes with midnight glass. */
+    .directory-section {
+      background: linear-gradient(145deg, rgba(5,25,68,.94), rgba(3,14,43,.94)) !important;
+      border: 1px solid rgba(76,157,255,.38) !important;
+      border-radius: 19px !important;
+      box-shadow: 0 12px 34px rgba(0,5,28,.34), inset 0 1px 0 rgba(132,204,255,.09), 0 0 22px rgba(0,100,255,.08) !important;
+      backdrop-filter: blur(18px) saturate(1.15) !important;
+    }
+    .directory-section:hover {
+      border-color: rgba(91,190,255,.56) !important;
+      box-shadow: 0 14px 38px rgba(0,5,28,.4), 0 0 24px rgba(0,105,255,.13) !important;
+    }
+    .directory-section summary {
+      color: #c5e8ff !important;
+      text-shadow: 0 0 13px rgba(0,125,255,.2) !important;
+    }
+    .directory-section summary::after { color: #70cfff !important; }
+    .directory-section summary .directory-count {
+      color: #c9edff !important;
+      background: linear-gradient(135deg, rgba(0,100,220,.35), rgba(0,54,135,.48)) !important;
+      border: 1px solid rgba(91,184,255,.32) !important;
+      box-shadow: 0 0 12px rgba(0,110,255,.12) !important;
+    }
+    .directory-grid .member-card,
+    .directory-grid .owner-card,
+    .directory-grid .bot-card {
+      background: linear-gradient(145deg, rgba(8,43,101,.92), rgba(3,20,58,.96)) !important;
+      border: 1px solid rgba(76,157,255,.34) !important;
+      color: #e1f2ff !important;
+      box-shadow: 0 7px 20px rgba(0,4,25,.28), inset 0 1px 0 rgba(135,208,255,.08) !important;
+    }
+    .directory-grid .member-card:hover,
+    .directory-grid .owner-card:hover,
+    .directory-grid .bot-card:hover {
+      background: linear-gradient(145deg, rgba(10,65,145,.96), rgba(4,29,79,.98)) !important;
+      border-color: rgba(104,211,255,.7) !important;
+      box-shadow: 0 9px 24px rgba(0,84,220,.22) !important;
+    }
+    .directory-member-name { color: #e0f2ff !important; }
+    .directory-role-label { color: #83cfff !important; }
+    .directory-empty { color: #91b7dc !important; }
+    .directory-intro { color: #a9c9e9 !important; }
+    .directory-toolbar .directory-hint { color: #83bce9 !important; }
+    .directory-search {
+      background: rgba(2,13,39,.9) !important;
+      border-color: rgba(87,161,255,.42) !important;
+      color: #e3f2ff !important;
+    }
+    .directory-search:focus {
+      border-color: rgba(91,202,255,.78) !important;
+      box-shadow: 0 0 0 3px rgba(0,119,255,.16) !important;
+    }
+
   </style>
 </head>
 <body>
