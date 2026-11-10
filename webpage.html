@@ -1535,6 +1535,112 @@
     .status-dot.offline { background: #7187a5 !important; }
     .sidebar-right { display: none !important; }
 
+
+    /* Dreamy Cascade moon-loading sequence */
+    #scene-cutscene {
+      background:
+        radial-gradient(ellipse at 50% 42%, rgba(0,105,255,.20), rgba(2,20,65,.48) 48%, rgba(0,5,24,.82) 100%),
+        url('https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/01785d677dff87c729169c9797a905de.jpg') center/cover no-repeat !important;
+    }
+    .moon-stage {
+      width: 260px !important;
+      height: 220px !important;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: center center;
+      transition: transform 1.15s cubic-bezier(.2,.75,.15,1), opacity .25s ease !important;
+    }
+    .moon-aura {
+      width: 190px !important;
+      height: 190px !important;
+      background: radial-gradient(circle, rgba(40,151,255,.22), rgba(0,79,210,.12) 52%, transparent 76%) !important;
+      box-shadow: 0 0 55px rgba(0,123,255,.38), inset 0 0 28px rgba(120,213,255,.18) !important;
+    }
+    .moon-orb {
+      position: relative;
+      z-index: 3;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      opacity: 1;
+      transform: rotate(-18deg);
+      background:
+        radial-gradient(circle at 32% 27%, #f2fcff 0%, #b8eaff 18%, #67c6ff 48%, #1674df 76%, #073b9d 100%);
+      box-shadow:
+        0 0 14px rgba(210,245,255,.95),
+        0 0 36px rgba(64,174,255,.9),
+        0 0 82px rgba(0,103,255,.72),
+        inset -13px -12px 24px rgba(0,29,104,.38),
+        inset 8px 7px 18px rgba(255,255,255,.35);
+      animation: moonHover 3.2s ease-in-out infinite;
+      transition: transform 1.12s cubic-bezier(.2,.75,.15,1), width 1.12s ease, height 1.12s ease, box-shadow .8s ease;
+    }
+    .moon-cutout {
+      position: absolute;
+      width: 104px;
+      height: 104px;
+      left: 35px;
+      top: -11px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 58% 42%, #061a4b 0%, #03102f 62%, #01091e 100%);
+      box-shadow: 9px 1px 20px rgba(0,7,31,.24);
+      transition: opacity .42s ease, transform .55s ease;
+    }
+    .moon-crater {
+      position: absolute;
+      display: block;
+      border-radius: 50%;
+      background: rgba(17,91,175,.24);
+      box-shadow: inset 2px 2px 5px rgba(0,48,132,.2), 0 0 5px rgba(255,255,255,.14);
+      opacity: .72;
+      transition: opacity .3s ease;
+    }
+    .crater-one { width: 13px; height: 13px; left: 25px; top: 27px; }
+    .crater-two { width: 8px; height: 8px; left: 44px; top: 55px; }
+    .crater-three { width: 6px; height: 6px; left: 20px; top: 70px; }
+    @keyframes moonHover {
+      0%,100% { translate: 0 0; }
+      50% { translate: 0 -11px; }
+    }
+    .moon-stage.moon-awake .moon-orb {
+      animation: none;
+      transform: rotate(0deg) scale(1.04);
+    }
+    .moon-stage.moon-awake .moon-cutout {
+      opacity: 0;
+      transform: translate(25px,-3px) scale(.82);
+    }
+    .moon-stage.moon-awake .moon-crater { opacity: .9; }
+    .moon-stage.moon-expanding {
+      z-index: 10;
+      transform: scale(1) !important;
+    }
+    .moon-stage.moon-expanding .moon-orb {
+      animation: none;
+      width: 120px;
+      height: 120px;
+      transform: rotate(720deg) scale(28);
+      box-shadow: 0 0 35px #e8f8ff, 0 0 110px #52bfff, 0 0 220px #087bff;
+    }
+    .moon-stage.moon-expanding .moon-cutout,
+    .moon-stage.moon-expanding .moon-crater { opacity: 0; }
+    .moon-stage.moon-expanding .moon-aura { opacity: 0; }
+    #loading-status-text {
+      margin-top: 4px !important;
+      color: #d9f2ff !important;
+      text-shadow: 0 0 12px #168bff, 0 0 28px rgba(0,123,255,.9) !important;
+    }
+    #scene-cutscene.moon-transition {
+      background: #eaf8ff !important;
+      transition: background .65s ease, opacity .8s ease, visibility .8s ease !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .moon-orb { animation: none !important; }
+      .moon-stage, .moon-orb, .moon-cutout { transition-duration: .25s !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -1548,10 +1654,13 @@
   <!-- Loading & Cutscene Screen -->
   <div id="scene-cutscene">
     <canvas id="cutscene-canvas"></canvas>
-    <div id="sword-container" class="sword-container">
-      <div id="purple-aura" class="purple-bubble-aura"></div>
-      <div id="sword-icon" class="sword-icon-wrapper">
-        <i class="fa-solid fa-sparkles"></i>
+    <div id="sword-container" class="sword-container moon-stage" aria-hidden="true">
+      <div id="purple-aura" class="purple-bubble-aura moon-aura"></div>
+      <div id="moon-orb" class="moon-orb">
+        <span class="moon-cutout"></span>
+        <span class="moon-crater crater-one"></span>
+        <span class="moon-crater crater-two"></span>
+        <span class="moon-crater crater-three"></span>
       </div>
     </div>
     <div id="loading-status-text" class="loading-status-text">A little world is waking up...</div>
@@ -2394,23 +2503,27 @@
       await delay(700);
 
       playChargeUpSound();
-      document.getElementById('purple-aura').classList.add('super-glow');
-      document.getElementById('sword-icon').classList.add('brighten');
-      statusEl.textContent = "Welcome to Dreamy Cascade ♡";
-      await delay(900);
-
-      playPopExplosionSound();
-      document.getElementById('sword-container').style.opacity = '0';
-      statusEl.style.opacity = '0';
-      triggerPurpleShockwave();
-
-      await delay(600);
-
+      const moonStage = document.getElementById('sword-container');
       const cutscene = document.getElementById('scene-cutscene');
+
+      // The crescent fills into a complete moon above the welcome text.
+      moonStage.classList.add('moon-awake');
+      statusEl.textContent = "The moon is rising...";
+      await delay(650);
+
+      // The full moon spins, then grows outward to cover the whole screen.
+      playPopExplosionSound();
+      moonStage.classList.add('moon-expanding');
+      statusEl.textContent = "Welcome to Dreamy Cascade ♡";
+      await delay(1050);
+
+      // A brief moonlit flash bridges the animation into the website.
+      cutscene.classList.add('moon-transition');
+      await delay(220);
       cutscene.classList.add('fade-out');
 
-      // 0.4s pause after cutscene load complete before UI entrance
-      await delay(400);
+      // Let the cutscene clear before revealing the website interface.
+      await delay(550);
       openMainInterface();
     }
 
