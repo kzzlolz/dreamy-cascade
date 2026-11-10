@@ -1394,12 +1394,10 @@
 
     html, body { background: #02091f !important; color: #e3f2ff !important; }
     body { background: #02091f !important; }
+    /* Remove the old gaming scanline layer: it was washing out every panel. */
     .hud-overlay {
-      display: block !important;
-      background:
-        radial-gradient(ellipse at 50% 45%, transparent 22%, rgba(0,5,24,.38) 68%, rgba(0,3,17,.78) 100%),
-        linear-gradient(rgba(3,20,58,.10) 50%, rgba(0,5,22,.20) 50%) !important;
-      background-size: 100% 100%, 100% 5px !important;
+      display: none !important;
+      background: none !important;
     }
     .ambient-bg {
       background:
@@ -1411,10 +1409,15 @@
       filter: saturate(1.25) brightness(.72) !important;
     }
 
+    /* Keep the existing loading animation, but give its full-screen scene
+       the same deep-blue flower artwork as the main website. */
     #scene-cutscene,
     #scene-cutscene.exponential-purple {
       background:
-        radial-gradient(circle at 50% 44%, rgba(0,111,255,.42), rgba(3,26,79,.94) 52%, #010617 100%) !important;
+        radial-gradient(ellipse at 50% 42%, rgba(0,105,255,.22) 0%, rgba(2,20,65,.66) 48%, rgba(0,5,24,.91) 100%),
+        linear-gradient(135deg, rgba(0,8,35,.30), rgba(0,20,68,.48)),
+        url('https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/01785d677dff87c729169c9797a905de.jpg') center center / cover no-repeat !important;
+      background-color: #02091f !important;
     }
     .purple-bubble-aura,
     .purple-bubble-aura.super-glow {
