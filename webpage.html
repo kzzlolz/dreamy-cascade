@@ -1705,6 +1705,57 @@
     .moon-stage.moon-expanding .moon-crescent { opacity: 0; }
     .moon-stage.moon-expanding .moon-cutout { display: none !important; }
 
+
+    /* Slow, cinematic moon choreography — gentle rather than rushed. */
+    .moon-stage {
+      transition: transform 2.8s cubic-bezier(.22,.72,.18,1), opacity 1.2s ease !important;
+    }
+    .moon-orb {
+      animation-duration: 4.8s !important;
+      transition: transform 3.25s cubic-bezier(.18,.72,.16,1) !important;
+    }
+    .moon-crescent {
+      transition: opacity 1.65s ease-in-out, transform 1.9s cubic-bezier(.22,.72,.18,1) !important;
+    }
+    .moon-full {
+      transition: opacity 1.8s ease-in-out, transform 2s cubic-bezier(.22,.72,.18,1) !important;
+    }
+    .moon-stage.moon-awake .moon-orb {
+      transform: rotate(0deg) scale(1.06) !important;
+    }
+    .moon-stage.moon-awake .moon-crescent {
+      opacity: 0;
+      transform: rotate(75deg) scale(.88);
+    }
+    .moon-stage.moon-awake .moon-full {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .moon-stage.moon-expanding .moon-orb {
+      transform: rotate(900deg) scale(38) !important;
+      transition: transform 3.25s cubic-bezier(.55,.02,.82,.42) !important;
+    }
+    .moon-stage.moon-expanding .moon-full {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity .8s ease, transform 3.25s cubic-bezier(.55,.02,.82,.42) !important;
+    }
+    #scene-cutscene.moon-transition {
+      background: #b9eaff !important;
+      transition: background 1.25s ease, opacity 1.35s ease, visibility 1.35s ease !important;
+    }
+    #scene-cutscene.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 1.35s ease, visibility 1.35s ease !important;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .moon-orb { animation: none !important; }
+      .moon-stage, .moon-orb, .moon-crescent, .moon-full {
+        transition-duration: .3s !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -2581,24 +2632,31 @@
       const moonStage = document.getElementById('sword-container');
       const cutscene = document.getElementById('scene-cutscene');
 
-      // The crescent fills into a complete moon above the welcome text.
-      moonStage.classList.add('moon-awake');
+      // Let the crescent hover in the completed loading scene before it changes.
       statusEl.textContent = "The moon is rising...";
-      await delay(650);
+      await delay(900);
 
-      // The full moon spins, then grows outward to cover the whole screen.
+      // Slowly reveal the full moon; give the morph time to breathe.
+      moonStage.classList.add('moon-awake');
+      await delay(2100);
+
+      // Hold the complete moon for a quiet beat before the transformation.
+      statusEl.textContent = "A little light for our dreamers...";
+      await delay(1150);
+
+      // The full moon begins a slow, graceful spin and expands across the screen.
       playPopExplosionSound();
       moonStage.classList.add('moon-expanding');
       statusEl.textContent = "Welcome to Dreamy Cascade ♡";
-      await delay(1050);
+      await delay(3300);
 
-      // A brief moonlit flash bridges the animation into the website.
+      // Ease into a soft moonlit blue, then fade away to reveal the interface.
       cutscene.classList.add('moon-transition');
-      await delay(220);
+      await delay(950);
       cutscene.classList.add('fade-out');
 
-      // Let the cutscene clear before revealing the website interface.
-      await delay(550);
+      // Give the cutscene a full fade before revealing the website interface.
+      await delay(1250);
       openMainInterface();
     }
 
