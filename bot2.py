@@ -67,8 +67,9 @@ class MyClient(discord.Client):
             self.tree.clear_commands(guild=guild_obj)
             await self.tree.sync(guild=guild_obj)
 
-        await self.change_presence(status=discord.Status.invisible)
-        print("All Kzz slash commands removed; presence set to invisible.")
+        # Presence cannot be changed in setup_hook(): the gateway WebSocket
+        # is not connected yet. on_connect/on_ready keep Kzz invisible.
+        print("All Kzz slash commands removed; invisible presence will be applied after gateway connection.")
 
 
 client = MyClient(intents=intents)
