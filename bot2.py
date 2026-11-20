@@ -59,12 +59,20 @@ class MyClient(discord.Client):
     async def setup_hook(self):
         if GUILD_ID:
             guild_obj = discord.Object(id=int(GUILD_ID))
+
+            # Publish the commands to this guild only. The previous setup left
+            # a global copy alongside the guild copy, making /stats appear twice.
             self.tree.copy_global_to(guild=guild_obj)
             await self.tree.sync(guild=guild_obj)
+
+            # Remove any previously registered global copies so every command
+            # appears only once in the server's command list.
+            self.tree.clear_commands(guild=None)
+            await self.tree.sync()
         else:
             await self.tree.sync()
 
-        print("Slash commands synced successfully.")
+        print("Slash commands synced without duplicate global copies.")
 
 
 client = MyClient(intents=intents)
@@ -451,7 +459,16 @@ async def stats(interaction: discord.Interaction):
 # --------------------------------------------------
 
 @client.event
+async def on_connect():
+    # Invisible is Discord's offline-looking presence. Apply it immediately
+    # on every fresh connection/reconnect while startup work is in progress.
+    await client.change_presence(status=discord.Status.invisible)
+
+
+@client.event
 async def on_ready():
+    # Keep Kzz appearing offline until all startup tasks have completed.
+    await client.change_presence(status=discord.Status.invisible)
     print(f"Logged in as {client.user}")
 
     await update_guild_data()
@@ -464,6 +481,10 @@ async def on_ready():
         system_status_loop.start()
     if not cached_guild_refresh_loop.is_running():
         cached_guild_refresh_loop.start()
+
+    # Only show Kzz online once the guild cache, status message, and loops
+    # are ready. This runs again after a reconnect as well.
+    await client.change_presence(status=discord.Status.online)
 
 
 @client.event
