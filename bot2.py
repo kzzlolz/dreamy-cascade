@@ -57,22 +57,18 @@ class MyClient(discord.Client):
         self.tree = app_commands.CommandTree(self)
 
     async def setup_hook(self):
+        # Kzz no longer exposes slash commands. Clear both global and
+        # server-specific registrations so old commands disappear from Discord.
+        self.tree.clear_commands(guild=None)
+        await self.tree.sync()
+
         if GUILD_ID:
             guild_obj = discord.Object(id=int(GUILD_ID))
-
-            # Publish the commands to this guild only. The previous setup left
-            # a global copy alongside the guild copy, making /stats appear twice.
-            self.tree.copy_global_to(guild=guild_obj)
+            self.tree.clear_commands(guild=guild_obj)
             await self.tree.sync(guild=guild_obj)
 
-            # Remove any previously registered global copies so every command
-            # appears only once in the server's command list.
-            self.tree.clear_commands(guild=None)
-            await self.tree.sync()
-        else:
-            await self.tree.sync()
-
-        print("Slash commands synced without duplicate global copies.")
+        await self.change_presence(status=discord.Status.invisible)
+        print("All Kzz slash commands removed; presence set to invisible.")
 
 
 client = MyClient(intents=intents)
@@ -406,53 +402,7 @@ async def send_error(error_text):
 
 
 # --------------------------------------------------
-# /STATS COMMAND
-# --------------------------------------------------
-
-@client.tree.command(
-    name="stats",
-    description="Check system status and server statistics."
-)
-async def stats(interaction: discord.Interaction):
-
-    with data_lock:
-        total = guild_data["total_members"]
-        online = guild_data["online_members"]
-        bots = guild_data["bot_count"]
-
-    embed = discord.Embed(
-        title="📊 Dreamy Cascade Stats",
-        description="System is fully functional and awake! 🦋",
-        color=0xFF1A40
-    )
-
-    embed.add_field(
-        name="👥 Total Members",
-        value=f"`{total}`",
-        inline=True
-    )
-
-    embed.add_field(
-        name="🟢 Online Humans",
-        value=f"`{online}`",
-        inline=True
-    )
-
-    embed.add_field(
-        name="🤖 Bots",
-        value=f"`{bots}`",
-        inline=True
-    )
-
-    embed.set_footer(
-        text="Requested via /stats"
-    )
-
-    await interaction.response.send_message(
-        embed=embed,
-        ephemeral=False
-    )
-
+# All slash-command handlers have been removed.
 
 # --------------------------------------------------
 # DISCORD EVENTS
@@ -460,21 +410,20 @@ async def stats(interaction: discord.Interaction):
 
 @client.event
 async def on_connect():
-    # Invisible is Discord's offline-looking presence. Apply it immediately
-    # on every fresh connection/reconnect while startup work is in progress.
+    # Kzz intentionally stays invisible during startup and every reconnect.
     await client.change_presence(status=discord.Status.invisible)
 
 
 @client.event
 async def on_ready():
-    # Keep Kzz appearing offline until all startup tasks have completed.
+    # Keep Kzz invisible even after all hosted services are fully operational.
     await client.change_presence(status=discord.Status.invisible)
     print(f"Logged in as {client.user}")
 
     await update_guild_data()
 
-    # Send the startup embed or refresh the existing one
-    # if Discord reconnects.
+    # Refresh the status embed and start background services without
+    # changing Kzz's invisible presence.
     await update_status_message()
 
     if not system_status_loop.is_running():
@@ -482,9 +431,7 @@ async def on_ready():
     if not cached_guild_refresh_loop.is_running():
         cached_guild_refresh_loop.start()
 
-    # Only show Kzz online once the guild cache, status message, and loops
-    # are ready. This runs again after a reconnect as well.
-    await client.change_presence(status=discord.Status.online)
+    await client.change_presence(status=discord.Status.invisible)
 
 
 @client.event
