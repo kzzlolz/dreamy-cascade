@@ -2781,6 +2781,7 @@
       document.getElementById('sidebar-left').classList.add('visible');
       startMainTipRotation();
       showNewcomerWelcomeIfNeeded();
+      showLeaderboard('levels', document.querySelector('.leaderboard-category[data-leaderboard="levels"]'));
 
       // Step 2: Automatically trigger Home tab view (opens 2nd & 3rd containers)
       switchMainTab('home-tab');
