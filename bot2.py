@@ -87,12 +87,25 @@ guild_data = {
 
 data_lock = threading.Lock()
 
+LEADERBOARD_DATA_FILE = BASE_DIR / "leaderboards.json"
 leaderboard_data = {
     "levels": [],
     "points": [],
     "achievements": [],
     "updated_at": None,
 }
+try:
+    if LEADERBOARD_DATA_FILE.exists():
+        with LEADERBOARD_DATA_FILE.open("r", encoding="utf-8") as leaderboard_file:
+            saved_leaderboards = json.load(leaderboard_file)
+        if isinstance(saved_leaderboards, dict):
+            for category in ("levels", "points", "achievements"):
+                entries = saved_leaderboards.get(category, [])
+                if isinstance(entries, list):
+                    leaderboard_data[category] = entries[:3]
+            leaderboard_data["updated_at"] = saved_leaderboards.get("updated_at")
+except (OSError, json.JSONDecodeError) as error:
+    print(f"Could not load saved leaderboard snapshots: {error}")
 leaderboard_lock = threading.Lock()
 
 
@@ -408,6 +421,13 @@ def leaderboard_api():
     with leaderboard_lock:
         leaderboard_data[category] = clean_entries
         leaderboard_data["updated_at"] = updated_at
+        try:
+            temporary_path = str(LEADERBOARD_DATA_FILE) + ".tmp"
+            with open(temporary_path, "w", encoding="utf-8") as leaderboard_file:
+                json.dump(leaderboard_data, leaderboard_file, indent=2)
+            os.replace(temporary_path, LEADERBOARD_DATA_FILE)
+        except OSError as error:
+            print(f"Could not persist leaderboard snapshot: {error}")
 
     return jsonify({"ok": True, "category": category, "entries_received": len(clean_entries)})
 
