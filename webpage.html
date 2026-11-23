@@ -2240,10 +2240,6 @@
         { id: "1563865784835645590", name: "The Great Artisan" },
         { id: "1528281026156167189", name: "The Artistic Soul" }
       ],
-      leaderboard: [
-        { id: "1547122009371181119", name: "The Archivist" },
-        { id: "1557834410571857991", name: "The Socialite" }
-      ]
     };
     // The backend updates this small file whenever Cloudflare creates a new tunnel.
     const API_CONFIG_URL = "https://raw.githubusercontent.com/kzzlolz/dreamy-cascade/main/api-config.json";
@@ -3047,7 +3043,6 @@
         exclusive: document.getElementById('directory-exclusive-list'),
         helpers: document.getElementById('directory-helpers-list'),
         artists: document.getElementById('directory-artists-list'),
-        leaderboard: document.getElementById('directory-leaderboard-list'),
         members: document.getElementById('directory-members-list')
       };
 
@@ -3094,7 +3089,6 @@
         exclusive: 'No exclusive role holders yet.',
         helpers: 'No community helpers yet.',
         artists: 'No artists listed yet.',
-        leaderboard: 'No leaderboard role holders yet.',
         members: 'No other members found.'
       };
       Object.entries(directoryContainers).forEach(([key, container]) => {
