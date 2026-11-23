@@ -1833,6 +1833,30 @@
       box-shadow: 0 0 0 3px rgba(0,119,255,.16) !important;
     }
 
+
+    /* Kahoot-style leaderboard category selector and podium reveal */
+    .leaderboard-category-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:4px 0 18px}
+    .leaderboard-category{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:7px;padding:14px 13px;border:1px solid rgba(89,166,255,.28);border-radius:13px;color:#dceeff;background:linear-gradient(145deg,rgba(8,43,105,.88),rgba(3,17,49,.94));cursor:pointer;text-align:left;transition:transform .22s,border-color .22s,box-shadow .22s,background .22s}
+    .leaderboard-category:hover:not(:disabled){transform:translateY(-3px);border-color:#69caff;box-shadow:0 8px 22px rgba(0,104,255,.2)}
+    .leaderboard-category.active{border-color:#65caff;background:linear-gradient(145deg,rgba(10,87,181,.9),rgba(4,28,75,.96));box-shadow:inset 0 0 0 1px rgba(101,202,255,.18),0 0 18px rgba(0,119,255,.18)}
+    .leaderboard-category>i{color:#72ceff;font-size:1.05rem}.leaderboard-category>span{font:700 .67rem 'Orbitron',sans-serif;letter-spacing:.7px;overflow-wrap:anywhere}.leaderboard-category small{color:#9fc9ee;font-size:.65rem;line-height:1.35}
+    .leaderboard-category-locked{opacity:.52;cursor:not-allowed;border-style:dashed}.leaderboard-category-locked small{color:#9eb4cc}
+    .leaderboard-stage{flex:1;min-height:310px;display:flex;flex-direction:column;padding:18px 18px 14px;border:1px solid rgba(86,166,255,.28);border-radius:17px;background:radial-gradient(ellipse at 50% 100%,rgba(0,106,255,.19),transparent 62%),linear-gradient(145deg,rgba(4,24,67,.88),rgba(2,11,35,.96));overflow:hidden}
+    .leaderboard-stage-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.leaderboard-eyebrow{color:#75cfff;font:700 .52rem 'Orbitron',sans-serif;letter-spacing:1.5px}
+    .leaderboard-stage-heading h3{margin-top:6px;color:#f1f8ff;font:700 1.45rem 'Cormorant Garamond',serif}.leaderboard-stage-note{flex-shrink:0;color:#9bc9ee;font-size:.63rem;padding:7px 9px;border:1px solid rgba(111,185,255,.2);border-radius:99px;background:rgba(7,43,99,.55)}
+    .leaderboard-podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:end;gap:10px;width:min(620px,100%);margin:22px auto 0;min-height:215px}
+    .podium-place{display:flex;min-width:0;flex-direction:column;justify-content:flex-end;align-items:stretch;opacity:0;transform:translateY(24px) scale(.96)}
+    .podium-place.reveal{animation:podiumReveal .65s cubic-bezier(.2,.8,.2,1) forwards}.podium-second.reveal{animation-delay:.15s}.podium-third.reveal{animation-delay:.7s}.podium-first.reveal{animation-delay:1.25s}
+    @keyframes podiumReveal{to{opacity:1;transform:translateY(0) scale(1)}}
+    .podium-player{display:flex;min-width:0;flex-direction:column;align-items:center;gap:5px;padding:0 4px 10px;text-align:center}.podium-medal{font-size:1.65rem;filter:drop-shadow(0 0 9px rgba(110,196,255,.28))}
+    .podium-name{max-width:100%;color:#eaf6ff;font-size:.73rem;overflow-wrap:anywhere}.podium-score{color:#8fcfff;font:700 .62rem 'Orbitron',sans-serif}
+    .podium-column{display:flex;align-items:center;justify-content:center;min-height:88px;border:1px solid rgba(100,185,255,.35);border-bottom:0;border-radius:10px 10px 0 0;background:linear-gradient(180deg,rgba(28,115,210,.45),rgba(5,36,91,.88));box-shadow:inset 0 1px 15px rgba(112,203,255,.1)}
+    .podium-column span{color:#b8e2ff;font:700 .68rem 'Orbitron',sans-serif;letter-spacing:1px}.podium-first .podium-column{min-height:142px;border-color:rgba(255,211,112,.55);background:linear-gradient(180deg,rgba(180,137,49,.4),rgba(42,43,81,.92));box-shadow:inset 0 1px 18px rgba(255,207,104,.13),0 0 25px rgba(255,193,78,.08)}
+    .podium-first .podium-column span{color:#ffe2a0}.podium-third .podium-column{min-height:68px}.leaderboard-empty-note{margin-top:auto;padding-top:13px;color:#8eafd0;font-size:.68rem;line-height:1.5;text-align:center}
+    @media(max-width:760px){.leaderboard-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.leaderboard-stage{padding:15px 11px 12px}.leaderboard-stage-heading{flex-direction:column}.leaderboard-stage-note{align-self:flex-start}}
+    @media(max-width:420px){.leaderboard-podium{gap:5px;min-height:190px}.podium-name{font-size:.64rem}.podium-medal{font-size:1.4rem}.podium-column{min-height:75px}.podium-first .podium-column{min-height:120px}.podium-third .podium-column{min-height:58px}}
+    @media(prefers-reduced-motion:reduce){.podium-place.reveal{animation:none;opacity:1;transform:none}.leaderboard-category{transition:none}}
+
   </style>
 </head>
 <body>
@@ -2062,12 +2086,23 @@
 
         <!-- LEADERBOARD TAB -->
         <section id="leaderboard-tab" class="tab-pane">
-          <div class="panel-title"><i class="fa-solid fa-trophy"></i> Leaderboard</div>
-          <p class="directory-intro">The dreamers who keep our community shining, gathered in one place. ♡</p>
-          <details class="directory-section" open data-directory-section="leaderboard">
-            <summary>🏆 Leaderboard Roles <span class="directory-count" id="count-leaderboard">0</span></summary>
-            <ul id="directory-leaderboard-list" class="directory-grid"></ul>
-          </details>
+          <div class="panel-title"><i class="fa-solid fa-trophy"></i> Dreamy Cascade Leaderboards</div>
+          <p class="directory-intro">Four little stages for our dreamers. Choose a category to reveal its top three. ♡</p>
+          <div class="leaderboard-category-grid" role="group" aria-label="Leaderboard categories">
+            <button class="leaderboard-category active" type="button" data-leaderboard="levels" onclick="showLeaderboard('levels', this)"><i class="fa-solid fa-star"></i><span>LEVELS</span><small>Highest levels</small></button>
+            <button class="leaderboard-category" type="button" data-leaderboard="points" onclick="showLeaderboard('points', this)"><i class="fa-solid fa-coins"></i><span>ITPOINTS</span><small>Most ItPoints</small></button>
+            <button class="leaderboard-category" type="button" data-leaderboard="achievements" onclick="showLeaderboard('achievements', this)"><i class="fa-solid fa-medal"></i><span>ACHIEVEMENTS</span><small>Most unlocked</small></button>
+            <button class="leaderboard-category leaderboard-category-locked" type="button" disabled aria-label="Bakery leaderboard coming soon"><i class="fa-solid fa-bread-slice"></i><span>BAKERY</span><small><i class="fa-solid fa-lock"></i> Coming soon</small></button>
+          </div>
+          <div id="leaderboard-stage" class="leaderboard-stage" aria-live="polite">
+            <div class="leaderboard-stage-heading"><div><span class="leaderboard-eyebrow">DREAMY CASCADE · TOP THREE</span><h3 id="leaderboard-stage-title">⭐ Level Rankings</h3></div><span id="leaderboard-stage-note" class="leaderboard-stage-note">Awaiting Itsuki data</span></div>
+            <div id="leaderboard-podium" class="leaderboard-podium">
+              <article class="podium-place podium-second" data-place="2"><div class="podium-player"><span class="podium-medal">🥈</span><strong class="podium-name">Awaiting Itsuki...</strong><span class="podium-score">—</span></div><div class="podium-column"><span>2ND</span></div></article>
+              <article class="podium-place podium-first" data-place="1"><div class="podium-player"><span class="podium-medal">🥇</span><strong class="podium-name">Awaiting Itsuki...</strong><span class="podium-score">—</span></div><div class="podium-column"><span>1ST</span></div></article>
+              <article class="podium-place podium-third" data-place="3"><div class="podium-player"><span class="podium-medal">🥉</span><strong class="podium-name">Awaiting Itsuki...</strong><span class="podium-score">—</span></div><div class="podium-column"><span>3RD</span></div></article>
+            </div>
+            <p id="leaderboard-empty-note" class="leaderboard-empty-note">The podium is ready! Rankings will appear once Itsuki and Kzz are connected. ♡</p>
+          </div>
         </section>
 
         <!-- CREDITS TAB -->
@@ -2778,6 +2813,39 @@
       overlay.classList.add('visible');
       overlay.setAttribute('aria-hidden', 'false');
       document.getElementById('newcomer-mini').classList.remove('visible');
+    }
+
+
+    const LEADERBOARD_CONFIG = {
+      levels: { title: "⭐ Level Rankings", scoreLabel: "LEVEL", note: "Live ranking · top 3" },
+      points: { title: "💰 ItPoints Rankings", scoreLabel: "ITPOINTS", note: "Live ranking · top 3" },
+      achievements: { title: "🏅 Achievement Rankings", scoreLabel: "UNLOCKED", note: "Refreshes every 3 days" }
+    };
+
+    // Kzz will populate these from Itsuki after the bot-to-bot data bridge is connected.
+    const LEADERBOARD_DATA = { levels: [], points: [], achievements: [] };
+
+    function showLeaderboard(category, button) {
+      const config = LEADERBOARD_CONFIG[category];
+      if (!config) return;
+      document.querySelectorAll('.leaderboard-category[data-leaderboard]').forEach(item => item.classList.toggle('active', item === button));
+      document.getElementById('leaderboard-stage-title').textContent = config.title;
+      document.getElementById('leaderboard-stage-note').textContent = config.note;
+      const podium = document.getElementById('leaderboard-podium');
+      const emptyNote = document.getElementById('leaderboard-empty-note');
+      const entries = Array.isArray(LEADERBOARD_DATA[category]) ? LEADERBOARD_DATA[category].slice(0, 3) : [];
+      const places = [{ rank: 2, selector: '.podium-second' }, { rank: 1, selector: '.podium-first' }, { rank: 3, selector: '.podium-third' }];
+      places.forEach(({ rank, selector }) => {
+        const card = podium.querySelector(selector);
+        const entry = entries[rank - 1];
+        card.classList.remove('reveal');
+        void card.offsetWidth;
+        card.querySelector('.podium-name').textContent = entry ? String(entry.name || 'Dreamer') : 'Awaiting Itsuki...';
+        card.querySelector('.podium-score').textContent = entry ? Number(entry.score || 0).toLocaleString() + ' ' + config.scoreLabel : '—';
+        card.classList.add('reveal');
+      });
+      emptyNote.textContent = entries.length ? 'Congratulations to our top dreamers! Keep reaching for the stars. ♡' : 'The podium is ready! Rankings will appear once Itsuki and Kzz are connected. ♡';
+      emptyNote.hidden = entries.length > 0;
     }
 
     function switchMainTab(tabId, button) {
