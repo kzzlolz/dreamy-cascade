@@ -254,6 +254,19 @@ async def before_cached_guild_refresh():
     await client.wait_until_ready()
 
 
+@tasks.loop(minutes=15)
+async def guild_snapshot_loop():
+    guild = get_guild()
+    if guild is not None:
+        # Keep historical member analytics without posting health-check embeds.
+        record_guild_snapshot(guild)
+
+
+@guild_snapshot_loop.before_loop
+async def before_guild_snapshot_loop():
+    await client.wait_until_ready()
+
+
 # --------------------------------------------------
 # All slash-command handlers have been removed.
 
@@ -278,6 +291,8 @@ async def on_ready():
     # Start background member-cache refresh without posting health-check embeds.
     if not cached_guild_refresh_loop.is_running():
         cached_guild_refresh_loop.start()
+    if not guild_snapshot_loop.is_running():
+        guild_snapshot_loop.start()
 
     await client.change_presence(status=discord.Status.invisible)
 
