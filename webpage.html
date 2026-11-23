@@ -2814,20 +2814,37 @@
 
 
     const LEADERBOARD_CONFIG = {
-      levels: { title: "⭐ Level Rankings", scoreLabel: "LEVEL", note: "Live ranking · top 3" },
-      points: { title: "💰 ItPoints Rankings", scoreLabel: "ITPOINTS", note: "Live ranking · top 3" },
-      achievements: { title: "🏅 Achievement Rankings", scoreLabel: "UNLOCKED", note: "Refreshes every 3 days" }
+      levels: { title: "⭐ Level Rankings", scoreLabel: "LEVEL", note: "Updates daily · top 3" },
+      points: { title: "💰 ItPoints Rankings", scoreLabel: "ITPOINTS", note: "Updates every 6 hours · top 3" },
+      achievements: { title: "🏅 Achievement Rankings", scoreLabel: "UNLOCKED", note: "Updates every 3 days · top 3" }
     };
 
-    // Kzz will populate these from Itsuki after the bot-to-bot data bridge is connected.
     const LEADERBOARD_DATA = { levels: [], points: [], achievements: [] };
+    let leaderboardLastUpdated = null;
 
-    function showLeaderboard(category, button) {
+    async function fetchLeaderboardData() {
+      try {
+        const response = await fetch(API_BASE_URL + "/api/leaderboards?t=" + Date.now(), { cache: "no-store" });
+        if (!response.ok) throw new Error("Leaderboard API returned " + response.status);
+        const data = await response.json();
+        ["levels", "points", "achievements"].forEach(category => {
+          LEADERBOARD_DATA[category] = Array.isArray(data[category]) ? data[category].slice(0, 3) : [];
+        });
+        leaderboardLastUpdated = data.updated_at || null;
+        return true;
+      } catch (error) {
+        console.warn("Could not load leaderboard rankings.", error);
+        return false;
+      }
+    }
+
+    async function showLeaderboard(category, button) {
       const config = LEADERBOARD_CONFIG[category];
       if (!config) return;
       document.querySelectorAll('.leaderboard-category[data-leaderboard]').forEach(item => item.classList.toggle('active', item === button));
       document.getElementById('leaderboard-stage-title').textContent = config.title;
-      document.getElementById('leaderboard-stage-note').textContent = config.note;
+      document.getElementById('leaderboard-stage-note').textContent = "Loading rankings...";
+      await fetchLeaderboardData();
       const podium = document.getElementById('leaderboard-podium');
       const emptyNote = document.getElementById('leaderboard-empty-note');
       const entries = Array.isArray(LEADERBOARD_DATA[category]) ? LEADERBOARD_DATA[category].slice(0, 3) : [];
@@ -2841,7 +2858,10 @@
         card.querySelector('.podium-score').textContent = entry ? Number(entry.score || 0).toLocaleString() + ' ' + config.scoreLabel : '—';
         card.classList.add('reveal');
       });
-      emptyNote.textContent = entries.length ? 'Congratulations to our top dreamers! Keep reaching for the stars. ♡' : 'The podium is ready! Rankings will appear once Itsuki and Kzz are connected. ♡';
+      document.getElementById('leaderboard-stage-note').textContent = leaderboardLastUpdated
+        ? config.note + " · Last sync " + new Date(leaderboardLastUpdated).toLocaleString()
+        : config.note;
+      emptyNote.textContent = entries.length ? 'Congratulations to our top dreamers! Keep reaching for the stars. ♡' : 'The podium is ready! Rankings will appear once Itsuki has sent its first update. ♡';
       emptyNote.hidden = entries.length > 0;
     }
 
