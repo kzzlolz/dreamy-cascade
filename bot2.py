@@ -1,5 +1,6 @@
 import re
 import os
+import secrets
 import json
 import base64
 import urllib.error
@@ -14,7 +15,7 @@ from dotenv import load_dotenv
 import discord
 from discord import app_commands
 from discord.ext import tasks
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from admin_panel import register_admin_routes
 
@@ -30,6 +31,7 @@ load_dotenv(BASE_DIR / ".env", override=True)
 
 TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD_ID = os.getenv("GUILD_ID")
+LEADERBOARD_BRIDGE_TOKEN = os.getenv("LEADERBOARD_BRIDGE_TOKEN", "")
 
 STARTED_AT = time.monotonic()
 
@@ -84,6 +86,14 @@ guild_data = {
 }
 
 data_lock = threading.Lock()
+
+leaderboard_data = {
+    "levels": [],
+    "points": [],
+    "achievements": [],
+    "updated_at": None,
+}
+leaderboard_lock = threading.Lock()
 
 
 def get_guild():
@@ -353,6 +363,53 @@ async def on_presence_update(before, after):
 @app.route("/")
 def home():
     return "Dreamy Cascade is active!"
+
+
+@app.route("/api/leaderboards", methods=["GET", "POST"])
+def leaderboard_api():
+    if request.method == "GET":
+        with leaderboard_lock:
+            return jsonify(leaderboard_data)
+
+    if not LEADERBOARD_BRIDGE_TOKEN:
+        return jsonify({"error": "Leaderboard bridge is not configured."}), 503
+
+    supplied_token = request.headers.get("Authorization", "")
+    expected_token = "Bearer " + LEADERBOARD_BRIDGE_TOKEN
+    if not secrets.compare_digest(supplied_token, expected_token):
+        return jsonify({"error": "Unauthorized."}), 401
+
+    payload = request.get_json(silent=True)
+    if not isinstance(payload, dict):
+        return jsonify({"error": "Expected a JSON object."}), 400
+
+    category = payload.get("category")
+    if category not in ("levels", "points", "achievements"):
+        return jsonify({"error": "Unknown leaderboard category."}), 400
+
+    raw_entries = payload.get("entries")
+    if not isinstance(raw_entries, list) or len(raw_entries) > 3:
+        return jsonify({"error": "Entries must be a list containing at most three players."}), 400
+
+    clean_entries = []
+    for entry in raw_entries:
+        if not isinstance(entry, dict):
+            return jsonify({"error": "Each entry must be an object."}), 400
+        name = str(entry.get("name", "Dreamer")).strip()[:80]
+        try:
+            score = max(0, int(entry.get("score", 0)))
+        except (TypeError, ValueError):
+            return jsonify({"error": "Scores must be whole numbers."}), 400
+        if not name:
+            name = "Dreamer"
+        clean_entries.append({"name": name, "score": score})
+
+    updated_at = str(payload.get("updated_at", ""))[:40] or datetime.now(timezone.utc).isoformat()
+    with leaderboard_lock:
+        leaderboard_data[category] = clean_entries
+        leaderboard_data["updated_at"] = updated_at
+
+    return jsonify({"ok": True, "category": category, "entries_received": len(clean_entries)})
 
 
 @app.route("/api/guild-data")
