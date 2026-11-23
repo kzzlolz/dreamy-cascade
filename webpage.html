@@ -1891,6 +1891,7 @@
             <button class="side-nav-btn active" data-main-tab="home-tab" onclick="switchMainTab('home-tab', this)"><i class="fa-solid fa-house"></i> HOME</button>
             <button class="side-nav-btn" data-main-tab="list-tab" onclick="switchMainTab('list-tab', this)"><i class="fa-solid fa-list-ul"></i> LIST</button>
             <button class="side-nav-btn" data-main-tab="community-tab" onclick="switchMainTab('community-tab', this)"><i class="fa-solid fa-users"></i> COMMUNITY</button>
+            <button class="side-nav-btn" data-main-tab="leaderboard-tab" onclick="switchMainTab('leaderboard-tab', this)"><i class="fa-solid fa-trophy"></i> LEADERBOARD</button>
             <button class="side-nav-btn" data-main-tab="credits-tab" onclick="switchMainTab('credits-tab', this)"><i class="fa-solid fa-heart"></i> CREDITS</button>
             <button class="side-nav-btn" data-main-tab="music-tab" onclick="switchMainTab('music-tab', this)"><i class="fa-solid fa-music"></i> MUSIC</button>
           </nav>
@@ -2015,10 +2016,6 @@
             <summary>🎨 Artists <span class="directory-count" id="count-artists">0</span></summary>
             <ul id="directory-artists-list" class="directory-grid"></ul>
           </details>
-          <details class="directory-section" open data-directory-section="leaderboard">
-            <summary>🏆 Leaderboard <span class="directory-count" id="count-leaderboard">0</span></summary>
-            <ul id="directory-leaderboard-list" class="directory-grid"></ul>
-          </details>
           <details class="directory-section" open data-directory-section="members">
             <summary>☁ Members <span class="directory-count" id="count-members">0</span></summary>
             <ul id="directory-members-list" class="directory-grid"></ul>
@@ -2061,6 +2058,16 @@
               </div>
             </div>
           </div>
+        </section>
+
+        <!-- LEADERBOARD TAB -->
+        <section id="leaderboard-tab" class="tab-pane">
+          <div class="panel-title"><i class="fa-solid fa-trophy"></i> Leaderboard</div>
+          <p class="directory-intro">The dreamers who keep our community shining, gathered in one place. ♡</p>
+          <details class="directory-section" open data-directory-section="leaderboard">
+            <summary>🏆 Leaderboard Roles <span class="directory-count" id="count-leaderboard">0</span></summary>
+            <ul id="directory-leaderboard-list" class="directory-grid"></ul>
+          </details>
         </section>
 
         <!-- CREDITS TAB -->
