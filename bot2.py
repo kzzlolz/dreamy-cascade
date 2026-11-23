@@ -31,8 +31,6 @@ load_dotenv(BASE_DIR / ".env", override=True)
 TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD_ID = os.getenv("GUILD_ID")
 
-STATUS_CHANNEL_ID = 1563996333990215750
-
 STARTED_AT = time.monotonic()
 
 app = Flask(__name__)
@@ -86,9 +84,6 @@ guild_data = {
 }
 
 data_lock = threading.Lock()
-
-# The single status message maintained by Kzz.
-status_message = None
 
 
 def get_guild():
@@ -243,107 +238,7 @@ async def update_guild_data():
 
     except Exception as error:
         print(f"Failed to update members: {error}")
-        await send_error(
-            f"Failed to update member data: {error}"
-        )
-
-
-# --------------------------------------------------
-# RUNTIME FORMATTER
-# --------------------------------------------------
-
-def get_runtime():
-    seconds = int(time.monotonic() - STARTED_AT)
-
-    days, seconds = divmod(seconds, 86400)
-    hours, seconds = divmod(seconds, 3600)
-    minutes, seconds = divmod(seconds, 60)
-
-    return (
-        f"{days}d {hours}h {minutes}m {seconds}s"
-    )
-
-
-# --------------------------------------------------
-# STATUS EMBED
-# --------------------------------------------------
-
-async def get_status_channel():
-    channel = client.get_channel(STATUS_CHANNEL_ID)
-
-    if channel is None:
-        try:
-            channel = await client.fetch_channel(
-                STATUS_CHANNEL_ID
-            )
-        except discord.HTTPException as error:
-            print(f"Could not access status channel: {error}")
-
-    return channel
-
-
-def build_status_embed():
-    checked_at = datetime.now(timezone.utc)
-
-    embed = discord.Embed(
-        title="🟢 Kzz | System Status",
-        description="All services are running normally.",
-        color=0x8B7BFF,
-        timestamp=checked_at
-    )
-
-    embed.add_field(
-        name="Status",
-        value="`OPERATIONAL`",
-        inline=True
-    )
-
-    embed.add_field(
-        name="Uptime",
-        value=f"`{get_runtime()}`",
-        inline=True
-    )
-
-    embed.add_field(
-        name="Last checked",
-        value=f"<t:{int(checked_at.timestamp())}:R>",
-        inline=False
-    )
-
-    embed.set_footer(
-        text="Dreamy Cascade • Kzz Health Monitor • Every 15 minutes"
-    )
-
-    return embed
-
-
-async def update_status_message():
-    global status_message
-
-    channel = await get_status_channel()
-
-    if channel is None:
-        print("WARNING: Status channel unavailable.")
-        return
-
-    embed = build_status_embed()
-
-    try:
-        if status_message is None:
-            status_message = await channel.send(embed=embed)
-            print("Status embed sent successfully.")
-
-        else:
-            await status_message.edit(embed=embed)
-            print("Status embed updated.")
-
-    except discord.NotFound:
-        # Previous status message was deleted.
-        status_message = await channel.send(embed=embed)
-        print("Previous status message missing. Created a new one.")
-
-    except discord.HTTPException as error:
-        print(f"Failed to update status embed: {error}")
+        print(f"Failed to update member data: {error}")
 
 
 @tasks.loop(seconds=5)
@@ -357,49 +252,6 @@ async def cached_guild_refresh_loop():
 @cached_guild_refresh_loop.before_loop
 async def before_cached_guild_refresh():
     await client.wait_until_ready()
-
-
-@tasks.loop(minutes=15)
-async def system_status_loop():
-    guild = get_guild()
-    if guild is not None:
-        record_guild_snapshot(guild)
-    await update_status_message()
-
-
-@system_status_loop.before_loop
-async def before_status_loop():
-    await client.wait_until_ready()
-
-
-# --------------------------------------------------
-# WARNING AND ERROR REPORTING
-# --------------------------------------------------
-
-async def send_warning(message_text):
-    channel = await get_status_channel()
-
-    if channel:
-        embed = discord.Embed(
-            title="⚠️ System Warning",
-            description=message_text,
-            color=0xFAA61A
-        )
-
-        await channel.send(embed=embed)
-
-
-async def send_error(error_text):
-    channel = await get_status_channel()
-
-    if channel:
-        embed = discord.Embed(
-            title="❌ System Error",
-            description=error_text,
-            color=0xED4245
-        )
-
-        await channel.send(embed=embed)
 
 
 # --------------------------------------------------
@@ -423,12 +275,7 @@ async def on_ready():
 
     await update_guild_data()
 
-    # Refresh the status embed and start background services without
-    # changing Kzz's invisible presence.
-    await update_status_message()
-
-    if not system_status_loop.is_running():
-        system_status_loop.start()
+    # Start background member-cache refresh without posting health-check embeds.
     if not cached_guild_refresh_loop.is_running():
         cached_guild_refresh_loop.start()
 
