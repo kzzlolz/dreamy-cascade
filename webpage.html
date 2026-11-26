@@ -554,7 +554,6 @@ a { color: inherit; }
 :root[data-theme="dark"] .home-eyebrow,
 :root[data-theme="dark"] .panel-title,
 :root[data-theme="dark"] .credits-label,
-:root[data-theme="dark"] .loading-status-text { color: #aab8d6; }
 :root[data-theme="dark"] .home-action:not(.primary),
 :root[data-theme="dark"] .home-community-card,
 :root[data-theme="dark"] .member-card,
@@ -619,6 +618,9 @@ a { color: inherit; }
 :root[data-theme="dark"] .home-hero-orbit { background: #343d51; border-color: rgba(255,255,255,.08); }
 :root[data-theme="dark"] .sidebar-actions { display: flex; align-items: center; gap: 9px; }
 :root[data-theme="dark"] .theme-toggle { background: #394257; border-color: #4b5670; color: #d5dcec; }
+:root[data-theme="dark"] .public-activity-item { background: #303849; border-color: #465067; }
+:root[data-theme="dark"] .public-activity-item strong { color: #d5dced; }
+:root[data-theme="dark"] .public-activity-item time { color: #9da8bc; }
 
 </style>
 </head>
@@ -1648,7 +1650,7 @@ a { color: inherit; }
         .map(role => typeof role === 'object' && role !== null
           ? { id: String(role.id ?? role.role_id ?? ''), position: Number(role.position ?? -1), name: role.name || '' }
           : { id: String(role), position: -1, name: '' })
-        .filter(role => TRACKED_ROLE_IDS.has(role.id));
+        .filter(role => TRACKED_ROLE_IDS.has(role.id) || /manager/i.test(role.name));
 
       if (!assigned.length) return { key: 'members', label: 'Member', position: -1 };
 
@@ -1656,7 +1658,7 @@ a { color: inherit; }
       const highest = assigned[0];
 
       if (ADMIN_ROLE_IDS.includes(highest.id)) return { key: 'admin', label: highest.name || 'Administrator', position: highest.position };
-      if (MANAGER_ROLE_IDS.includes(highest.id)) return { key: 'manager', label: highest.name || 'Manager', position: highest.position };
+      if (MANAGER_ROLE_IDS.includes(highest.id) || /manager/i.test(highest.name)) return { key: 'manager', label: highest.name || 'Manager', position: highest.position };
       if (MOD_ROLE_IDS.includes(highest.id)) return { key: 'mod', label: highest.name || 'Moderator', position: highest.position };
 
       const configured = DIRECTORY_ROLE_LOOKUP.find(role => role.id === highest.id);
