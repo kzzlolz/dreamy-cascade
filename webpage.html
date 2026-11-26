@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+  (function () {
+    try {
+      const savedTheme = localStorage.getItem('dreamy-cascade-theme');
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        document.documentElement.dataset.theme = savedTheme;
+      }
+    } catch (error) {}
+  })();
+</script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dreamy Cascade</title>
@@ -481,7 +492,174 @@ a { color: inherit; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
-  </style>
+  
+
+.sidebar-actions { display: flex; align-items: center; gap: 9px; }
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 9px 12px;
+  border: 1px solid #e1e5ed;
+  border-radius: 999px;
+  background: #f7f8fb;
+  color: #68748d;
+  cursor: pointer;
+  font: 600 .72rem Inter,sans-serif;
+  white-space: nowrap;
+  transition: background .2s ease,border-color .2s ease,color .2s ease;
+}
+.theme-toggle:hover { background: #edf0f7; border-color: #ccd4e4; }
+.theme-toggle i { color: #8493b6; font-size: .78rem; }
+
+/* Optional dark theme — muted dusk tones, not pure black */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #202431;
+  --surface: #292f3e;
+  --surface-soft: #32394a;
+  --surface-tint: #363e51;
+  --ink: #e2e5ed;
+  --muted: #a1a9ba;
+  --muted-strong: #c0c6d3;
+  --line: #3b4355;
+  --accent: #a0afd2;
+  --accent-deep: #8496bd;
+  --accent-soft: #39445d;
+  --paper: #e2e5ed;
+  --rose: #b0bad2;
+  --gold: #a0afd2;
+  --gold-glow: rgba(160,175,210,.14);
+  --bright-red: #a0afd2;
+  --border: #3b4355;
+  --neon-accent: #a0afd2;
+  --purple-glow: #8999bd;
+  --purple-bright: #aab8d8;
+  --panel-bg: #292f3e;
+  --panel-border: #3b4355;
+}
+:root[data-theme="dark"] body { background: var(--page); color: var(--ink); }
+:root[data-theme="dark"] .ambient-bg {
+  background:
+    radial-gradient(ellipse at 14% 4%, rgba(104,120,158,.12), transparent 36%),
+    radial-gradient(ellipse at 90% 92%, rgba(123,103,145,.10), transparent 34%),
+    var(--page);
+}
+:root[data-theme="dark"] .hud-panel,
+:root[data-theme="dark"] .home-card,
+:root[data-theme="dark"] .community-card-hud,
+:root[data-theme="dark"] .directory-section,
+:root[data-theme="dark"] .leaderboard-stage,
+:root[data-theme="dark"] .credits-card-pro,
+:root[data-theme="dark"] .spotify-frame-container {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--ink);
+  box-shadow: 0 8px 28px rgba(0,0,0,.12);
+}
+:root[data-theme="dark"] .server-brand h2,
+:root[data-theme="dark"] .home-hero-copy h1,
+:root[data-theme="dark"] .home-card h2,
+:root[data-theme="dark"] .home-community-card strong,
+:root[data-theme="dark"] .community-card-hud h4,
+:root[data-theme="dark"] .directory-section summary,
+:root[data-theme="dark"] .owner-info h4,
+:root[data-theme="dark"] .leaderboard-stage-heading h3,
+:root[data-theme="dark"] .podium-name,
+:root[data-theme="dark"] .credits-val,
+:root[data-theme="dark"] .credits-banner h3,
+:root[data-theme="dark"] .modal-header h3,
+:root[data-theme="dark"] .newcomer-card h2 { color: #e0e5f0; }
+:root[data-theme="dark"] .side-nav-btn { color: #b0b8c9; }
+:root[data-theme="dark"] .side-nav-btn i { color: #9aa8c7; }
+:root[data-theme="dark"] .side-nav-btn:hover,
+:root[data-theme="dark"] .side-nav-btn.active { background: #39445a; color: #e0e6f4; }
+:root[data-theme="dark"] .side-nav-btn.active i { color: #c1cce5; }
+:root[data-theme="dark"] .home-hero {
+  border-color: #3c4559;
+  background: linear-gradient(115deg,#30384a 0%,#2b3242 78%);
+}
+:root[data-theme="dark"] .home-hero-copy p,
+:root[data-theme="dark"] .home-card p,
+:root[data-theme="dark"] .home-community-card span,
+:root[data-theme="dark"] .community-card-hud span,
+:root[data-theme="dark"] .directory-intro,
+:root[data-theme="dark"] .profile-modal-bio { color: #b1bacb; }
+:root[data-theme="dark"] .home-eyebrow,
+:root[data-theme="dark"] .panel-title,
+:root[data-theme="dark"] .credits-label,
+:root[data-theme="dark"] .loading-status-text { color: #aab8d6; }
+:root[data-theme="dark"] .home-action:not(.primary),
+:root[data-theme="dark"] .home-community-card,
+:root[data-theme="dark"] .member-card,
+:root[data-theme="dark"] .owner-card,
+:root[data-theme="dark"] .bot-card,
+:root[data-theme="dark"] .directory-search,
+:root[data-theme="dark"] .leaderboard-category,
+:root[data-theme="dark"] .credits-banner,
+:root[data-theme="dark"] .home-announcement,
+:root[data-theme="dark"] .home-stat {
+  background: #303748;
+  border-color: #414a5e;
+  color: #d4dbea;
+}
+:root[data-theme="dark"] .home-action:not(.primary):hover,
+:root[data-theme="dark"] .home-community-card:hover,
+:root[data-theme="dark"] .community-card-hud:hover,
+:root[data-theme="dark"] .owner-card:hover,
+:root[data-theme="dark"] .member-card:hover,
+:root[data-theme="dark"] .bot-card:hover { background: #394257; border-color: #56627c; }
+:root[data-theme="dark"] .directory-count,
+:root[data-theme="dark"] .podium-column,
+:root[data-theme="dark"] .leaderboard-category.active,
+:root[data-theme="dark"] .newcomer-emblem,
+:root[data-theme="dark"] .modal-close,
+:root[data-theme="dark"] .profile-interest-list span,
+:root[data-theme="dark"] .profile-link-list a { background: #3a4357; color: #c3cce0; border-color: #4a556c; }
+:root[data-theme="dark"] .leaderboard-category.active { border-color: #667696; }
+:root[data-theme="dark"] .leaderboard-stage { background: #292f3e; }
+:root[data-theme="dark"] .podium-column { background: #3a4357; }
+:root[data-theme="dark"] .podium-first .podium-column { background: #46516a; }
+:root[data-theme="dark"] .music-notice { background: #30394d; border-color: #46536d; color: #c5cde0; }
+:root[data-theme="dark"] .profile-modal-box,
+:root[data-theme="dark"] .modal-box,
+:root[data-theme="dark"] .newcomer-card,
+:root[data-theme="dark"] .kitts-tip-card {
+  background: #2b3242;
+  border-color: #414a5d;
+  color: #dce1ec;
+  box-shadow: 0 18px 55px rgba(0,0,0,.28);
+}
+:root[data-theme="dark"] .modal-overlay,
+:root[data-theme="dark"] .newcomer-overlay { background: rgba(9,12,20,.62); }
+:root[data-theme="dark"] .modal-close { background: #394257; color: #c4ccdc; }
+:root[data-theme="dark"] #modal-body-content,
+:root[data-theme="dark"] .newcomer-card p,
+:root[data-theme="dark"] .profile-modal-tagline,
+:root[data-theme="dark"] .profile-modal-role,
+:root[data-theme="dark"] .profile-empty,
+:root[data-theme="dark"] .kitts-tip-message { color: #b8c1d1 !important; }
+:root[data-theme="dark"] .newcomer-soft-note { color: #98a3b7 !important; }
+:root[data-theme="dark"] .newcomer-mini { background: #2b3242; border-color: #414a5d; color: #cbd3e1; }
+:root[data-theme="dark"] .persistent-info,
+:root[data-theme="dark"] .directory-hint,
+:root[data-theme="dark"] .announcement-empty,
+:root[data-theme="dark"] .leaderboard-stage-note,
+:root[data-theme="dark"] .leaderboard-empty-note,
+:root[data-theme="dark"] .credits-banner p { color: #9da7ba; }
+:root[data-theme="dark"] .panel-title { border-bottom-color: var(--line); }
+:root[data-theme="dark"] .directory-search { color: #e1e6f0; }
+:root[data-theme="dark"] .directory-search::placeholder { color: #929db2; }
+:root[data-theme="dark"] .home-hero-orbit { background: #343d51; border-color: rgba(255,255,255,.08); }
+:root[data-theme="dark"] #scene-cutscene { background: radial-gradient(ellipse at center,#30384a 0%,#252c3a 70%,#202431 100%); }
+:root[data-theme="dark"] #scene-cutscene.exponential-purple { background: #202431; }
+:root[data-theme="dark"] .moon-full { background: linear-gradient(145deg,#e5eaf4,#aab7d2); }
+:root[data-theme="dark"] .sidebar-actions { display: flex; align-items: center; gap: 9px; }
+:root[data-theme="dark"] .theme-toggle { background: #394257; border-color: #4b5670; color: #d5dcec; }
+
+</style>
 </head>
 <body>
 
@@ -552,7 +730,12 @@ a { color: inherit; }
             <p id="stats-counter-text" class="persistent-info">Loading stats...</p>
           </div>
 
-          <a href="https://discord.gg/nET4TTnRuA" target="_blank" rel="noopener noreferrer" class="discord-btn-compact"><i class="fa-brands fa-discord"></i> JOIN DISCORD</a>
+          <div class="sidebar-actions">
+            <button id="theme-toggle" class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" aria-pressed="false">
+              <i class="fa-solid fa-moon" aria-hidden="true"></i><span>Dark mode</span>
+            </button>
+            <a href="https://discord.gg/nET4TTnRuA" target="_blank" rel="noopener noreferrer" class="discord-btn-compact"><i class="fa-brands fa-discord"></i> JOIN DISCORD</a>
+          </div>
         </div>
       </aside>
 
@@ -1780,6 +1963,29 @@ a { color: inherit; }
       }
     });
     window.addEventListener('DOMContentLoaded', initExperience);
-  </script>
+  
+    function applyTheme(theme) {
+      const selected = theme === 'dark' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = selected;
+      try { localStorage.setItem('dreamy-cascade-theme', selected); } catch (error) {}
+      const toggle = document.getElementById('theme-toggle');
+      if (toggle) {
+        const darkEnabled = selected === 'dark';
+        toggle.setAttribute('aria-pressed', String(darkEnabled));
+        toggle.setAttribute('aria-label', darkEnabled ? 'Switch to light mode' : 'Switch to dark mode');
+        toggle.innerHTML = darkEnabled
+          ? '<i class="fa-solid fa-sun" aria-hidden="true"></i><span>Light mode</span>'
+          : '<i class="fa-solid fa-moon" aria-hidden="true"></i><span>Dark mode</span>';
+      }
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    }
+
+    applyTheme(document.documentElement.dataset.theme || 'light');
+
+</script>
 </body>
 </html>
