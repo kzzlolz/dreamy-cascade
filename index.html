@@ -74,26 +74,6 @@ a { color: inherit; }
     var(--page);
 }
 
-.kitts-tip-card {
-  position: fixed;
-  z-index: 30;
-  top: 18px;
-  right: 18px;
-  max-width: 280px;
-  padding: 12px 16px;
-  border: 1px solid rgba(130,146,183,.2);
-  border-radius: 13px;
-  background: rgba(251,251,253,.94);
-  box-shadow: 0 8px 26px rgba(55,66,91,.08);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-8px);
-  transition: .3s ease;
-}
-.kitts-tip-card.visible { opacity: 1; visibility: visible; transform: translateY(0); }
-.kitts-tip-card.tip-changing { opacity: 0; transform: translateY(5px); }
-.kitts-tip-message { margin: 0; color: var(--muted-strong); font-size: .76rem; line-height: 1.5; }
-
 #scene-main {
   position: relative;
   z-index: 1;
@@ -1585,12 +1565,6 @@ a { color: inherit; }
 
   <!-- Ambient Vibrant Background -->
   <div class="ambient-bg"></div>
-
-  <!-- Top-Right Tip Card -->
-  <div id="kitts-tip-card" class="kitts-tip-card" role="status" aria-live="polite">
-    <p id="main-tip-message" class="kitts-tip-message"> Welcome to Dreamy Cascade! ♡</p>
-  </div>
-
   <div class="starlight-secondary-garland" aria-hidden="true">✧　❄　✦　❄　✧　❄　✦　❄　✧</div>
 <!-- Main Website Interface -->
   <div id="scene-main">
@@ -2155,92 +2129,6 @@ let audioCtx = null;
       } catch (e) {}
     }
 
-    const tipsList = [
-      "Welcome to Dreamy Cascade — make yourself at home. ♡",
-      "Be sure to share this to your friends!",
-      "This server is very kewl!",
-      "Did you know? Sharky is scared of spiders?",
-      "Cozy and warm... like your bed!",
-      "Please read the rules!",
-      "Did you know? This took weeks to make...",
-      "Did you know? There are <total members> members in this server??",
-      "We hope you enjoyed staying here!",
-      "There are personal rooms in our discord server!",
-      "Need a helping hand? Join our discord!",
-      "Did you know? Kzz overworked to the point she drank 8 caffeinated drinks!",
-      "Most of the members here are from different countries!",
-      "We need more people like you!",
-      "Meoowwww~",
-      "Puurrrr~",
-      "Lance is a nerd...",
-      "Turtle is very clingy...",
-      "This server is still under-development! Sorry!",
-      "Kelp is the longest inactive member in the server.",
-      "Kairi is the most inactive moderator in the server.",
-      "Trusted Friends can own a room!",
-      "You can obtain different roles!",
-      "There are rare roles you can obtain... Like the Special Role!",
-      "We are still developing this webpage, and the server!",
-      "Your help is greatly appreciated",
-      "Made with love and warmth",
-      "Sharky has anger issues",
-      "DemonGod is a money-spender",
-      "DemonGod used to be a great guy",
-      "Kzz very much loves her cats",
-      "Did you know? Kzz owns 7 cats?",
-      "All of the Bots are self-coded! Except Miyu...",
-      "Join our MV Channel! We often stream action movies or anime!",
-      "Please take a look around!",
-      "Don't forget to hydrate yourself!",
-      "Did you know? Sinclair is above 5'9???",
-      "Do us a favor and join the discord!"
-    ];
-
-    let currentMainTipIndex = -1;
-    let mainTipInterval = null;
-    let tipFadeTimeout = null;
-
-    function rotateMainTip() {
-      if (!Array.isArray(tipsList) || tipsList.length === 0) return;
-      const message = document.getElementById('main-tip-message');
-      const card = document.getElementById('kitts-tip-card');
-      if (!message || !card) return;
-
-      let nextIndex;
-      if (tipsList.length === 1) {
-        nextIndex = 0;
-      } else {
-        do {
-          nextIndex = Math.floor(Math.random() * tipsList.length);
-        } while (nextIndex === currentMainTipIndex);
-      }
-      currentMainTipIndex = nextIndex;
-
-      clearTimeout(tipFadeTimeout);
-      card.classList.add('tip-changing');
-
-      tipFadeTimeout = setTimeout(() => {
-        const totalMembers = document.getElementById('home-member-count')?.textContent || '...';
-        const tip = tipsList[nextIndex].replace(/<total members>/gi,totalMembers);
-        message.textContent = 'Tip: ' + tip;
-        card.classList.remove('tip-changing');
-      }, 250);
-
-      clearTimeout(mainTipInterval);
-      mainTipInterval = setTimeout(rotateMainTip, 4500);
-    }
-
-    function startMainTipRotation() {
-      clearTimeout(mainTipInterval);
-      clearTimeout(tipFadeTimeout);
-      const card = document.getElementById('kitts-tip-card');
-      if (!card) return;
-      card.classList.add('visible');
-      rotateMainTip();
-    }
-
-
-
     function delay(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -2498,7 +2386,6 @@ let audioCtx = null;
     async function initExperience() {
       await loadApiConfig();
       await Promise.allSettled([fetchAndPopulateGuildData(),fetchPublicProfiles(),fetchPublicAnnouncements(),fetchPublicActivity()]);
-      startMainTipRotation();
 showNewcomerWelcomeIfNeeded();
       showLeaderboard('levels',document.querySelector('.leaderboard-category[data-leaderboard="levels"]'));
       updateSiteSeasonalDecorations();
