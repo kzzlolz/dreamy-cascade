@@ -1533,6 +1533,15 @@ a { color: inherit; }
       padding-top: 58px !important;
     }
   }
+
+  /* Keep the falling snow behind page content, especially the Christmas title and countdown. */
+  body.starlight-season-active::after {
+    z-index: 0 !important;
+  }
+  #scene-main {
+    position: relative;
+    z-index: 1;
+  }
 </style>
 
 </head>
