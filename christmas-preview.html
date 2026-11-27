@@ -1310,6 +1310,28 @@ a { color: inherit; }
     }
   </style>
 
+
+  <style id="audit-layout-fixes">
+    /* Keep the moon inside the Christmas hero on narrow screens. */
+    @media (max-width:760px) {
+      body.starlight-season-active .christmas-moon-art {
+        top:0!important;
+        right:0!important;
+        min-height:205px!important;
+        overflow:visible!important;
+      }
+      body.starlight-season-active .christmas-moon {
+        top:-14px!important;
+        font-size:9rem!important;
+      }
+      body.starlight-season-active .christmas-moon-halo {
+        top:0!important;
+        width:160px!important;
+        height:160px!important;
+      }
+    }
+  </style>
+
 </head>
 <body>
 
@@ -1603,7 +1625,7 @@ a { color: inherit; }
               <button class="christmas-board-tab" type="button" data-christmas-board="snowball" onclick="showChristmasLeaderboard('snowball', this)"><i class="fa-solid fa-snowflake"></i> Snowball Fight</button>
             </div>
             <div class="christmas-board-stage" aria-live="polite">
-              <div class="christmas-board-stage-top"><div><span class="christmas-card-kicker">STARLIGHT CHRISTMAS 2026</span><h3 id="christmas-board-title">Stardust Collectors</h3></div><span class="christmas-board-status"><i class="fa-regular fa-clock"></i> Starts Dec 1</span></div>
+              <div class="christmas-board-stage-top"><div><span class="christmas-card-kicker">STARLIGHT CHRISTMAS 2026</span><h3 id="christmas-board-title">Stardust Collectors</h3></div><span id="christmas-board-status" class="christmas-board-status"><i class="fa-regular fa-clock"></i> Starts Dec 1</span></div>
               <div class="christmas-podium" id="christmas-podium">
                 <div class="christmas-podium-place second"><span class="podium-crown">✧</span><strong>Awaiting dreamers</strong><small>2ND PLACE</small><div class="podium-block">02</div></div>
                 <div class="christmas-podium-place first"><span class="podium-crown">✦</span><strong>Awaiting dreamers</strong><small>1ST PLACE</small><div class="podium-block">01</div></div>
