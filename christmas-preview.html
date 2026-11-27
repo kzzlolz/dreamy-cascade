@@ -1237,6 +1237,79 @@ a { color: inherit; }
     }
   </style>
 
+
+  <style id="soften-site-highlights">
+    /* Replace hard rectangular highlight bars with quieter winter typography. */
+    body.starlight-season-active .panel-title {
+      display:block!important;
+      width:100%!important;
+      max-width:none!important;
+      align-self:stretch!important;
+      margin:0 0 17px!important;
+      padding:0 0 11px!important;
+      border:0!important;
+      border-bottom:1px solid rgba(178,197,237,.23)!important;
+      border-radius:0!important;
+      background:linear-gradient(90deg,rgba(179,199,240,.08),transparent 72%)!important;
+      color:#dce6fb!important;
+      letter-spacing:.025em;
+      box-shadow:none!important;
+    }
+    body.starlight-season-active .panel-title::after {
+      content:"";
+      display:block;
+      width:42px;height:2px;margin-top:10px;
+      border-radius:2px;
+      background:linear-gradient(90deg,#e6d7b8,rgba(190,207,242,.12));
+      box-shadow:0 0 9px rgba(207,218,244,.16);
+    }
+    body.starlight-season-active .credits-label,
+    body.starlight-season-active .home-announcement-label,
+    body.starlight-season-active .leaderboard-eyebrow,
+    body.starlight-season-active .christmas-card-kicker,
+    body.starlight-season-active .newcomer-eyebrow,
+    body.starlight-season-active .profile-modal-section-title {
+      display:inline-flex!important;
+      width:auto!important;max-width:100%;
+      align-items:center;gap:7px;
+      padding:0!important;margin:0 0 9px!important;
+      border:0!important;border-radius:0!important;
+      background:transparent!important;
+      box-shadow:none!important;
+      color:#b8c7e7!important;
+      font-size:.68rem!important;
+      font-weight:650;letter-spacing:.075em;
+      text-transform:uppercase;
+    }
+    body.starlight-season-active .credits-label i,
+    body.starlight-season-active .home-announcement-label i,
+    body.starlight-season-active .newcomer-eyebrow i {
+      color:#e2d2ae!important;
+      filter:drop-shadow(0 0 5px rgba(226,210,174,.22));
+    }
+    body.starlight-season-active .christmas-section-heading {
+      display:flex!important;width:100%!important;max-width:none!important;
+      padding:0 0 12px!important;margin:0 0 4px!important;
+      border-bottom:1px solid rgba(178,197,237,.2);
+      background:transparent!important;border-radius:0!important;
+    }
+    body.starlight-season-active mark,
+    body.starlight-season-active .highlight,
+    body.starlight-season-active .text-highlight,
+    body.starlight-season-active .word-highlight,
+    body.starlight-season-active .accent-highlight {
+      background:rgba(190,207,242,.13)!important;
+      color:#eef3ff!important;
+      border-radius:3px!important;
+      padding:0 .16em!important;
+      box-shadow:none!important;
+    }
+    body.starlight-season-active .credits-label:hover,
+    body.starlight-season-active .home-announcement-label:hover {
+      background:transparent!important;box-shadow:none!important;
+    }
+  </style>
+
 </head>
 <body>
 
