@@ -644,6 +644,23 @@ a { color: inherit; }
       --muted-strong: #5e6988; --line: #dfe3f0; --accent: #8998c7;
       --accent-deep: #697eaf; --accent-soft: #e8ebf7;
     }
+    body.starlight-season-active::before {
+      content: "✦　❄　✧　　❄　✦　　❄　✧　　❄　✦";
+      position: fixed; z-index: 999; top: 0; left: 0; width: 100%;
+      padding: 7px 12px; color: rgba(226,234,255,.78); text-align: center;
+      font-size: 11px; letter-spacing: .35em; pointer-events: none;
+      background: linear-gradient(90deg,rgba(36,48,78,.72),rgba(86,91,133,.48),rgba(36,48,78,.72));
+      border-bottom: 1px solid rgba(220,230,255,.2);
+    }
+    body.starlight-season-active::after {
+      content: "❄      ✧          ❄             ✦       ❄           ✧       ❄";
+      position: fixed; z-index: 998; inset: 0; overflow: hidden; pointer-events: none;
+      color: rgba(226,235,255,.42); font-size: 17px; line-height: 5.5;
+      letter-spacing: 3.4vw; white-space: pre-wrap; text-shadow: 0 0 12px rgba(220,232,255,.4);
+      animation: starlight-snow-drift 18s linear infinite;
+    }
+    @keyframes starlight-snow-drift { from { transform: translateY(-35px); } to { transform: translateY(35px); } }
+    @media (prefers-reduced-motion: reduce) { body.starlight-season-active::after { animation: none; } }
     .christmas-preview { gap: 24px; }
     .christmas-hero {
       position: relative; display: grid; grid-template-columns: minmax(0,1fr) 220px;
@@ -665,11 +682,28 @@ a { color: inherit; }
     .christmas-date-pill,.christmas-join-link { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 9px 13px; border: 1px solid rgba(220,226,255,.2); border-radius: 999px; color: #edf0ff; font-size: .72rem; text-decoration: none; }
     .christmas-date-pill { background: rgba(255,255,255,.08); }
     .christmas-join-link { background: #9ba9d9; border-color: #9ba9d9; color: #202945; font-weight: 700; }
-    .christmas-moon-art { position: relative; display: grid; place-items: center; min-height: 190px; }
-    .christmas-moon-halo { position: absolute; width: 190px; height: 190px; border-radius: 50%; background: radial-gradient(circle,rgba(200,207,255,.2),transparent 68%); }
-    .christmas-moon { position: relative; z-index: 1; color: #e6e9ff; font: 12rem/1 'Cormorant Garamond',serif; text-shadow: 0 0 35px rgba(212,218,255,.4); transform: rotate(-18deg); }
-    .moon-star { position: absolute; color: #f4e6b8; text-shadow: 0 0 15px rgba(255,235,181,.6); }
-    .star-one { top: 24%; right: 13%; font-size: 1.4rem; }.star-two { bottom: 24%; left: 9%; font-size: 1.1rem; }.star-three { top: 17%; left: 16%; font-size: .8rem; }
+    .christmas-moon-art { position: relative; display: block; align-self: start; min-height: 230px; margin-top: -20px; }
+    .christmas-moon-halo { position: absolute; top: -12px; left: 50%; width: 190px; height: 190px; border-radius: 50%; transform: translateX(-50%); background: radial-gradient(circle,rgba(200,207,255,.2),transparent 68%); }
+    .christmas-moon { position: absolute; z-index: 1; top: -49px; left: 50%; color: #e6e9ff; font: 12rem/1 'Cormorant Garamond',serif; text-shadow: 0 0 35px rgba(212,218,255,.4); transform: translateX(-50%) rotate(-18deg); }
+    .moon-star { position: absolute; z-index: 2; color: #f4e6b8; text-shadow: 0 0 15px rgba(255,235,181,.6); }
+    .star-one { top: 2%; right: 12%; font-size: 1.4rem; }.star-two { top: 23%; left: 5%; font-size: 1.1rem; }.star-three { top: -2%; left: 17%; font-size: .8rem; }
+    .star-four { top: 38%; right: 5%; font-size: .85rem; color: #dce7ff; }.star-five { top: 16%; left: 38%; font-size: .7rem; color: #dce7ff; }
+    .christmas-village { position: absolute; z-index: 3; right: -8px; bottom: -6px; left: -8px; height: 100px; }
+    .winter-tree { position: absolute; bottom: 10px; left: 13px; width: 72px; height: 88px; filter: drop-shadow(0 5px 8px rgba(0,0,0,.2)); }
+    .winter-tree::before,.winter-tree::after { content: ""; position: absolute; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 37px solid transparent; border-right: 37px solid transparent; }
+    .winter-tree::before { top: 8px; border-bottom: 65px solid #416b70; }
+    .winter-tree::after { top: 34px; border-left-width: 31px; border-right-width: 31px; border-bottom: 53px solid #31565f; }
+    .winter-tree .tree-star { position: absolute; z-index: 2; top: 0; left: 30px; color: #f6e5a9; font-size: 1rem; text-shadow: 0 0 9px #f6e5a9; }
+    .winter-tree .tree-lights { position: absolute; z-index: 3; top: 31px; left: 25px; width: 23px; height: 37px; border-radius: 50%; background: radial-gradient(circle at 20% 20%,#f7dca1 0 2px,transparent 3px),radial-gradient(circle at 80% 50%,#c6d7ff 0 2px,transparent 3px),radial-gradient(circle at 36% 85%,#e7b8cf 0 2px,transparent 3px); }
+    .winter-tree::marker { display:none; }
+    .gingerbread-house { position: absolute; right: 9px; bottom: 13px; width: 78px; height: 52px; border: 2px solid #e9c99f; border-radius: 5px 5px 7px 7px; background: linear-gradient(90deg,#a96e53,#c48a62); box-shadow: 0 5px 10px rgba(0,0,0,.2); }
+    .house-roof { position: absolute; top: -20px; left: -7px; width: 88px; height: 34px; border: 2px solid #f4e8d7; border-bottom: 0; border-radius: 8px 8px 0 0; background: repeating-linear-gradient(135deg,#9c5d55 0 8px,#d9a3a0 8px 12px); clip-path: polygon(50% 0,100% 100%,0 100%); }
+    .house-window { position: absolute; top: 14px; width: 12px; height: 13px; border: 2px solid #f6e4c6; border-radius: 3px; background: #f5d994; box-shadow: 0 0 9px rgba(255,224,156,.65); }
+    .window-left { left: 10px; }.window-right { right: 10px; }
+    .house-door { position: absolute; bottom: 0; left: 31px; width: 15px; height: 25px; border: 2px solid #f2d9b7; border-bottom: 0; border-radius: 8px 8px 0 0; background: #754b43; }
+    .candy-cane { position: absolute; top: 4px; width: 7px; height: 19px; border: 2px solid #fff0e8; border-top: 0; border-radius: 0 0 5px 5px; }
+    .candy-one { left: -12px; transform: rotate(12deg); }.candy-two { right: -12px; transform: rotate(-12deg); }
+    .village-snow { position: absolute; right: -4px; bottom: 0; left: -4px; height: 13px; border-radius: 50% 50% 0 0; background: linear-gradient(#e8efff,#c5d3eb); box-shadow: 0 -4px 14px rgba(223,234,255,.18); }
     .christmas-countdown { grid-column: 1/-1; display: flex; align-items: center; gap: 12px; margin-top: 4px; padding-top: 15px; border-top: 1px solid rgba(225,230,255,.15); }
     .christmas-countdown strong { color: #fff; font: 600 1.05rem 'DM Sans',sans-serif; }
     .christmas-countdown small { color: #c0c9e3; font-size: .68rem; }
@@ -720,9 +754,11 @@ a { color: inherit; }
     :root[data-theme="dark"] .christmas-feature-card,:root[data-theme="dark"] .christmas-item-card,:root[data-theme="dark"] .christmas-leaderboard-wrap { box-shadow: 0 8px 26px rgba(0,0,0,.12); }
     @media(max-width:760px) {
       .christmas-hero { grid-template-columns: 1fr; }
-      .christmas-moon-art { position: absolute; top: 18px; right: 8px; width: 125px; min-height: 125px; opacity: .5; }
-      .christmas-moon-halo { width: 125px; height: 125px; }
-      .christmas-moon { font-size: 8rem; }
+      .christmas-moon-art { position: absolute; top: 2px; right: 4px; width: 205px; height: 190px; min-height: 190px; margin: 0; opacity: .78; }
+      .christmas-moon-halo { top: -24px; width: 145px; height: 145px; }
+      .christmas-moon { top: -58px; font-size: 8rem; }
+      .christmas-village { bottom: -5px; transform: scale(.82); transform-origin: bottom right; }
+      .star-two { top: 18%; }.star-four { top: 30%; }
       .christmas-hero-copy { padding-right: 30px; }
       .christmas-countdown { flex-wrap: wrap; }
       .christmas-section-heading { align-items: flex-start; flex-direction: column; }
@@ -969,6 +1005,12 @@ a { color: inherit; }
               <div class="christmas-moon-halo"></div>
               <div class="christmas-moon">☾</div>
               <span class="moon-star star-one">✦</span><span class="moon-star star-two">✧</span><span class="moon-star star-three">✦</span>
+              <span class="moon-star star-four">✧</span><span class="moon-star star-five">✦</span>
+              <div class="christmas-village">
+                <div class="winter-tree"><span class="tree-star">✦</span><span class="tree-lights"></span></div>
+                <div class="gingerbread-house"><span class="house-roof"></span><span class="house-window window-left"></span><span class="house-window window-right"></span><span class="house-door"></span><span class="candy-cane candy-one"></span><span class="candy-cane candy-two"></span></div>
+                <span class="village-snow"></span>
+              </div>
             </div>
             <div class="christmas-countdown">
               <span class="countdown-label">COUNTDOWN TO THE FIRST NIGHT</span>
@@ -1662,6 +1704,7 @@ a { color: inherit; }
       startMainTipRotation();
       showNewcomerWelcomeIfNeeded();
       showLeaderboard('levels',document.querySelector('.leaderboard-category[data-leaderboard="levels"]'));
+      updateSiteSeasonalDecorations();
       updateChristmasCountdown();
       showChristmasLeaderboard('stardust', document.querySelector('.christmas-board-tab[data-christmas-board="stardust"]'));
       switchMainTab('home-tab');
@@ -1767,6 +1810,15 @@ a { color: inherit; }
       document.getElementById('christmas-board-empty').hidden = false;
       document.getElementById('christmas-board-status').innerHTML = '<i class="fa-regular fa-clock"></i> Starts Dec 1';
       document.querySelectorAll('.christmas-podium-place strong').forEach(label => { label.textContent = 'Awaiting dreamers'; });
+    }
+
+    function updateSiteSeasonalDecorations() {
+      // The whole-site winter layer switches on at the event start.
+      // Add ?christmas-preview=1 to this preview URL to inspect it early.
+      const params = new URLSearchParams(window.location.search);
+      const previewOverride = params.get('christmas-preview') === '1';
+      const eventStarted = new Date() >= new Date(2026, 11, 1, 0, 0, 0);
+      document.body.classList.toggle('starlight-season-active', eventStarted || previewOverride);
     }
 
     function updateChristmasCountdown() {
