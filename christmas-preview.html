@@ -821,6 +821,151 @@ a { color: inherit; }
     @media(prefers-reduced-motion:reduce) { body.starlight-season-active::after,.christmas-hero-sparkles,.moon-star{animation:none!important} }
 </style>
 
+
+
+  <style id="starlight-christmas-global-theme">
+    /* Christmas is the default visual identity throughout this review page. */
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --page:#e8edf8; --surface:#f7f9ff; --surface-soft:#edf2fc; --surface-tint:#e2eafa;
+      --ink:#34415f; --muted:#73809e; --muted-strong:#53617f; --line:#d1daec;
+      --accent:#8298c8; --accent-deep:#637eae; --accent-soft:#e3eafa;
+      --paper:#34415f; --rose:#9b7895; --gold:#b99b62; --gold-glow:rgba(185,155,98,.16);
+      --bright-red:#8298c8; --border:#d1daec; --neon-accent:#8298c8;
+      --purple-glow:#a7afd8; --purple-bright:#9aa9d4; --panel-bg:#f7f9ff; --panel-border:#d1daec;
+    }
+    :root[data-theme="dark"] {
+      color-scheme:dark;
+      --page:#141d32; --surface:#202b45; --surface-soft:#293653; --surface-tint:#33415f;
+      --ink:#e9efff; --muted:#aab8d4; --muted-strong:#d0daef; --line:#3a496a;
+      --accent:#b0c1ec; --accent-deep:#91a8dc; --accent-soft:#344463;
+      --paper:#e9efff; --rose:#c39ab8; --gold:#d9c18a; --gold-glow:rgba(217,193,138,.16);
+      --bright-red:#b0c1ec; --border:#3a496a; --neon-accent:#b0c1ec;
+      --purple-glow:#9caee0; --purple-bright:#c0cafa; --panel-bg:#202b45; --panel-border:#3a496a;
+    }
+    body.starlight-season-active { background:var(--page)!important; color:var(--ink)!important; }
+    body.starlight-season-active .ambient-bg {
+      background:
+        radial-gradient(ellipse at 8% 0%,rgba(133,164,220,.26),transparent 35%),
+        radial-gradient(ellipse at 92% 85%,rgba(174,143,190,.2),transparent 36%),
+        radial-gradient(ellipse at 50% 110%,rgba(109,148,160,.12),transparent 38%),
+        var(--page)!important;
+    }
+    body.starlight-season-active #scene-main { padding-top:58px!important; }
+    body.starlight-season-active #sidebar-left,
+    body.starlight-season-active #content-panel,
+    body.starlight-season-active #sidebar-right,
+    body.starlight-season-active .hud-panel {
+      background:linear-gradient(145deg,var(--surface),var(--surface-soft))!important;
+      border:1px solid var(--line)!important;
+      box-shadow:0 16px 42px rgba(24,39,70,.12),inset 0 1px rgba(255,255,255,.32)!important;
+      color:var(--ink)!important;
+    }
+    body.starlight-season-active #sidebar-left { border-top:3px solid #9aafd9!important; }
+    body.starlight-season-active .server-brand h2,
+    body.starlight-season-active .home-hero-copy h1,
+    body.starlight-season-active .home-card h2,
+    body.starlight-season-active .community-card-hud h4,
+    body.starlight-season-active .directory-member-name,
+    body.starlight-season-active .directory-section summary,
+    body.starlight-season-active .panel-title { color:var(--ink)!important; }
+    body.starlight-season-active .side-nav-btn {
+      color:var(--muted-strong)!important;
+      border:1px solid transparent!important;
+      border-radius:999px!important;
+      transition:background .2s ease,border-color .2s ease,transform .2s ease!important;
+    }
+    body.starlight-season-active .side-nav-btn:hover,
+    body.starlight-season-active .side-nav-btn.active {
+      color:var(--ink)!important;
+      background:var(--accent-soft)!important;
+      border-color:var(--line)!important;
+      box-shadow:0 3px 12px rgba(88,111,160,.1)!important;
+    }
+    body.starlight-season-active .side-nav-btn i,
+    body.starlight-season-active .home-card h2 i { color:var(--accent-deep)!important; }
+    body.starlight-season-active .home-hero {
+      min-height:340px!important;
+      border:1px solid rgba(184,203,239,.5)!important;
+      background:
+        radial-gradient(circle at 84% 25%,rgba(233,239,255,.72) 0 1px,transparent 2px),
+        radial-gradient(circle at 75% 17%,rgba(233,239,255,.8) 0 1.5px,transparent 2.5px),
+        radial-gradient(circle at 92% 43%,rgba(233,239,255,.75) 0 1px,transparent 2px),
+        radial-gradient(ellipse at 83% 22%,rgba(172,192,239,.36),transparent 30%),
+        linear-gradient(115deg,#1c2c4b 0%,#34466c 54%,#514d70 100%)!important;
+      box-shadow:0 18px 42px rgba(23,36,66,.2)!important;
+    }
+    body.starlight-season-active .home-hero::before {
+      content:"☾  ✦     ❄       ✧        ✦      ❄";
+      position:absolute;top:24px;right:5%;color:#f3e8c8;font-size:1.2rem;letter-spacing:.8rem;
+      text-shadow:0 0 16px rgba(239,235,215,.8);pointer-events:none;
+    }
+    body.starlight-season-active .home-hero::after {
+      content:"";position:absolute;right:0;bottom:0;left:0;height:65px;
+      background:linear-gradient(180deg,transparent,rgba(226,237,252,.8));
+      pointer-events:none;
+    }
+    body.starlight-season-active .home-hero-copy h1 { color:#f4f5ff!important;text-shadow:0 3px 22px rgba(190,205,245,.18)!important; }
+    body.starlight-season-active .home-hero-copy p { color:#d7e1f5!important; }
+    body.starlight-season-active .home-hero-art { filter:drop-shadow(0 0 28px rgba(194,211,255,.3)); }
+    body.starlight-season-active .home-hero-orbit { border-color:rgba(224,234,255,.52)!important;box-shadow:0 0 0 10px rgba(201,216,248,.08),0 0 42px rgba(196,213,255,.28)!important; }
+    body.starlight-season-active .home-card,
+    body.starlight-season-active .home-community-card,
+    body.starlight-season-active .community-card-hud,
+    body.starlight-season-active .directory-section,
+    body.starlight-season-active .leaderboard-stage,
+    body.starlight-season-active .credits-card-pro,
+    body.starlight-season-active .spotify-frame-container,
+    body.starlight-season-active .home-announcement,
+    body.starlight-season-active .public-activity-item,
+    body.starlight-season-active .home-stat {
+      background:var(--surface)!important;border-color:var(--line)!important;color:var(--ink)!important;
+      box-shadow:0 7px 22px rgba(25,42,75,.07)!important;
+    }
+    body.starlight-season-active .home-card p,
+    body.starlight-season-active .home-community-card span,
+    body.starlight-season-active .directory-intro,
+    body.starlight-season-active .directory-role-label,
+    body.starlight-season-active .public-activity-item p { color:var(--muted)!important; }
+    body.starlight-season-active .directory-count,
+    body.starlight-season-active .directory-member-role,
+    body.starlight-season-active .home-action,
+    body.starlight-season-active .theme-toggle,
+    body.starlight-season-active .leaderboard-category {
+      background:var(--surface-soft)!important;border-color:var(--line)!important;color:var(--muted-strong)!important;
+    }
+    body.starlight-season-active .home-action.primary,
+    body.starlight-season-active .discord-btn-compact {
+      background:linear-gradient(110deg,#9eafd9,#c1c9e8)!important;border-color:#aab9e1!important;color:#202d49!important;
+      box-shadow:0 5px 18px rgba(150,173,222,.22)!important;
+    }
+    body.starlight-season-active .christmas-hero { border:1px solid rgba(184,203,239,.5)!important; }
+    body.starlight-season-active .christmas-feature-card,
+    body.starlight-season-active .christmas-item-card,
+    body.starlight-season-active .christmas-leaderboard-wrap {
+      background:var(--surface)!important;border-color:var(--line)!important;
+    }
+    body.starlight-season-active input,
+    body.starlight-season-active select,
+    body.starlight-season-active textarea {
+      background:var(--surface-soft)!important;border-color:var(--line)!important;color:var(--ink)!important;
+    }
+    body.starlight-season-active .kitts-tip-card,
+    body.starlight-season-active .newcomer-welcome,
+    body.starlight-season-active .newcomer-mini {
+      background:var(--surface)!important;border-color:var(--line)!important;color:var(--ink)!important;
+      box-shadow:0 14px 38px rgba(20,35,66,.2)!important;
+    }
+    @media(max-width:760px) {
+      body.starlight-season-active #scene-main { padding-top:50px!important; }
+      body.starlight-season-active .home-hero { min-height:390px!important; }
+      body.starlight-season-active .home-hero::before { right:0;font-size:.8rem;letter-spacing:.3rem; }
+    }
+    @media(prefers-reduced-motion:reduce) {
+      body.starlight-season-active::after { animation:none!important; }
+    }
+  </style>
+
 </head>
 <body>
 
@@ -877,8 +1022,8 @@ a { color: inherit; }
           <div class="home-landing">
             <section class="home-hero">
               <div class="home-hero-copy">
-                <h1>Welcome to<br>Dreamy Cascade.</h1>
-                <p>A little place to chat, share what you're into, meet people, and hang out. Drop by whenever — there's room for you here. ♡</p>
+                <h1>Starlight<br>Christmas 2026</h1>
+                <p>The winter lights are glowing over Dreamy Cascade. Celebrate the season with your community, collect Stardust, unwrap surprises, and make a little Christmas magic together. ♡</p>
                 <div class="home-actions">
                   <a class="home-action primary" href="https://discord.gg/nET4TTnRuA" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> Join our community</a>
                   <button class="home-action" type="button" onclick="switchMainTab('list-tab')"><i class="fa-solid fa-book-open"></i> Meet everyone</button>
@@ -893,8 +1038,8 @@ a { color: inherit; }
 
             <div class="home-content-grid">
               <section class="home-card home-card-wide">
-                <h2><i class="fa-solid fa-cloud"></i> A place to settle in</h2>
-                <p>A friendly place to chat, share what you enjoy, meet people, and spend a little time together. Have a look around and join in whenever you feel like it. ♡</p>
+                <h2><i class="fa-solid fa-snowflake"></i> Welcome to our winter wonderland</h2>
+                <p>Snow is falling, the lights are shining, and there's a place for you by the fire. Catch up with friends, explore the winter festivities, and enjoy Starlight Christmas at Dreamy Cascade. ♡</p>
                 <div style="height:15px"></div>
                 <div class="home-announcement">
                   <span class="home-announcement-label"><i class="fa-solid fa-bullhorn"></i> Announcements &amp; updates</span>
