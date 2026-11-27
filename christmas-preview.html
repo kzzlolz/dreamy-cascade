@@ -2732,5 +2732,52 @@ showNewcomerWelcomeIfNeeded();
     applyTheme('dark');
 
 </script>
+
+  <style id="remove-wording-highlight-backgrounds">
+    /* Remove the coloured chips behind the wording itself; leave the surrounding cards intact. */
+    body.starlight-season-active #credits-tab .panel-title,
+    body.starlight-season-active #credits-tab .credits-label,
+    body.starlight-season-active #credits-tab .credits-val,
+    body.starlight-season-active #home-tab .home-announcement-label,
+    body.starlight-season-active #home-tab .home-eyebrow,
+    body.starlight-season-active #home-tab .home-stat strong,
+    body.starlight-season-active #home-tab .home-stat span,
+    body.starlight-season-active #home-tab .home-card h2,
+    body.starlight-season-active #home-tab .home-card p {
+      background: transparent !important;
+      background-color: transparent !important;
+      background-image: none !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+      outline: 0 !important;
+    }
+
+    body.starlight-season-active #credits-tab .credits-val,
+    body.starlight-season-active #credits-tab .credits-label,
+    body.starlight-season-active #home-tab .home-announcement-label,
+    body.starlight-season-active #home-tab .home-eyebrow {
+      border: 0 !important;
+      border-radius: 0 !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
+    body.starlight-season-active #credits-tab .panel-title::before,
+    body.starlight-season-active #credits-tab .panel-title::after,
+    body.starlight-season-active #credits-tab .credits-label::before,
+    body.starlight-season-active #credits-tab .credits-label::after,
+    body.starlight-season-active #credits-tab .credits-val::before,
+    body.starlight-season-active #credits-tab .credits-val::after,
+    body.starlight-season-active #home-tab .home-announcement-label::before,
+    body.starlight-season-active #home-tab .home-announcement-label::after,
+    body.starlight-season-active #home-tab .home-eyebrow::before,
+    body.starlight-season-active #home-tab .home-eyebrow::after {
+      content: none !important;
+      display: none !important;
+      background: none !important;
+      box-shadow: none !important;
+    }
+  </style>
+
 </body>
 </html>
