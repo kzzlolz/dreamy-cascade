@@ -777,7 +777,49 @@ a { color: inherit; }
       .christmas-podium-place strong { font-size: .62rem; }
       .christmas-hero-copy { padding-right: 0; }
     }
-  </style>
+  
+    /* Full-page winter treatment: deliberately obvious on this review-only page. */
+    body.starlight-season-active { background: radial-gradient(ellipse at 12% 12%,rgba(104,130,190,.2),transparent 32%),radial-gradient(ellipse at 88% 76%,rgba(143,113,170,.17),transparent 34%),#171d31; }
+    body.starlight-season-active .ambient-bg { background: radial-gradient(ellipse at 18% 8%,rgba(112,145,210,.25),transparent 34%),radial-gradient(ellipse at 82% 82%,rgba(153,119,177,.2),transparent 36%),linear-gradient(180deg,#172039,#202943 48%,#25263f); }
+    body.starlight-season-active::before { content:"✦  ❄  ✧  ❄  ✦  ❄  ✧  ❄  ✦  ❄  ✧  ❄  ✦"; position:fixed;z-index:999;top:0;left:0;width:100%;height:35px;display:flex;align-items:center;justify-content:center;color:#f3e8c8;font-size:13px;letter-spacing:.55em;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(196,211,246,.24),transparent 70%),linear-gradient(90deg,rgba(25,39,68,.97),rgba(66,67,103,.95),rgba(25,39,68,.97));border-bottom:1px solid rgba(220,230,255,.25);box-shadow:0 5px 24px rgba(7,12,27,.2);text-shadow:0 0 12px rgba(255,238,194,.65); }
+    body.starlight-season-active::after { content:"";position:fixed;z-index:998;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,.9) 0 1px,transparent 1.8px),radial-gradient(circle,rgba(214,229,255,.8) 0 1.5px,transparent 2.3px),radial-gradient(circle,rgba(255,255,255,.62) 0 1px,transparent 1.7px);background-size:83px 97px,137px 151px,191px 173px;background-position:0 0,41px 23px,83px 61px;animation:starlight-snowfall 16s linear infinite; }
+    @keyframes starlight-snowfall { from{background-position:0 -120px,41px -177px,83px -90px} to{background-position:0 520px,41px 463px,83px 550px} }
+    body.starlight-season-active #scene-main { padding-top:54px; }
+    body.starlight-season-active .sidebar-left { position:relative;border-color:rgba(177,194,235,.32);background:linear-gradient(105deg,rgba(34,45,72,.97),rgba(49,51,82,.97));box-shadow:0 8px 30px rgba(8,14,31,.2),inset 0 1px rgba(255,255,255,.08); }
+    body.starlight-season-active .server-brand h2,body.starlight-season-active .side-nav-btn { color:#e5e9f8; }
+    body.starlight-season-active .side-nav-btn i { color:#c3cbed; }
+    body.starlight-season-active .side-nav-btn.active { background:rgba(170,185,229,.2);color:#fff;box-shadow:inset 0 0 0 1px rgba(207,218,255,.16); }
+    body.starlight-season-active .content-panel { border-color:rgba(164,181,224,.25);background:rgba(29,38,61,.96);box-shadow:0 18px 55px rgba(5,10,25,.24); }
+    body.starlight-season-active .panel-title { color:#c7d2f2; }
+    body.starlight-season-active .home-hero,body.starlight-season-active .home-card,body.starlight-season-active .directory-section,body.starlight-season-active .community-card-hud,body.starlight-season-active .leaderboard-stage,body.starlight-season-active .credits-card-pro,body.starlight-season-active .feature-container { border-color:rgba(166,184,230,.2);background:linear-gradient(135deg,rgba(46,58,88,.96),rgba(35,45,70,.97));color:#e8edfb; }
+    body.starlight-season-active .home-hero-copy h1,body.starlight-season-active .home-card h2,body.starlight-season-active .home-card p,body.starlight-season-active .directory-section summary,body.starlight-season-active .community-card-hud h4,body.starlight-season-active .credits-banner h3 { color:#e4eafb; }
+    body.starlight-season-active .home-hero-copy p,body.starlight-season-active .home-community-card span,body.starlight-season-active .directory-intro { color:#b9c5df; }
+    body.starlight-season-active .home-community-card,body.starlight-season-active .public-activity-item,body.starlight-season-active .home-announcement,body.starlight-season-active .home-stat { border-color:rgba(166,184,230,.18);background:rgba(23,32,53,.72); }
+    body.starlight-season-active .home-stat strong,body.starlight-season-active .home-stat span,body.starlight-season-active .public-activity-item strong,body.starlight-season-active .public-activity-item p { color:#dce5f8; }
+    body.starlight-season-active .christmas-hero { min-height:390px;background:radial-gradient(ellipse at 77% 9%,rgba(189,203,255,.25),transparent 26%),radial-gradient(ellipse at 18% 105%,rgba(90,137,139,.35),transparent 35%),radial-gradient(ellipse at 88% 100%,rgba(130,99,142,.34),transparent 38%),linear-gradient(180deg,#172440 0%,#273557 55%,#353654 100%); }
+    .christmas-hero::before { content:"";position:absolute;z-index:0;inset:0 0 65px;background:radial-gradient(circle at 13% 18%,#fff 0 1px,transparent 2px),radial-gradient(circle at 31% 31%,#dfe9ff 0 1.5px,transparent 2px),radial-gradient(circle at 56% 13%,#fff 0 1px,transparent 2px),radial-gradient(circle at 72% 38%,#fff 0 1px,transparent 2px),radial-gradient(circle at 91% 20%,#dfe9ff 0 1.5px,transparent 2px),radial-gradient(ellipse at 50% 0%,rgba(156,178,231,.14),transparent 68%);pointer-events:none; }
+    .christmas-hero::after { content:"";position:absolute;z-index:1;right:-3%;bottom:0;left:-3%;height:86px;background:radial-gradient(ellipse at 12% 100%,#dce7f7 0 20%,transparent 21%),radial-gradient(ellipse at 40% 110%,#eef3ff 0 27%,transparent 28%),radial-gradient(ellipse at 75% 105%,#d5e1f5 0 24%,transparent 25%),linear-gradient(180deg,transparent 0%,rgba(217,229,248,.9) 65%,#eaf0fb 100%);pointer-events:none; }
+    .christmas-hero-sparkles { position:absolute;z-index:1;inset:28px 0 auto;overflow:hidden;color:rgba(239,232,203,.8);font-size:1.1rem;letter-spacing:2.8rem;white-space:nowrap;text-shadow:0 0 14px rgba(231,235,255,.7);animation:preview-twinkle 5s ease-in-out infinite alternate;pointer-events:none; }
+    @keyframes preview-twinkle { from{opacity:.42;transform:translateY(0)} to{opacity:1;transform:translateY(5px)} }
+    .christmas-moon-art { z-index:3;min-height:265px;margin-top:-38px; }
+    .christmas-moon-halo { top:-3px;width:230px;height:230px;background:radial-gradient(circle,rgba(218,225,255,.28),rgba(174,190,242,.08) 42%,transparent 72%); }
+    .christmas-moon { top:-58px;font-size:14rem;text-shadow:0 0 22px rgba(222,230,255,.5),0 0 58px rgba(172,191,255,.48); }
+    .moon-star { animation:preview-star-glow 3.8s ease-in-out infinite alternate; }
+    .star-one { top:-5%;right:7%;font-size:1.8rem; }.star-two { top:13%;left:0;font-size:1.4rem; }.star-three { top:-10%;left:20%;font-size:1.1rem; }.star-four { top:31%;right:0;font-size:1.15rem; }.star-five { top:9%;left:43%;font-size:.95rem; }
+    @keyframes preview-star-glow { from{opacity:.55;filter:drop-shadow(0 0 2px #fff)} to{opacity:1;filter:drop-shadow(0 0 9px #e6eaff)} }
+    .christmas-village { bottom:-4px;height:135px; }
+    .winter-tree { left:3px;bottom:16px;width:100px;height:118px; }
+    .winter-tree::before { top:8px;border-left-width:51px;border-right-width:51px;border-bottom:91px solid #477b70; }
+    .winter-tree::after { top:43px;border-left-width:42px;border-right-width:42px;border-bottom:73px solid #315f59; }
+    .winter-tree .tree-star { left:43px;font-size:1.35rem; }
+    .winter-tree .tree-lights { top:42px;left:34px;width:33px;height:53px; }
+    .gingerbread-house { right:4px;bottom:17px;transform:scale(1.2);transform-origin:bottom right; }
+    .village-snow { height:25px;background:linear-gradient(#fff,#d7e4f7);box-shadow:0 -7px 22px rgba(235,243,255,.35); }
+    body.starlight-season-active .home-hero { position:relative;overflow:hidden; }
+    body.starlight-season-active .home-hero::after { content:"❄   ✦   ❄";position:absolute;right:8%;bottom:12px;color:rgba(225,235,255,.42);font-size:2rem;letter-spacing:1.5rem;pointer-events:none; }
+    @media(max-width:760px) { body.starlight-season-active::before{font-size:10px;letter-spacing:.2em}body.starlight-season-active #scene-main{padding-top:48px}.christmas-hero{min-height:390px}.christmas-moon-art{top:-6px;right:-3px;width:205px;height:205px;min-height:205px;margin:0;opacity:.92}.christmas-moon{top:-54px;font-size:9rem}.christmas-moon-halo{top:-15px;width:160px;height:160px}.christmas-village{bottom:-5px;transform:scale(.9);transform-origin:bottom right}.winter-tree{left:0}.gingerbread-house{right:4px;transform:scale(1)} }
+    @media(prefers-reduced-motion:reduce) { body.starlight-season-active::after,.christmas-hero-sparkles,.moon-star{animation:none!important} }
+</style>
 
 </head>
 <body>
@@ -1813,12 +1855,9 @@ a { color: inherit; }
     }
 
     function updateSiteSeasonalDecorations() {
-      // The whole-site winter layer switches on at the event start.
-      // Add ?christmas-preview=1 to this preview URL to inspect it early.
-      const params = new URLSearchParams(window.location.search);
-      const previewOverride = params.get('christmas-preview') === '1';
-      const eventStarted = new Date() >= new Date(2026, 11, 1, 0, 0, 0);
-      document.body.classList.toggle('starlight-season-active', eventStarted || previewOverride);
+      // The review-only Christmas page always displays the full seasonal treatment.
+      // The production page can switch on automatically on December 1, 2026 after approval.
+      document.body.classList.add('starlight-season-active');
     }
 
     function updateChristmasCountdown() {
