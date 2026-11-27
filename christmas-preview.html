@@ -1495,7 +1495,10 @@ a { color: inherit; }
 </style>
 
 <style id="scrolling-double-star-garland">
-  /* Both star garlands belong to the document and scroll with the page. */
+  /* Both star garlands are positioned on the document, so they scroll with it. */
+  body {
+    position: relative;
+  }
   body.starlight-season-active::before {
     position: absolute !important;
     top: 0 !important;
@@ -1503,7 +1506,8 @@ a { color: inherit; }
   .starlight-secondary-garland {
     position: absolute;
     z-index: 999;
-    top: 35px;
+    top: auto;
+    bottom: 0;
     left: 0;
     display: flex;
     align-items: center;
@@ -1517,16 +1521,16 @@ a { color: inherit; }
     white-space: nowrap;
     pointer-events: none;
     background: linear-gradient(90deg,rgba(25,39,68,.97),rgba(66,67,103,.95),rgba(25,39,68,.97));
-    border-bottom: 1px solid rgba(220,230,255,.2);
-    box-shadow: 0 5px 18px rgba(7,12,27,.14);
+    border-top: 1px solid rgba(220,230,255,.2);
+    box-shadow: 0 -5px 18px rgba(7,12,27,.14);
     text-shadow: 0 0 10px rgba(220,232,255,.48);
   }
   body.starlight-season-active #scene-main {
-    padding-top: 76px !important;
+    padding-top: 58px !important;
   }
   @media (max-width: 760px) {
     body.starlight-season-active #scene-main {
-      padding-top: 76px !important;
+      padding-top: 58px !important;
     }
   }
 </style>
