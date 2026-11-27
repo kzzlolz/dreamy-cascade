@@ -1544,6 +1544,17 @@ a { color: inherit; }
   }
 </style>
 
+<style id="christmas-solid-snow-layer-fix">
+  /* Keep the illustrated snowbank behind the Christmas heading and countdown. */
+  #christmas-preview-tab .christmas-hero::after {
+    z-index: 0 !important;
+  }
+  #christmas-preview-tab .christmas-hero-copy,
+  #christmas-preview-tab .christmas-countdown {
+    position: relative;
+    z-index: 2;
+  }
+</style>
 </head>
 <body>
 
