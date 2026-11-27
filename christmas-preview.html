@@ -671,7 +671,7 @@ a { color: inherit; }
     .winter-tree .tree-lights { position: absolute; z-index: 3; top: 31px; left: 25px; width: 23px; height: 37px; border-radius: 50%; background: radial-gradient(circle at 20% 20%,#f7dca1 0 2px,transparent 3px),radial-gradient(circle at 80% 50%,#c6d7ff 0 2px,transparent 3px),radial-gradient(circle at 36% 85%,#e7b8cf 0 2px,transparent 3px); }
     .winter-tree::marker { display:none; }
     .gingerbread-house { position: absolute; right: 9px; bottom: 13px; width: 78px; height: 52px; border: 2px solid #e9c99f; border-radius: 5px 5px 7px 7px; background: linear-gradient(90deg,#a96e53,#c48a62); box-shadow: 0 5px 10px rgba(0,0,0,.2); }
-    .house-roof { position: absolute; top: -20px; left: -7px; width: 88px; height: 34px; border: 2px solid #f4e8d7; border-bottom: 0; border-radius: 8px 8px 0 0; background: repeating-linear-gradient(135deg,#9c5d55 0 8px,#d9a3a0 8px 12px); clip-path: polygon(50% 0,100% 100%,0 100%); }
+    .house-roof { position: absolute; top: -32px; left: -7px; width: 88px; height: 34px; border: 2px solid #f4e8d7; border-bottom: 0; border-radius: 8px 8px 0 0; background: repeating-linear-gradient(135deg,#9c5d55 0 8px,#d9a3a0 8px 12px); clip-path: polygon(50% 0,100% 100%,0 100%); }
     .house-window { position: absolute; top: 14px; width: 12px; height: 13px; border: 2px solid #f6e4c6; border-radius: 3px; background: #f5d994; box-shadow: 0 0 9px rgba(255,224,156,.65); }
     .window-left { left: 10px; }.window-right { right: 10px; }
     .house-door { position: absolute; bottom: 0; left: 31px; width: 15px; height: 25px; border: 2px solid #f2d9b7; border-bottom: 0; border-radius: 8px 8px 0 0; background: #754b43; }
@@ -1330,6 +1330,19 @@ a { color: inherit; }
         width:160px!important;
         height:160px!important;
       }
+    }
+  </style>
+
+
+  <style id="gingerbread-roof-alignment">
+    /* Seat the roof directly on the gingerbread walls, including scaled layouts. */
+    .gingerbread-house .house-roof {
+      top:-32px!important;
+      left:-7px!important;
+      width:88px!important;
+      height:34px!important;
+      transform:none!important;
+      transform-origin:bottom center;
     }
   </style>
 
