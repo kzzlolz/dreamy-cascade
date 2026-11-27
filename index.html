@@ -626,6 +626,51 @@ a { color: inherit; }
 :root[data-theme="dark"] .public-activity-item time { color: #9da8bc; }
 
 </style>
+
+  <style id="announcement-subtitle-layout">
+    /* Optional second title sits in a compact label under each announcement title. */
+    .public-announcement-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .public-announcement-item > strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+    .public-announcement-subtitle {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      width: fit-content;
+      max-width: 100%;
+      margin: 3px 0 9px;
+      padding: 4px 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface-soft);
+      color: var(--muted-strong);
+      font-size: .65rem;
+      font-weight: 650;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+      box-sizing: border-box;
+    }
+    .public-announcement-item > p {
+      margin: 0;
+    }
+    .public-announcement-date {
+      display: block;
+      width: 100%;
+      margin-top: 14px !important;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .66rem;
+      line-height: 1.45;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -1328,6 +1373,9 @@ a { color: inherit; }
           card.className = 'public-announcement-item';
           const heading = document.createElement('strong');
           heading.textContent = item.title || 'Community update';
+          const subtitle = document.createElement('span');
+          subtitle.className = 'public-announcement-subtitle';
+          subtitle.textContent = String(item.subtitle || '').trim();
           const body = document.createElement('p');
           body.textContent = item.body || '';
           const date = document.createElement('time');
@@ -1339,7 +1387,11 @@ a { color: inherit; }
               date.textContent = parsed.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
             }
           }
-          card.append(heading, body, date);
+          if (subtitle.textContent) {
+            card.append(heading, subtitle, body, date);
+          } else {
+            card.append(heading, body, date);
+          }
           root.appendChild(card);
         });
       } catch (error) {
