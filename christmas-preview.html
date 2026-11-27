@@ -1507,75 +1507,6 @@ a { color: inherit; }
     }
   </style>
 
-<style id="credits-columns-layout">
-#credits-tab .credits-grid.credits-columns {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: stretch;
-  gap: 14px;
-}
-#credits-tab .credits-column {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 15px;
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: 15px;
-  background: var(--surface);
-}
-#credits-tab .credits-column .credits-label {
-  margin: 0;
-  color: var(--muted, #8995b0);
-  font-size: .76rem;
-  letter-spacing: .035em;
-}
-#credits-tab .credits-column .credits-val {
-  margin-top: 2px;
-  font-size: .95rem;
-}
-#credits-tab .credits-details {
-  display: grid;
-  width: 100%;
-  gap: 13px;
-}
-#credits-tab .credits-detail {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-#credits-tab .credits-detail span {
-  color: var(--muted, #8995b0);
-  font-size: .7rem;
-  font-weight: 650;
-}
-#credits-tab .credits-detail strong {
-  color: var(--ink);
-  font-size: .84rem;
-  font-weight: 650;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-@media (max-width: 800px) {
-  #credits-tab .credits-grid.credits-columns {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  #credits-tab .credits-column-wide {
-    grid-column: 1 / -1;
-  }
-}
-@media (max-width: 560px) {
-  #credits-tab .credits-grid.credits-columns {
-    grid-template-columns: 1fr;
-  }
-  #credits-tab .credits-column-wide {
-    grid-column: auto;
-  }
-}
-</style>
-
 </head>
 <body>
 
@@ -1886,38 +1817,36 @@ a { color: inherit; }
         <section id="credits-tab" class="tab-pane">
           <div class="panel-title"><i class="fa-solid fa-award"></i> Credits &amp; Attribution</div>
           <div class="credits-wrapper">
-            <div class="credits-grid credits-columns">
-              <section class="credits-column">
+            <div class="credits-grid">
+              <div class="credits-card-pro">
                 <div class="credits-label"><i class="fa-solid fa-pen-nib"></i> Design</div>
                 <div class="credits-val">Kzz</div>
-              </section>
+              </div>
 
-              <section class="credits-column">
+              <div class="credits-card-pro">
+                <div class="credits-label"><i class="fa-solid fa-lightbulb"></i> Inspiration</div>
+                <div class="credits-val">Community</div>
+              </div>
+
+              <div class="credits-card-pro">
                 <div class="credits-label"><i class="fa-solid fa-code"></i> Coding</div>
                 <div class="credits-val">Kzz &amp; Nikko</div>
-              </section>
+              </div>
 
-              <section class="credits-column credits-column-wide">
-                <div class="credits-label"><i class="fa-solid fa-sparkles"></i> Other Credits</div>
-                <div class="credits-details">
-                  <div class="credits-detail">
-                    <span>Inspiration</span>
-                    <strong>Community</strong>
-                  </div>
-                  <div class="credits-detail">
-                    <span>Assets</span>
-                    <strong>Pinterest, GIPHY</strong>
-                  </div>
-                  <div class="credits-detail">
-                    <span>Services</span>
-                    <strong>GitHub, SillyDev, Discord</strong>
-                  </div>
-                  <div class="credits-detail">
-                    <span>Community Companions</span>
-                    <strong>Itsuki Nanako &amp; Skye</strong>
-                  </div>
-                </div>
-              </section>
+              <div class="credits-card-pro">
+                <div class="credits-label"><i class="fa-solid fa-image"></i> Assets</div>
+                <div class="credits-val">Pinterest, GIPHY</div>
+              </div>
+
+              <div class="credits-card-pro">
+                <div class="credits-label"><i class="fa-solid fa-server"></i> Services</div>
+                <div class="credits-val">GitHub, SillyDev, Discord</div>
+              </div>
+
+              <div class="credits-card-pro">
+                <div class="credits-label"><i class="fa-solid fa-handshake"></i> Community Companions</div>
+                <div class="credits-val">Itsuki Nanako &amp; Skye</div>
+              </div>
             </div>
 
             <div class="credits-banner">
