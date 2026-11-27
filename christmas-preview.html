@@ -755,8 +755,8 @@ a { color: inherit; }
     /* Full-page winter treatment: deliberately obvious on this review-only page. */
     body.starlight-season-active { background: radial-gradient(ellipse at 12% 12%,rgba(104,130,190,.2),transparent 32%),radial-gradient(ellipse at 88% 76%,rgba(143,113,170,.17),transparent 34%),#171d31; }
     body.starlight-season-active .ambient-bg { background: radial-gradient(ellipse at 18% 8%,rgba(112,145,210,.25),transparent 34%),radial-gradient(ellipse at 82% 82%,rgba(153,119,177,.2),transparent 36%),linear-gradient(180deg,#172039,#202943 48%,#25263f); }
-    body.starlight-season-active::before { content:none!important;display:none!important; }
-    body.starlight-season-active::after { content:"";position:fixed;z-index:998;inset:0;pointer-events:none;opacity:.2;background-image:radial-gradient(circle,rgba(255,255,255,.72) 0 1px,transparent 1.8px),radial-gradient(circle,rgba(214,229,255,.58) 0 1px,transparent 2px);background-size:151px 173px,223px 241px;background-position:0 0,41px 23px;animation:starlight-snowfall 28s linear infinite; }
+    body.starlight-season-active::before { content:"✦  ❄  ✧  ❄  ✦  ❄  ✧  ❄  ✦  ❄  ✧  ❄  ✦"; position:fixed;z-index:999;top:0;left:0;width:100%;height:35px;display:flex;align-items:center;justify-content:center;color:#f3e8c8;font-size:13px;letter-spacing:.55em;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(196,211,246,.24),transparent 70%),linear-gradient(90deg,rgba(25,39,68,.97),rgba(66,67,103,.95),rgba(25,39,68,.97));border-bottom:1px solid rgba(220,230,255,.25);box-shadow:0 5px 24px rgba(7,12,27,.2);text-shadow:0 0 12px rgba(255,238,194,.65); }
+    body.starlight-season-active::after { content:"";position:fixed;z-index:998;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,.9) 0 1px,transparent 1.8px),radial-gradient(circle,rgba(214,229,255,.8) 0 1.5px,transparent 2.3px),radial-gradient(circle,rgba(255,255,255,.62) 0 1px,transparent 1.7px);background-size:83px 97px,137px 151px,191px 173px;background-position:0 0,41px 23px,83px 61px;animation:starlight-snowfall 16s linear infinite; }
     @keyframes starlight-snowfall { from{background-position:0 -120px,41px -177px,83px -90px} to{background-position:0 520px,41px 463px,83px 550px} }
     body.starlight-season-active #scene-main { padding-top:54px; }
     body.starlight-season-active .sidebar-left { position:relative;border-color:rgba(177,194,235,.32);background:linear-gradient(105deg,rgba(34,45,72,.97),rgba(49,51,82,.97));box-shadow:0 8px 30px rgba(8,14,31,.2),inset 0 1px rgba(255,255,255,.08); }
@@ -1346,100 +1346,6 @@ a { color: inherit; }
     }
   </style>
 
-
-  <style id="panel-title-icon-spacing">
-    /* Give every section-heading icon consistent breathing room before its title. */
-    body.starlight-season-active .panel-title {
-      display:inline-flex!important;
-      align-items:center!important;
-      gap:9px!important;
-    }
-    body.starlight-season-active .panel-title > i,
-    body.starlight-season-active .panel-title > svg {
-      flex:0 0 auto;
-      margin:0!important;
-    }
-  </style>
-
-
-  <style id="credits-stack-layout">
-    #credits-tab .credits-grid {
-      display:grid!important;
-      grid-template-columns:minmax(0,1fr)!important;
-      gap:12px!important;
-    }
-    #credits-tab .credits-card-pro { width:100%; }
-  </style>
-
-
-  <style id="countdown-protected-card">
-    body.starlight-season-active .christmas-countdown {
-      position:relative!important;
-      z-index:5!important;
-      isolation:isolate;
-      display:flex!important;
-      flex-wrap:wrap;
-      align-items:center;
-      gap:8px 13px!important;
-      margin-top:18px!important;
-      padding:14px 17px!important;
-      border:1px solid rgba(198,214,247,.3)!important;
-      border-radius:13px!important;
-      background:linear-gradient(115deg,rgba(22,34,58,.97),rgba(48,57,88,.97))!important;
-      box-shadow:0 8px 22px rgba(5,12,30,.24),inset 0 1px rgba(255,255,255,.08)!important;
-    }
-    body.starlight-season-active .christmas-countdown .countdown-label {
-      flex:0 0 100%;
-      color:#c6d4f2!important;
-      letter-spacing:.1em;
-    }
-    body.starlight-season-active .christmas-countdown strong {
-      color:#fff!important;font-size:1.1rem!important;
-    }
-    body.starlight-season-active .christmas-countdown small {
-      color:#bdcbe7!important;
-    }
-  </style>
-
-
-  <style id="home-stat-announcement-dehighlight">
-    body.starlight-season-active #home-tab .home-stat {
-      border:0!important;
-      border-radius:8px!important;
-      background:transparent!important;
-      box-shadow:none!important;
-      padding:10px 8px!important;
-    }
-    body.starlight-season-active #home-tab .home-stat strong {
-      text-shadow:none!important;
-      color:#e8e1ce!important;
-    }
-    body.starlight-season-active #home-tab .home-stat span {
-      color:#aebbd8!important;
-    }
-    body.starlight-season-active #home-tab .home-announcement {
-      border:0!important;
-      border-left:0!important;
-      border-radius:0!important;
-      background:transparent!important;
-      box-shadow:none!important;
-      padding:12px 0!important;
-    }
-    body.starlight-season-active #home-tab .home-announcement-label {
-      border:0!important;
-      border-radius:0!important;
-      background:transparent!important;
-      box-shadow:none!important;
-      padding:0!important;
-      color:#b9c9e9!important;
-    }
-    body.starlight-season-active #home-tab .public-announcement-item {
-      background:transparent!important;
-      border-top:1px solid rgba(190,207,242,.16)!important;
-      box-shadow:none!important;
-    }
-  </style>
-
 </head>
 <body>
 
@@ -1474,7 +1380,10 @@ a { color: inherit; }
 
         <div>
           <div class="sidebar-actions">
-<a href="https://discord.gg/nET4TTnRuA" target="_blank" rel="noopener noreferrer" class="discord-btn-compact"><i class="fa-brands fa-discord"></i> JOIN DISCORD</a>
+            <button id="theme-toggle" class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" aria-pressed="false">
+              <i class="fa-solid fa-moon" aria-hidden="true"></i><span>Dark mode</span>
+            </button>
+            <a href="https://discord.gg/nET4TTnRuA" target="_blank" rel="noopener noreferrer" class="discord-btn-compact"><i class="fa-brands fa-discord"></i> JOIN DISCORD</a>
           </div>
         </div>
       </aside>
@@ -1643,7 +1552,8 @@ a { color: inherit; }
         <!-- STARLIGHT CHRISTMAS 2026 PREVIEW -->
         <section id="christmas-preview-tab" class="tab-pane christmas-preview">
           <div class="christmas-hero">
-<div class="christmas-hero-copy">
+            <div class="christmas-hero-sparkles" aria-hidden="true">✦　❄　✧　❄　✦</div>
+            <div class="christmas-hero-copy">
               <span class="christmas-eyebrow"><i class="fa-solid fa-star"></i> A DREAMY CASCADE SEASONAL EVENT</span>
               <h1>Starlight<br><em>Christmas 2026</em></h1>
               <p>A little winter magic is finding its way to Dreamy Cascade. Gather Stardust, unwrap surprises, and make warm memories with the community.</p>
@@ -2729,55 +2639,8 @@ showNewcomerWelcomeIfNeeded();
       applyTheme(current === 'dark' ? 'light' : 'dark');
     }
 
-    applyTheme('dark');
+    applyTheme(document.documentElement.dataset.theme || 'light');
 
 </script>
-
-  <style id="remove-wording-highlight-backgrounds">
-    /* Remove the coloured chips behind the wording itself; leave the surrounding cards intact. */
-    body.starlight-season-active #credits-tab .panel-title,
-    body.starlight-season-active #credits-tab .credits-label,
-    body.starlight-season-active #credits-tab .credits-val,
-    body.starlight-season-active #home-tab .home-announcement-label,
-    body.starlight-season-active #home-tab .home-eyebrow,
-    body.starlight-season-active #home-tab .home-stat strong,
-    body.starlight-season-active #home-tab .home-stat span,
-    body.starlight-season-active #home-tab .home-card h2,
-    body.starlight-season-active #home-tab .home-card p {
-      background: transparent !important;
-      background-color: transparent !important;
-      background-image: none !important;
-      box-shadow: none !important;
-      text-shadow: none !important;
-      outline: 0 !important;
-    }
-
-    body.starlight-season-active #credits-tab .credits-val,
-    body.starlight-season-active #credits-tab .credits-label,
-    body.starlight-season-active #home-tab .home-announcement-label,
-    body.starlight-season-active #home-tab .home-eyebrow {
-      border: 0 !important;
-      border-radius: 0 !important;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-    }
-
-    body.starlight-season-active #credits-tab .panel-title::before,
-    body.starlight-season-active #credits-tab .panel-title::after,
-    body.starlight-season-active #credits-tab .credits-label::before,
-    body.starlight-season-active #credits-tab .credits-label::after,
-    body.starlight-season-active #credits-tab .credits-val::before,
-    body.starlight-season-active #credits-tab .credits-val::after,
-    body.starlight-season-active #home-tab .home-announcement-label::before,
-    body.starlight-season-active #home-tab .home-announcement-label::after,
-    body.starlight-season-active #home-tab .home-eyebrow::before,
-    body.starlight-season-active #home-tab .home-eyebrow::after {
-      content: none !important;
-      display: none !important;
-      background: none !important;
-      box-shadow: none !important;
-    }
-  </style>
-
 </body>
 </html>
