@@ -966,6 +966,23 @@ a { color: inherit; }
     }
   </style>
 
+
+  <style id="compact-word-highlights">
+    /* Keep text highlights snug around the words instead of stretching across the row. */
+    mark,
+    .highlight,
+    .text-highlight,
+    .word-highlight,
+    .accent-highlight {
+      display: inline !important;
+      width: auto !important;
+      max-width: 100%;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+      vertical-align: baseline;
+    }
+  </style>
+
 </head>
 <body>
 
