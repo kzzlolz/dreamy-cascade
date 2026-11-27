@@ -1383,6 +1383,61 @@ a { color: inherit; }
     }
   </style>
 
+
+  <style id="compact-text-highlight-fix">
+    /* Text highlight backgrounds should wrap their content, never fill the row. */
+    body.starlight-season-active .panel-title,
+    body.starlight-season-active .credits-label,
+    body.starlight-season-active .home-announcement-label,
+    body.starlight-season-active .leaderboard-eyebrow,
+    body.starlight-season-active .christmas-card-kicker,
+    body.starlight-season-active .newcomer-eyebrow,
+    body.starlight-season-active .profile-modal-section-title {
+      display: inline-flex !important;
+      width: max-content !important;
+      max-width: 100% !important;
+      flex: 0 0 auto !important;
+      box-sizing: border-box !important;
+    }
+
+    body.starlight-season-active .panel-title,
+    body.starlight-season-active .credits-label,
+    body.starlight-season-active .home-announcement-label,
+    body.starlight-season-active .leaderboard-eyebrow,
+    body.starlight-season-active .christmas-card-kicker {
+      align-self: flex-start !important;
+    }
+
+    /* Home-card heading highlight follows the title, not the whole grid column. */
+    body.starlight-season-active #home-tab .home-card h2 {
+      display: inline-flex !important;
+      width: max-content !important;
+      max-width: 100% !important;
+      justify-self: start !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Keep the intentionally full-width Christmas section divider unchanged. */
+    body.starlight-season-active .christmas-section-heading {
+      width: 100% !important;
+      max-width: none !important;
+      display: flex !important;
+    }
+
+    /* Inline text markers stay tight to the selected words. */
+    body.starlight-season-active mark,
+    body.starlight-season-active .highlight,
+    body.starlight-season-active .text-highlight,
+    body.starlight-season-active .word-highlight,
+    body.starlight-season-active .accent-highlight {
+      display: inline !important;
+      width: auto !important;
+      max-width: 100% !important;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+  </style>
+
 </head>
 <body>
 
