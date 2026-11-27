@@ -1010,6 +1010,35 @@ a { color: inherit; }
     }
   </style>
 
+
+  <style id="compact-all-site-heading-highlights">
+    /* Keep every small heading/highlight sized to its text across every tab. */
+    .panel-title,
+    .credits-label,
+    .home-announcement-label,
+    .leaderboard-eyebrow,
+    .christmas-card-kicker,
+    .christmas-section-heading,
+    .newcomer-eyebrow,
+    .profile-modal-section-title {
+      display: inline-flex !important;
+      align-items: center;
+      width: fit-content !important;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .panel-title {
+      align-self: flex-start;
+    }
+    .credits-label,
+    .home-announcement-label {
+      align-self: flex-start;
+    }
+    .christmas-section-heading {
+      align-self: flex-start;
+    }
+  </style>
+
 </head>
 <body>
 
