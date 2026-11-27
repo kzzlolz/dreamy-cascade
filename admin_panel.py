@@ -66,7 +66,7 @@ input:focus,textarea:focus,select:focus{border-color:#bd91b4;box-shadow:0 0 0 3p
 .announcement-item{padding:13px 14px;border:1px solid #eee0ed;border-radius:14px;background:#fff}
 .announcement-item strong{display:block;color:#795f7b;margin-bottom:5px}
 .announcement-item p{margin:0;color:#8d7b8f;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.6}
-.announcement-item .small{margin-top:7px}
+.announcement-item .small{margin-top:7px}.announcement-item .announcement-subtitle{display:inline-flex;width:fit-content;max-width:100%;margin:2px 0 8px;padding:3px 8px;border:1px solid #eadfea;border-radius:8px;background:#f8f3f8;color:#8e7191;font-size:11px;font-weight:650;line-height:1.4;overflow-wrap:anywhere}
 @media(max-width:760px){.announcement-layout{grid-template-columns:1fr}.panel{padding:18px}}
 
 
@@ -134,6 +134,8 @@ input:focus,textarea:focus,select:focus{border-color:#bd91b4;box-shadow:0 0 0 3p
 <form id="announcement-form">
 <label for="announcement-title">Announcement title</label>
 <input id="announcement-title" maxlength="100" required placeholder="A little update for everyone…">
+<label for="announcement-subtitle">Second title (optional)</label>
+<input id="announcement-subtitle" maxlength="80" placeholder="A small label or subtitle…">
 <label for="announcement-body">Message</label>
 <textarea id="announcement-body" maxlength="2000" required placeholder="Share the news, event details, or reminder…"></textarea>
 <div class="actions"><button type="submit">Publish announcement</button></div>
@@ -258,17 +260,18 @@ async function loadAnnouncements(){
   items.forEach(item=>{
    const card=document.createElement("article");card.className="announcement-item";
    const title=document.createElement("strong");title.textContent=item.title;
+   const subtitle=document.createElement("span");subtitle.className="announcement-subtitle";subtitle.textContent=item.subtitle||"";
    const body=document.createElement("p");body.textContent=item.body;
    const meta=document.createElement("div");meta.className="small";const date=new Date(item.created_at);meta.textContent=Number.isNaN(date.getTime())?"":date.toLocaleString();
    const remove=document.createElement("button");remove.type="button";remove.className="danger";remove.textContent="Delete";remove.style.marginTop="9px";
    remove.addEventListener("click",async()=>{if(!confirm("Delete this announcement from the website?"))return;try{await api("/api/admin/announcements/"+item.id,{method:"DELETE"});await loadAnnouncements();$("announcement-status").textContent="Announcement deleted.";}catch(error){$("announcement-status").textContent=error.message;}});
-   card.append(title,body,meta,remove);root.appendChild(card);
+   if(subtitle.textContent)card.append(title,subtitle,body,meta,remove);else card.append(title,body,meta,remove);root.appendChild(card);
   });
  }catch(error){root.textContent=error.message;}
 }
 $("announcement-form").addEventListener("submit",async event=>{
- event.preventDefault();const title=$("announcement-title").value.trim(),body=$("announcement-body").value.trim();
- try{await api("/api/admin/announcements",{method:"POST",body:JSON.stringify({title,body})});$("announcement-form").reset();$("announcement-status").textContent="Published! It will appear on the homepage shortly.";await loadAnnouncements();}
+ event.preventDefault();const title=$("announcement-title").value.trim(),subtitle=$("announcement-subtitle").value.trim(),body=$("announcement-body").value.trim();
+ try{await api("/api/admin/announcements",{method:"POST",body:JSON.stringify({title,subtitle,body})});$("announcement-form").reset();$("announcement-status").textContent="Published! It will appear on the homepage shortly.";await loadAnnouncements();}
  catch(error){$("announcement-status").textContent=error.message;}
 });
 $("member-search").addEventListener("input",renderMembers);
@@ -353,12 +356,17 @@ def register_admin_routes(app):
             CREATE TABLE IF NOT EXISTS announcements (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
+                subtitle TEXT NOT NULL DEFAULT '',
                 body TEXT NOT NULL,
                 created_by TEXT NOT NULL,
                 created_at TEXT NOT NULL
             )
             """
         )
+        announcement_columns = {row["name"] for row in connection.execute("PRAGMA table_info(announcements)").fetchall()}
+        if "subtitle" not in announcement_columns:
+            connection.execute("ALTER TABLE announcements ADD COLUMN subtitle TEXT NOT NULL DEFAULT ''")
+
         connection.execute(
             """
             CREATE TABLE IF NOT EXISTS activity_events (
@@ -573,7 +581,7 @@ def register_admin_routes(app):
         connection = database()
         try:
             rows = connection.execute(
-                "SELECT id, title, body, created_at FROM announcements "
+                "SELECT id, title, subtitle, body, created_at FROM announcements "
                 "ORDER BY id DESC LIMIT 4"
             ).fetchall()
             response = jsonify([dict(row) for row in rows])
@@ -626,7 +634,7 @@ def register_admin_routes(app):
         connection = database()
         try:
             rows = connection.execute(
-                "SELECT id, title, body, created_at FROM announcements "
+                "SELECT id, title, subtitle, body, created_at FROM announcements "
                 "ORDER BY id DESC LIMIT 30"
             ).fetchall()
             return jsonify([dict(row) for row in rows])
@@ -642,10 +650,12 @@ def register_admin_routes(app):
         if denied:
             return denied
         payload = request.get_json(silent=True) or {}
-        title, body = payload.get("title", ""), payload.get("body", "")
-        if not isinstance(title, str) or not isinstance(body, str):
+        title, subtitle, body = payload.get("title", ""), payload.get("subtitle", ""), payload.get("body", "")
+        if not isinstance(title, str) or not isinstance(subtitle, str) or not isinstance(body, str):
             return jsonify({"error": "Enter a valid title and message."}), 400
-        title, body = title.strip(), body.strip()
+        title, subtitle, body = title.strip(), subtitle.strip(), body.strip()
+        if len(subtitle) > 80:
+            return jsonify({"error": "Second title must be 80 characters or fewer."}), 400
         if not title or len(title) > 100:
             return jsonify({"error": "Title must be between 1 and 100 characters."}), 400
         if not body or len(body) > 2000:
@@ -654,13 +664,13 @@ def register_admin_routes(app):
         connection = database()
         try:
             cursor = connection.execute(
-                "INSERT INTO announcements (title, body, created_by, created_at) "
-                "VALUES (?, ?, ?, ?)",
-                (title, body, session["admin_id"], created_at),
+                "INSERT INTO announcements (title, subtitle, body, created_by, created_at) "
+                "VALUES (?, ?, ?, ?, ?)",
+                (title, subtitle, body, session["admin_id"], created_at),
             )
             connection.commit()
             return jsonify({"ok": True, "announcement": {
-                "id": cursor.lastrowid, "title": title,
+                "id": cursor.lastrowid, "title": title, "subtitle": subtitle,
                 "body": body, "created_at": created_at
             }})
         finally:
