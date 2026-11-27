@@ -1,18 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <script>
-  (function () {
-    try {
-      const savedTheme = localStorage.getItem('dreamy-cascade-theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        document.documentElement.dataset.theme = savedTheme;
-      } else {
-        document.documentElement.dataset.theme = 'dark';
-      }
-    } catch (error) {}
-  })();
-</script>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -347,8 +335,7 @@ a { color: inherit; }
 .credits-banner p { margin: 0; color: #9299a8; font-size: .65rem; letter-spacing: .08em; }
 
 .feature-container { width: 100%; min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: var(--surface); }
-.spotify-frame-container { width: 100%; min-width: 0; min-height: 352px; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
-.spotify-frame-container iframe { display: block; width: 100%; height: 352px; border: 0; }
+
 
 .modal-overlay { position: fixed; inset: 0; z-index: 10010; display: flex; align-items: center; justify-content: center; padding: 18px; background: rgba(48,56,75,.30); backdrop-filter: blur(5px); opacity: 0; visibility: hidden; transition: .25s ease; }
 .modal-overlay.active { opacity: 1; visibility: visible; }
@@ -425,8 +412,8 @@ a { color: inherit; }
   .leaderboard-stage-heading { align-items: flex-start; flex-direction: column; }
   .leaderboard-podium { gap: 5px; min-height: 175px; margin-top: 30px; }
   .podium-name { font-size: .65rem; }
-  .spotify-frame-container { min-height: 352px; }
-  .spotify-frame-container iframe { height: 352px; }
+
+
 }
 @media (max-width: 390px) {
   .home-stats-grid { gap: 5px; }
@@ -441,26 +428,10 @@ a { color: inherit; }
   
 
 .sidebar-actions { display: flex; align-items: center; gap: 9px; }
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 38px;
-  padding: 9px 12px;
-  border: 1px solid #e1e5ed;
-  border-radius: 999px;
-  background: #f7f8fb;
-  color: #68748d;
-  cursor: pointer;
-  font: 600 .72rem Inter,sans-serif;
-  white-space: nowrap;
-  transition: background .2s ease,border-color .2s ease,color .2s ease;
-}
-.theme-toggle:hover { background: #edf0f7; border-color: #ccd4e4; }
-.theme-toggle i { color: #8493b6; font-size: .78rem; }
 
-/* Optional dark theme — muted dusk tones, not pure black */
+
+
+/* Fixed dusk palette for the Christmas preview */
 :root[data-theme="dark"] {
   color-scheme: dark;
   --page: #202431;
@@ -498,8 +469,7 @@ a { color: inherit; }
 :root[data-theme="dark"] .community-card-hud,
 :root[data-theme="dark"] .directory-section,
 :root[data-theme="dark"] .leaderboard-stage,
-:root[data-theme="dark"] .credits-card-pro,
-:root[data-theme="dark"] .spotify-frame-container {
+:root[data-theme="dark"] .credits-card-pro {
   background: var(--surface);
   border-color: var(--line);
   color: var(--ink);
@@ -571,7 +541,7 @@ a { color: inherit; }
 :root[data-theme="dark"] .leaderboard-stage { background: #292f3e; }
 :root[data-theme="dark"] .podium-column { background: #3a4357; }
 :root[data-theme="dark"] .podium-first .podium-column { background: #46516a; }
-:root[data-theme="dark"] .music-notice { background: #30394d; border-color: #46536d; color: #c5cde0; }
+
 :root[data-theme="dark"] .profile-modal-box,
 :root[data-theme="dark"] .modal-box,
 :root[data-theme="dark"] .newcomer-card,
@@ -596,7 +566,7 @@ a { color: inherit; }
 :root[data-theme="dark"] .directory-search::placeholder { color: #929db2; }
 :root[data-theme="dark"] .home-hero-orbit { background: #343d51; border-color: rgba(255,255,255,.08); }
 :root[data-theme="dark"] .sidebar-actions { display: flex; align-items: center; gap: 9px; }
-:root[data-theme="dark"] .theme-toggle { background: #394257; border-color: #4b5670; color: #d5dcec; }
+
 :root[data-theme="dark"] .public-activity-item { background: #303849; border-color: #465067; }
 :root[data-theme="dark"] .public-activity-item strong { color: #d5dced; }
 :root[data-theme="dark"] .public-activity-item time { color: #9da8bc; }
@@ -604,19 +574,13 @@ a { color: inherit; }
 </style>
 
   <style id="starlight-christmas-preview-styles">
-    /* Starlight Christmas preview: winter-night palette, with a matching light mode. */
+    /* Starlight Christmas preview: fixed winter-night palette. */
     :root[data-theme="dark"] {
       --page: #171d31; --surface: #222b43; --surface-soft: #2b3551;
       --surface-tint: #303b5a; --ink: #e9edf8; --muted: #aeb9d2;
       --muted-strong: #cbd4e7; --line: #3b4868; --accent: #aeb9e5;
       --accent-deep: #899bd0; --accent-soft: #34415f; --panel-bg: #222b43;
       --panel-border: #3b4868;
-    }
-    :root[data-theme="light"] {
-      --page: #edf0f8; --surface: #fbfbff; --surface-soft: #f1f2fa;
-      --surface-tint: #e7eaf6; --ink: #3c4562; --muted: #78829e;
-      --muted-strong: #5e6988; --line: #dfe3f0; --accent: #8998c7;
-      --accent-deep: #697eaf; --accent-soft: #e8ebf7;
     }
     body.starlight-season-active::before {
       content: "✦　❄　✧　　❄　✦　　❄　✧　　❄　✦";
@@ -724,7 +688,6 @@ a { color: inherit; }
     .christmas-preview-note i { margin-right: 5px; color: #9baad8; }
     .christmas-footer-note { padding: 18px 10px 2px; color: var(--muted); font: italic 1rem 'Cormorant Garamond',serif; text-align: center; }
     .christmas-footer-note span { padding: 0 7px; color: #c9b47d; }
-    :root[data-theme="light"] .christmas-hero { background: radial-gradient(ellipse at 82% 30%,rgba(153,164,219,.2),transparent 35%),linear-gradient(120deg,#3a4569,#4c507a 58%,#66648e); }
     :root[data-theme="dark"] .christmas-feature-card,:root[data-theme="dark"] .christmas-item-card,:root[data-theme="dark"] .christmas-leaderboard-wrap { box-shadow: 0 8px 26px rgba(0,0,0,.12); }
     @media(max-width:760px) {
       .christmas-hero { grid-template-columns: 1fr; }
@@ -800,15 +763,6 @@ a { color: inherit; }
 
   <style id="starlight-christmas-global-theme">
     /* Christmas is the default visual identity throughout this review page. */
-    :root[data-theme="light"] {
-      color-scheme: light;
-      --page:#e8edf8; --surface:#f7f9ff; --surface-soft:#edf2fc; --surface-tint:#e2eafa;
-      --ink:#34415f; --muted:#73809e; --muted-strong:#53617f; --line:#d1daec;
-      --accent:#8298c8; --accent-deep:#637eae; --accent-soft:#e3eafa;
-      --paper:#34415f; --rose:#9b7895; --gold:#b99b62; --gold-glow:rgba(185,155,98,.16);
-      --bright-red:#8298c8; --border:#d1daec; --neon-accent:#8298c8;
-      --purple-glow:#a7afd8; --purple-bright:#9aa9d4; --panel-bg:#f7f9ff; --panel-border:#d1daec;
-    }
     :root[data-theme="dark"] {
       color-scheme:dark;
       --page:#141d32; --surface:#202b45; --surface-soft:#293653; --surface-tint:#33415f;
@@ -890,7 +844,7 @@ a { color: inherit; }
     body.starlight-season-active .directory-section,
     body.starlight-season-active .leaderboard-stage,
     body.starlight-season-active .credits-card-pro,
-    body.starlight-season-active .spotify-frame-container,
+
     body.starlight-season-active .home-announcement,
     body.starlight-season-active .public-activity-item,
     body.starlight-season-active .home-stat {
@@ -905,7 +859,7 @@ a { color: inherit; }
     body.starlight-season-active .directory-count,
     body.starlight-season-active .directory-member-role,
     body.starlight-season-active .home-action,
-    body.starlight-season-active .theme-toggle,
+
     body.starlight-season-active .leaderboard-category {
       background:var(--surface-soft)!important;border-color:var(--line)!important;color:var(--muted-strong)!important;
     }
@@ -1208,15 +1162,7 @@ a { color: inherit; }
       border-radius:2px;background:#eadbb9;transform:translateX(-50%);
       box-shadow:0 0 8px rgba(234,219,185,.8);
     }
-    body.starlight-season-active #sidebar-left .theme-toggle {
-      border:1px solid rgba(187,205,243,.26)!important;
-      background:rgba(168,188,232,.1)!important;color:#dbe5fb!important;
-      transition:all .22s ease!important;
-    }
-    body.starlight-season-active #sidebar-left .theme-toggle:hover {
-      border-color:rgba(225,233,255,.52)!important;
-      box-shadow:0 0 17px rgba(170,194,244,.2)!important;transform:translateY(-2px);
-    }
+
     body.starlight-season-active #sidebar-left .discord-btn-compact {
       border:1px solid rgba(235,225,204,.55)!important;
       background:linear-gradient(110deg,#d8e2f8,#f0e3c9)!important;
@@ -1351,7 +1297,7 @@ a { color: inherit; }
   <style id="icon-label-spacing">
     /* Keep a clear, consistent gap between icons and their labels. */
     .side-nav-btn,
-    .theme-toggle,
+
     .discord-btn-compact,
     .home-action,
     .home-eyebrow,
@@ -1576,15 +1522,11 @@ a { color: inherit; }
             <button class="side-nav-btn" data-main-tab="leaderboard-tab" onclick="switchMainTab('leaderboard-tab', this)"><i class="fa-solid fa-trophy"></i> LEADERBOARD</button>
             <button class="side-nav-btn" data-main-tab="christmas-preview-tab" onclick="switchMainTab('christmas-preview-tab', this)"><i class="fa-solid fa-snowflake"></i> CHRISTMAS</button>
             <button class="side-nav-btn" data-main-tab="credits-tab" onclick="switchMainTab('credits-tab', this)"><i class="fa-solid fa-heart"></i> CREDITS</button>
-            <button class="side-nav-btn" data-main-tab="music-tab" onclick="switchMainTab('music-tab', this)"><i class="fa-solid fa-music"></i> MUSIC</button>
-          </nav>
+            </nav>
         </div>
 
         <div>
           <div class="sidebar-actions">
-            <button id="theme-toggle" class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Switch to dark mode" aria-pressed="false">
-              <i class="fa-solid fa-moon" aria-hidden="true"></i><span>Dark mode</span>
-            </button>
             <a href="https://discord.gg/nET4TTnRuA" target="_blank" rel="noopener noreferrer" class="discord-btn-compact"><i class="fa-brands fa-discord"></i> JOIN DISCORD</a>
           </div>
         </div>
@@ -1897,15 +1839,7 @@ a { color: inherit; }
           </div>
         </section>
 
-        <!-- MUSIC TAB -->
-        <section id="music-tab" class="tab-pane">
-          <div class="panel-title"><i class="fa-solid fa-compact-disc"></i> Lounge Playlist</div>
-          <div class="feature-container">
-            <div class="spotify-frame-container">
-              <iframe title="Dreamy Cascade Spotify playlist" src="https://open.spotify.com/embed/playlist/62Os3fO0Dk12QcdJg8r7ny?utm_source=generator&amp;theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-            </div>
-          </div>
-        </section>
+        
 
       </main>
 
@@ -2827,29 +2761,6 @@ showNewcomerWelcomeIfNeeded();
       }
     });
     window.addEventListener('DOMContentLoaded', initExperience);
-  
-    function applyTheme(theme) {
-      const selected = theme === 'dark' ? 'dark' : 'light';
-      document.documentElement.dataset.theme = selected;
-      try { localStorage.setItem('dreamy-cascade-theme', selected); } catch (error) {}
-      const toggle = document.getElementById('theme-toggle');
-      if (toggle) {
-        const darkEnabled = selected === 'dark';
-        toggle.setAttribute('aria-pressed', String(darkEnabled));
-        toggle.setAttribute('aria-label', darkEnabled ? 'Switch to light mode' : 'Switch to dark mode');
-        toggle.innerHTML = darkEnabled
-          ? '<i class="fa-solid fa-sun" aria-hidden="true"></i><span>Light mode</span>'
-          : '<i class="fa-solid fa-moon" aria-hidden="true"></i><span>Dark mode</span>';
-      }
-    }
-
-    function toggleTheme() {
-      const current = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
-      applyTheme(current === 'dark' ? 'light' : 'dark');
-    }
-
-    applyTheme(document.documentElement.dataset.theme || 'light');
-
 </script>
 </body>
 </html>
