@@ -1436,7 +1436,30 @@ a { color: inherit; }
       box-decoration-break: clone;
       -webkit-box-decoration-break: clone;
     }
-  </style>
+  
+    /* Remove the pale strip behind Home card headings; keep the text and icon. */
+    body.starlight-season-active #home-tab .home-card h2 {
+      background: transparent !important;
+      background-image: none !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+    }
+
+    /* Heading labels should never paint a separate white bar behind themselves. */
+    body.starlight-season-active .panel-title,
+    body.starlight-season-active .credits-label,
+    body.starlight-season-active .home-announcement-label,
+    body.starlight-season-active .leaderboard-eyebrow,
+    body.starlight-season-active .christmas-card-kicker,
+    body.starlight-season-active .newcomer-eyebrow,
+    body.starlight-season-active .profile-modal-section-title {
+      background: transparent !important;
+      background-image: none !important;
+      box-shadow: none !important;
+    }
+
+</style>
 
 </head>
 <body>
