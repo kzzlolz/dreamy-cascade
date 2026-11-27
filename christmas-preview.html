@@ -1346,6 +1346,21 @@ a { color: inherit; }
     }
   </style>
 
+
+  <style id="panel-title-icon-spacing">
+    /* Give every section-heading icon consistent breathing room before its title. */
+    body.starlight-season-active .panel-title {
+      display:inline-flex!important;
+      align-items:center!important;
+      gap:9px!important;
+    }
+    body.starlight-season-active .panel-title > i,
+    body.starlight-season-active .panel-title > svg {
+      flex:0 0 auto;
+      margin:0!important;
+    }
+  </style>
+
 </head>
 <body>
 
