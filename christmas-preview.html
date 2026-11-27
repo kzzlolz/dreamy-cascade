@@ -1241,27 +1241,28 @@ a { color: inherit; }
   <style id="soften-site-highlights">
     /* Replace hard rectangular highlight bars with quieter winter typography. */
     body.starlight-season-active .panel-title {
-      display:block!important;
-      width:100%!important;
-      max-width:none!important;
-      align-self:stretch!important;
-      margin:0 0 17px!important;
-      padding:0 0 11px!important;
+      display:inline-flex!important;
+      align-items:center;
+      width:fit-content!important;
+      max-width:100%!important;
+      align-self:flex-start!important;
+      margin:0 0 16px!important;
+      padding:0!important;
       border:0!important;
-      border-bottom:1px solid rgba(178,197,237,.23)!important;
       border-radius:0!important;
-      background:linear-gradient(90deg,rgba(179,199,240,.08),transparent 72%)!important;
+      background:transparent!important;
       color:#dce6fb!important;
       letter-spacing:.025em;
       box-shadow:none!important;
+      text-decoration:none!important;
     }
+    body.starlight-season-active .panel-title::before,
     body.starlight-season-active .panel-title::after {
-      content:"";
-      display:block;
-      width:42px;height:2px;margin-top:10px;
-      border-radius:2px;
-      background:linear-gradient(90deg,#e6d7b8,rgba(190,207,242,.12));
-      box-shadow:0 0 9px rgba(207,218,244,.16);
+      content:none!important;
+      display:none!important;
+      border:0!important;
+      background:none!important;
+      box-shadow:none!important;
     }
     body.starlight-season-active .credits-label,
     body.starlight-season-active .home-announcement-label,
