@@ -737,8 +737,8 @@ a { color: inherit; }
     /* Keep the soft winter glow, but remove the five scattered pale star points. */
     .christmas-hero::before { content:"";position:absolute;z-index:0;inset:0 0 65px;background:radial-gradient(ellipse at 50% 0%,rgba(156,178,231,.14),transparent 68%);pointer-events:none; }
     .christmas-hero::after { content:"";position:absolute;z-index:1;right:-3%;bottom:0;left:-3%;height:86px;background:radial-gradient(ellipse at 12% 100%,#dce7f7 0 20%,transparent 21%),radial-gradient(ellipse at 40% 110%,#eef3ff 0 27%,transparent 28%),radial-gradient(ellipse at 75% 105%,#d5e1f5 0 24%,transparent 25%),linear-gradient(180deg,transparent 0%,rgba(217,229,248,.9) 65%,#eaf0fb 100%);pointer-events:none; }
-    .christmas-hero-sparkles { position:absolute;z-index:1;inset:28px 0 auto;overflow:hidden;color:rgba(239,232,203,.8);font-size:1.1rem;letter-spacing:2.8rem;white-space:nowrap;text-shadow:0 0 14px rgba(231,235,255,.7);animation:preview-twinkle 5s ease-in-out infinite alternate;pointer-events:none; }
-    @keyframes preview-twinkle { from{opacity:.42;transform:translateY(0)} to{opacity:1;transform:translateY(5px)} }
+    
+    
     .christmas-moon-art { z-index:3;min-height:300px;margin-top:0;overflow:visible; }
     .christmas-moon-halo { top:18px;width:230px;height:230px;background:radial-gradient(circle,rgba(218,225,255,.28),rgba(174,190,242,.08) 42%,transparent 72%); }
     .christmas-moon { top:-24px;font-size:12.5rem;text-shadow:0 0 22px rgba(222,230,255,.5),0 0 58px rgba(172,191,255,.48); }
@@ -756,7 +756,7 @@ a { color: inherit; }
     body.starlight-season-active .home-hero { position:relative;overflow:hidden; }
     body.starlight-season-active .home-hero::after { content:"❄   ✦   ❄";position:absolute;right:8%;bottom:12px;color:rgba(225,235,255,.42);font-size:2rem;letter-spacing:1.5rem;pointer-events:none; }
     @media(max-width:760px) { body.starlight-season-active::before{font-size:10px;letter-spacing:.2em}body.starlight-season-active #scene-main{padding-top:48px}.christmas-hero{min-height:390px}.christmas-moon-art{top:-6px;right:-3px;width:205px;height:205px;min-height:205px;margin:0;opacity:.92}.christmas-moon{top:-54px;font-size:9rem}.christmas-moon-halo{top:-15px;width:160px;height:160px}.christmas-village{bottom:-5px;transform:scale(.9);transform-origin:bottom right}.winter-tree{left:0}.gingerbread-house{right:4px;transform:scale(1)} }
-    @media(prefers-reduced-motion:reduce) { body.starlight-season-active::after,.christmas-hero-sparkles,.moon-star{animation:none!important} }
+    @media(prefers-reduced-motion:reduce) { body.starlight-season-active::after,.moon-star{animation:none!important} }
 </style>
 
 
@@ -1696,7 +1696,7 @@ a { color: inherit; }
         <!-- STARLIGHT CHRISTMAS 2026 PREVIEW -->
         <section id="christmas-preview-tab" class="tab-pane christmas-preview">
           <div class="christmas-hero">
-            <div class="christmas-hero-sparkles" aria-hidden="true">✦　❄　✧　❄　✦</div>
+            
             <div class="christmas-hero-copy">
               <span class="christmas-eyebrow"><i class="fa-solid fa-star"></i> A DREAMY CASCADE SEASONAL EVENT</span>
               <h1>Starlight<br><em>Christmas 2026</em></h1>
